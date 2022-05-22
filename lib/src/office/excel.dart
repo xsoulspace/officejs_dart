@@ -2,7 +2,7 @@ library excel;
 
 import './office_extension.dart' as office_extension;
 import '../abstract/js_object_wrapper.dart';
-import '../js_interpops/excel_init_js_impl.dart';
+import '../js_interpops/office_helpers_js_impl.dart';
 import '../office_interpops/excel_js_impl.dart' as excel_js;
 import '../utils/interpop_utils.dart';
 
