@@ -5,6 +5,7 @@ import '../abstract/js_object_wrapper.dart';
 import '../js_interpops/office_helpers_js_impl.dart';
 import '../office_interpops/excel_js_impl.dart' as excel_js;
 import '../utils/interpop_utils.dart';
+import 'models/excel_models.dart';
 
 class Excel {
   Excel._();
@@ -92,6 +93,34 @@ class WorksheetCollection
 
   Worksheet getItem(final String key) =>
       Worksheet.getInstance(super.jsObject.getItem(key));
+
+  office_extension.EventHandlers<WorksheetActivatedEventArgs> get onActivated =>
+      office_extension.EventHandlers.getInstance(
+        super.jsObject.onActivated,
+        WorksheetActivatedEventArgs.fromJson,
+      );
+  office_extension.EventHandlers<WorksheetAddedEventArgs> get onAdded =>
+      office_extension.EventHandlers.getInstance(
+        super.jsObject.onAdded,
+        WorksheetAddedEventArgs.fromJson,
+      );
+  office_extension.EventHandlers<WorksheetDeletedEventArgs> get onDeleted =>
+      office_extension.EventHandlers.getInstance(
+        super.jsObject.onDeleted,
+        WorksheetDeletedEventArgs.fromJson,
+      );
+  office_extension.EventHandlers<WorksheetChangedEventArgs> get onChanged =>
+      office_extension.EventHandlers.getInstance(
+        super.jsObject.onChanged,
+        WorksheetChangedEventArgs.fromJson,
+      );
+  office_extension.EventHandlers<WorksheetNameChangedEventArgs>
+      get onNameChanged => office_extension.EventHandlers.getInstance(
+            super.jsObject.onChanged,
+            WorksheetNameChangedEventArgs.fromJson,
+          );
+  Worksheet getActiveWorksheet() =>
+      Worksheet.getInstance(super.jsObject.getActiveWorksheet());
 }
 
 class Worksheet extends JsObjectWrapper<excel_js.WorksheetJsImpl> {
@@ -110,7 +139,19 @@ class Worksheet extends JsObjectWrapper<excel_js.WorksheetJsImpl> {
   RequestContext get context =>
       RequestContext.getInstance(super.jsObject.context);
 
+  String get id => super.jsObject.id;
+
   String get name => super.jsObject.name;
+  set name(final String value) => super.jsObject.name = value;
+
+  int get position => super.jsObject.position;
+  set position(final int value) => super.jsObject.position = value;
+
+  bool get showGridlines => super.jsObject.showGridlines;
+  set showGridlines(final bool value) => super.jsObject.showGridlines = value;
+
+  String? get tabColor => super.jsObject.tabColor;
+  set tabColor(final String? value) => super.jsObject.tabColor = value;
 
   Worksheet load(final List<String> propertyNames) =>
       Worksheet.getInstance(super.jsObject.load(propertyNames));

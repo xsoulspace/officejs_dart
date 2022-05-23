@@ -1,6 +1,6 @@
 import '../js_interpops/office_helpers_js_impl.dart';
 import '../utils/interpop_utils.dart';
-import 'models/office_info.dart';
+import 'models/office_models.dart';
 
 class Office {
   Office._();

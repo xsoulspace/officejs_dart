@@ -1,29 +1,8 @@
-import 'package:flutter/foundation.dart';
+@JS('Office')
+library office_js;
+
 import 'package:freezed_annotation/freezed_annotation.dart';
-
-part 'office_info.freezed.dart';
-part 'office_info.g.dart';
-
-@immutable
-@Freezed(
-  fromJson: true,
-  toJson: true,
-  equal: true,
-  addImplicitFinal: true,
-  copyWith: true,
-)
-class OfficeInfo with _$OfficeInfo {
-  @JsonSerializable(
-    explicitToJson: true,
-  )
-  const factory OfficeInfo({
-    required final PlatformType host,
-    required final HostType platform,
-  }) = _OfficeInfo;
-  const OfficeInfo._();
-  factory OfficeInfo.fromJson(final Map<String, dynamic> json) =>
-      _$OfficeInfoFromJson(json);
-}
+import 'package:js/js.dart';
 
 /// Specifies the host Office application in which the add-in is running.
 enum HostType {

@@ -3,7 +3,7 @@
 // ignore_for_file: type=lint
 // ignore_for_file: unused_element, deprecated_member_use, deprecated_member_use_from_same_package, use_function_type_syntax_for_parameters, unnecessary_const, avoid_init_to_null, invalid_override_different_default_values_named, prefer_expression_function_bodies, annotate_overrides, invalid_annotation_target
 
-part of 'office_info.dart';
+part of 'office_models.dart';
 
 // **************************************************************************
 // FreezedGenerator
@@ -104,7 +104,7 @@ class __$$_OfficeInfoCopyWithImpl<$Res> extends _$OfficeInfoCopyWithImpl<$Res>
 /// @nodoc
 
 @JsonSerializable(explicitToJson: true)
-class _$_OfficeInfo extends _OfficeInfo with DiagnosticableTreeMixin {
+class _$_OfficeInfo extends _OfficeInfo {
   const _$_OfficeInfo({required this.host, required this.platform}) : super._();
 
   factory _$_OfficeInfo.fromJson(Map<String, dynamic> json) =>
@@ -116,17 +116,8 @@ class _$_OfficeInfo extends _OfficeInfo with DiagnosticableTreeMixin {
   final HostType platform;
 
   @override
-  String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
+  String toString() {
     return 'OfficeInfo(host: $host, platform: $platform)';
-  }
-
-  @override
-  void debugFillProperties(DiagnosticPropertiesBuilder properties) {
-    super.debugFillProperties(properties);
-    properties
-      ..add(DiagnosticsProperty('type', 'OfficeInfo'))
-      ..add(DiagnosticsProperty('host', host))
-      ..add(DiagnosticsProperty('platform', platform));
   }
 
   @override

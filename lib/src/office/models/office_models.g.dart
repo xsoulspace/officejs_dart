@@ -1,6 +1,6 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'office_info.dart';
+part of 'office_models.dart';
 
 // **************************************************************************
 // JsonSerializableGenerator

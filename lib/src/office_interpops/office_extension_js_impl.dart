@@ -56,3 +56,36 @@ abstract class ClientResultJsImpl<T> {
   /// after `context.sync()` is invoked. */
   external T get value;
 }
+
+@JS('EventHandlers')
+abstract class EventHandlersJsImpl {
+  /// Adds a function to be called when the event is triggered.
+  /// @param handler A promise-based function that takes
+  /// in any relevant event arguments.
+  external EventHandlerResultJsImpl add(
+    final PromiseJsImpl<dynamic> Function(Map<String, dynamic> args) handler,
+  );
+
+  /// Removes the specified function from the event handler list
+  /// so that it will not be called on subsequent events.
+  ///
+  /// **Note**: The same
+  /// {@link OfficeExtension.ClientRequestContext | RequestContext}
+  /// object that the handler was added in must be used
+  /// when removing the handler.
+  /// More information can be found in
+  /// {@link https://docs.microsoft.com/office/dev/add-ins/excel/excel-add-ins-events#remove-an-event-handler | Remove an event handler}.
+  ///
+  /// @param handler A reference to a function previously
+  /// provided to the `add` method as an event handler.
+  external void remove(
+    final PromiseJsImpl<dynamic> Function(Map<String, dynamic> args) handler,
+  );
+}
+
+@JS('EventHandlerResult')
+abstract class EventHandlerResultJsImpl {
+  /// The request context associated with the object
+  external ClientRequestContextJsImpl get context;
+  external void remove();
+}
