@@ -13,7 +13,10 @@ import 'es6_js_impl.dart';
 external OfficeHelpersJsImpl getOfficeHelpers();
 
 void subscribeToOfficeLoaded(final VoidCallback callback) {
-  html.window.addEventListener('office-loaded', (final event) => callback());
+  html.window.addEventListener(
+    'office-loaded',
+    allowInterop((final event) => callback()),
+  );
 }
 
 @JS('OfficeHelpers')
