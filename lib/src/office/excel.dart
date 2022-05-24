@@ -1,7 +1,10 @@
 library excel;
 
+import 'package:js/js.dart';
+
 import './office_extension.dart' as office_extension;
 import '../abstract/js_object_wrapper.dart';
+import '../js_interpops/es6_js_impl.dart' as js;
 import '../js_interpops/office_helpers_js_impl.dart';
 import '../office_interpops/excel_js_impl.dart' as excel_js;
 import '../utils/interpop_utils.dart';
@@ -16,6 +19,24 @@ class Excel {
     final jsContext = await handleThenable(runExcelJsImpl());
     _context = RequestContext.getInstance(jsContext);
     return _context!;
+  }
+
+  static Future<RequestContext> nativeRun() async {
+    js.PromiseJsImpl<excel_js.RequestContextJsImpl> promiseCallback(
+      final excel_js.RequestContextJsImpl context,
+    ) =>
+        js.PromiseJsImpl<excel_js.RequestContextJsImpl>(
+          allowInterop((
+            final void Function(dynamic) resolve,
+            final Null Function(Object) reject,
+          ) {
+            resolve(context);
+          }),
+        );
+    final contextJs =
+        await handleThenable(excel_js.run(allowInterop(promiseCallback)));
+
+    return RequestContext.getInstance(contextJs);
   }
 }
 

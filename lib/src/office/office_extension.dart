@@ -3,7 +3,7 @@ library office_extension;
 import 'package:js/js.dart';
 
 import '../abstract/js_object_wrapper.dart';
-import '../js_interpops/es6_js_impl.dart';
+import '../js_interpops/es6_js_impl.dart' as js;
 import '../office_interpops/office_extension_js_impl.dart'
     as office_extension_js;
 import '../utils/interpop_utils.dart';
@@ -101,13 +101,21 @@ class EventHandlers<T>
   EventHandlerResult<T> add(
     final Future<dynamic> Function(T args) handler,
   ) {
-    // ignore: avoid_types_on_closure_parameters, unused_local_variable
-    final promiseCallback = allowInterop((final Map<String, dynamic> json) {
-      handler(fromJson(json));
-      return PromiseJsImpl(() {});
-    });
+    js.PromiseJsImpl<dynamic> promiseCallback(
+      final Map<String, dynamic> json,
+    ) =>
+        js.PromiseJsImpl<dynamic>(
+          allowInterop((
+            final void Function(dynamic) resolve,
+            final Null Function(Object) reject,
+          ) {
+            handler(fromJson(json)).then(resolve).catchError(reject);
+          }),
+        );
 
-    return EventHandlerResult.getInstance(super.jsObject.add(promiseCallback));
+    return EventHandlerResult.getInstance(
+      super.jsObject.add(allowInterop(promiseCallback)),
+    );
   }
 
   /// Removes the specified function from the event handler list
@@ -122,14 +130,20 @@ class EventHandlers<T>
   ///
   /// @param handler A reference to a function previously
   /// provided to the `add` method as an event handler.
-  void remove(final PromiseJsImpl<dynamic> Function(T args) handler) {
-    // ignore: avoid_types_on_closure_parameters, unused_local_variable
-    final promiseCallback = allowInterop((final Map<String, dynamic> json) {
-      handler(fromJson(json));
-      return PromiseJsImpl(() {});
-    });
+  void remove(final Future<dynamic> Function(T args) handler) {
+    js.PromiseJsImpl<dynamic> promiseCallback(
+      final Map<String, dynamic> json,
+    ) =>
+        js.PromiseJsImpl<dynamic>(
+          allowInterop((
+            final void Function(dynamic) resolve,
+            final Null Function(Object) reject,
+          ) {
+            handler(fromJson(json)).then(resolve).catchError(reject);
+          }),
+        );
 
-    super.jsObject.remove(promiseCallback);
+    super.jsObject.remove(allowInterop(promiseCallback));
   }
 }
 

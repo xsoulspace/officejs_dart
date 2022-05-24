@@ -1,6 +1,5 @@
 /// original source: https://github.com/FirebaseExtended/firebase-dart
 import 'dart:async';
-import 'dart:html';
 
 import 'package:js/js.dart';
 import 'package:js/js_util.dart' as util;
@@ -30,10 +29,6 @@ dynamic jsify(final Object? dartObject) {
       util.setProperty(jsMap, key, jsify(value));
     });
     return jsMap;
-  }
-
-  if (dartObject is Blob) {
-    return dartObject;
   }
 
   if (dartObject is Function) {
@@ -94,14 +89,3 @@ js.PromiseJsImpl<S> handleFutureWithMapper<T, S>(
 /// Resolves error.
 void Function(Object) resolveError(final Completer c) =>
     allowInterop(c.completeError);
-
-Object? tryGetType(final List<String> path) {
-  Object? start = window;
-  for (final item in path) {
-    if (start == null) {
-      return null;
-    }
-    start = util.getProperty(start, item);
-  }
-  return start;
-}
