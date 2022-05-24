@@ -99,23 +99,27 @@ class EventHandlers<T>
   /// @param handler A promise-based function that takes
   /// in any relevant event arguments.
   EventHandlerResult<T> add(
-    final Future<dynamic> Function(T args) handler,
+    final Future<dynamic> Function(dynamic args) handler,
   ) {
     js.PromiseJsImpl<dynamic> promiseCallback(
-      final Map<String, dynamic> json,
+      final dynamic json,
     ) =>
         js.PromiseJsImpl<dynamic>(
           allowInterop((
             final void Function(dynamic) resolve,
             final Null Function(Object) reject,
           ) {
-            handler(fromJson(json)).then(resolve).catchError(reject);
+            handler(json).then(resolve).catchError(reject);
           }),
         );
-
-    return EventHandlerResult.getInstance(
-      super.jsObject.add(allowInterop(promiseCallback)),
+    final resultJs =
+        allowSafePromiseInterop<office_extension_js.EventHandlerResultJsImpl>(
+      jsObject,
+      'run',
+      promiseCallback,
     );
+
+    return EventHandlerResult.getInstance(resultJs);
   }
 
   /// Removes the specified function from the event handler list

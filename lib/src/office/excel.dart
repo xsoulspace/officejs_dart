@@ -33,8 +33,9 @@ class Excel {
             resolve(context);
           }),
         );
-    final contextJs =
-        await handleThenable(excel_js.run(allowInterop(promiseCallback)));
+    final contextJs = await handleThenable(
+      excel_js.ExcelJsImpl.run(allowInterop(promiseCallback)),
+    );
 
     return RequestContext.getInstance(contextJs);
   }
@@ -58,6 +59,10 @@ class RequestContext extends JsObjectWrapper<excel_js.RequestContextJsImpl> {
   static final _expando = Expando<RequestContext>();
 
   Workbook get workbook => Workbook.getInstance(super.jsObject.workbook);
+
+  Future<T> sync<T>([final T? passThroughValue]) {
+    return handleThenable(super.jsObject.sync(passThroughValue));
+  }
 }
 
 class Workbook extends JsObjectWrapper<excel_js.WorkbookJsImpl> {
@@ -142,6 +147,9 @@ class WorksheetCollection
           );
   Worksheet getActiveWorksheet() =>
       Worksheet.getInstance(super.jsObject.getActiveWorksheet());
+  WorksheetCollection load(final List<String> propertyNames) {
+    return WorksheetCollection.getInstance(super.jsObject.load(propertyNames));
+  }
 }
 
 class Worksheet extends JsObjectWrapper<excel_js.WorksheetJsImpl> {

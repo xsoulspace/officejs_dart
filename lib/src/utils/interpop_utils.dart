@@ -1,7 +1,7 @@
 /// original source: https://github.com/FirebaseExtended/firebase-dart
 import 'dart:async';
+import 'dart:js';
 
-import 'package:js/js.dart';
 import 'package:js/js_util.dart' as util;
 
 import '../js_interpops/es6_js_impl.dart' as js;
@@ -45,6 +45,17 @@ dynamic callMethod(
   final List<dynamic> args,
 ) =>
     util.callMethod(jsObject, method, args);
+
+/// Calls [method] on JavaScript object [jsObject].
+T allowSafePromiseInterop<T>(
+  final Object jsObject,
+  final String method,
+  final Function callback,
+) {
+  // ignore: avoid_dynamic_calls
+  return (jsObject as JsObject)[method]
+      .apply(jsObject, [allowInterop(callback)]);
+}
 
 /// Returns `true` if the [value] is a very basic built-in type - e.g.
 /// `null`, [num], [bool] or [String]. It returns `false` in the other case.
