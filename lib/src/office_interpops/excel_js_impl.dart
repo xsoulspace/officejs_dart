@@ -137,7 +137,7 @@ abstract class WorksheetCollectionJsImpl {
   ///
   /// @param propertyNames A comma-delimited string or an array of strings
   /// that specify the properties to load.
-  external WorksheetJsImpl load(final List<String> propertyNames);
+  external WorksheetCollectionJsImpl load(final List<String> propertyNames);
 }
 
 @JS('Worksheet')
