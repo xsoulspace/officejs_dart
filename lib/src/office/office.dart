@@ -32,7 +32,13 @@ class Office {
       ),
     );
     if (jsInfoJsonJS == null) return null;
-    final jsInfoJson = dartify(jsInfoJsonJS);
+    final jsInfoJson = Map.castFrom<dynamic, dynamic, String, dynamic>(
+      dartify(jsInfoJsonJS),
+    );
+    if (jsInfoJson.values.where((final value) => value != null).isEmpty) {
+      return null;
+    }
+
     return _info = OfficeInfo.fromJson(jsInfoJson);
   }
 }
