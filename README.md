@@ -57,6 +57,7 @@ window.addEventListener("load", function (ev) {
           officeOnReady = Office.onReady;
         }
         window["getOfficeHelpers"] = () => new OfficeHelpers();
+        window.dispatchEvent(new Event("office-loaded"));
         console.log("helpers injected");
       });
       document.getElementsByTagName("head")[0].appendChild(scriptTag);

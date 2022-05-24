@@ -1,3 +1,4 @@
+import 'package:flutter/material.dart';
 import 'package:js/js.dart';
 
 import '../js_interops/es6_js_impl.dart' as js;
@@ -8,6 +9,11 @@ import 'models/office_models.dart';
 class Office {
   Office._();
   static OfficeInfo? _info;
+
+  static void addOfficeLoadedListener(final VoidCallback listener) {
+    subscribeToOfficeLoaded(listener);
+  }
+
   static Future<OfficeInfo?> getInfo() async {
     if (_info != null) return _info!;
     final officeHelper = getOfficeHelpers();
