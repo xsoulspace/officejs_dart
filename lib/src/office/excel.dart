@@ -13,15 +13,16 @@ import 'models/excel_models.dart';
 class Excel {
   Excel._();
   static RequestContext? _context;
+  // static Future<RequestContext> run() async {
+  //   if (_context != null) return _context!;
+
+  //   final jsContext = await handleThenable(runExcelJsImpl());
+  //   _context = RequestContext.getInstance(jsContext);
+  //   return _context!;
+  // }
+
   static Future<RequestContext> run() async {
     if (_context != null) return _context!;
-
-    final jsContext = await handleThenable(runExcelJsImpl());
-    _context = RequestContext.getInstance(jsContext);
-    return _context!;
-  }
-
-  static Future<RequestContext> nativeRun() async {
     js.PromiseJsImpl<excel_js.RequestContextJsImpl> promiseCallback(
       final excel_js.RequestContextJsImpl context,
     ) =>
@@ -33,8 +34,9 @@ class Excel {
             resolve(context);
           }),
         );
+    final officeHelper = getOfficeHelpers();
     final contextJs = await handleThenable(
-      excel_js.ExcelJsImpl.run(allowInterop(promiseCallback)),
+      callMethod(officeHelper, 'runExcel', [allowInterop(promiseCallback)]),
     );
 
     return RequestContext.getInstance(contextJs);

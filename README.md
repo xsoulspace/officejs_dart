@@ -22,8 +22,47 @@ Do not use it in production.
 
 ## Getting started
 
-<!-- TODO: List prerequisites and provide or point to information on how to
-start using the package. -->
+To start, add in the index.html "Initialize office" `then` section.
+That's all you need to do)
+
+```javascript
+window.addEventListener("load", function (ev) {
+  // Download main.dart.js
+  _flutter.loader
+    .loadEntrypoint({
+      serviceWorker: {
+        serviceWorkerVersion: serviceWorkerVersion,
+      },
+    })
+    .then(function (engineInitializer) {
+      return engineInitializer.initializeEngine();
+    })
+    .then(function (appRunner) {
+      return appRunner.runApp();
+    })
+    /** Initialize office **/
+    .then(function () {
+      console.log("intializing office");
+      const officeEl = document.getElementById("office");
+      if (officeEl != null) return;
+
+      const scriptTag = document.createElement("script");
+      scriptTag.src =
+        "https://appsforoffice.microsoft.com/lib/1/hosted/office.js";
+      scriptTag.id = "office";
+      scriptTag.addEventListener("load", () => {
+        console.log("office loaded");
+        class OfficeHelpers {
+          runExcel = Excel.run;
+          officeOnReady = Office.onReady;
+        }
+        window["getOfficeHelpers"] = () => new OfficeHelpers();
+        console.log("helpers injected");
+      });
+      document.getElementsByTagName("head")[0].appendChild(scriptTag);
+    });
+});
+```
 
 ## Usage
 

@@ -6,27 +6,8 @@ library excel_js;
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:js/js.dart';
 
-import '../js_interpops/es6_js_impl.dart' as js;
 import 'office_core_js_impl.dart' as office_core_js;
 import 'office_extension_js_impl.dart' as office_extension_js;
-
-// ignore: avoid_classes_with_only_static_members
-/// Executes a batch script that performs actions on the Excel object model,
-/// using a new RequestContext. When the promise is resolved,
-/// any tracked objects that were automatically allocated
-/// during execution will be released.
-/// @param batch - A function that takes in a RequestContext
-/// and returns a promise (typically, just the result of "context.sync()").
-/// The context parameter facilitates requests to the Excel application.
-/// Since the Office add-in and the Excel application run in
-/// two different processes, the RequestContext is required to get access
-/// to the Excel object model from the add-in.
-@JS('Excel')
-abstract class ExcelJsImpl {
-  external static js.PromiseJsImpl<T> run<T>(
-    final js.PromiseJsImpl<T> Function(RequestContextJsImpl context) batch,
-  );
-}
 
 /// The RequestContext object facilitates requests to the Excel application.
 /// Since the Office add-in and the Excel application run in
