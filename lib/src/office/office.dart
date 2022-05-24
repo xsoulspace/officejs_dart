@@ -8,7 +8,7 @@ import 'models/office_models.dart';
 class Office {
   Office._();
   static OfficeInfo? _info;
-  static Future<OfficeInfo> getInfo() async {
+  static Future<OfficeInfo?> getInfo() async {
     if (_info != null) return _info!;
     final officeHelper = getOfficeHelpers();
 
@@ -31,8 +31,8 @@ class Office {
         [allowInterop(promiseCallback)],
       ),
     );
+    if (jsInfoJsonJS == null) return null;
     final jsInfoJson = dartify(jsInfoJsonJS);
-    _info = OfficeInfo.fromJson(jsInfoJson);
-    return _info!;
+    return _info = OfficeInfo.fromJson(jsInfoJson);
   }
 }
