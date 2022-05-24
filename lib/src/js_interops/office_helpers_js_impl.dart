@@ -1,23 +1,13 @@
 @JS()
 library excel.init;
 
-import 'dart:html' as html;
-
-import 'package:flutter/material.dart';
 import 'package:js/js.dart';
 
 import '../office_interops/excel_js_impl.dart' as excel_js;
 import 'es6_js_impl.dart';
 
 @JS('getOfficeHelpers')
-external OfficeHelpersJsImpl getOfficeHelpers();
-
-void subscribeToOfficeLoaded(final VoidCallback callback) {
-  html.window.addEventListener(
-    'office-loaded',
-    allowInterop((final event) => callback()),
-  );
-}
+external PromiseJsImpl<OfficeHelpersJsImpl> getOfficeHelpers();
 
 @JS('OfficeHelpers')
 abstract class OfficeHelpersJsImpl {
