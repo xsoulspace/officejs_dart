@@ -1,6 +1,6 @@
 library office_extension;
 
-import 'package:js/js.dart';
+import 'dart:js';
 
 import '../abstract/js_object_wrapper.dart';
 import '../js_interpops/es6_js_impl.dart' as js;
@@ -88,18 +88,15 @@ class EventHandlers<T>
     final office_extension_js.EventHandlersJsImpl jsObject,
     final FromJson<T> fromJson,
   ) {
-    return (_expando[jsObject] ??=
-            EventHandlers._fromJsObject(jsObject, fromJson: fromJson))
-        as EventHandlers<T>;
+    return EventHandlers._fromJsObject(jsObject, fromJson: fromJson);
   }
-  static final _expando = Expando<EventHandlers<dynamic>>();
   final FromJson<T> fromJson;
 
   /// Adds a function to be called when the event is triggered.
   /// @param handler A promise-based function that takes
   /// in any relevant event arguments.
   EventHandlerResult<T> add(
-    final Future<dynamic> Function(dynamic args) handler,
+    final Future<dynamic> Function(T args) handler,
   ) {
     js.PromiseJsImpl<dynamic> promiseCallback(
       final dynamic json,
@@ -109,14 +106,13 @@ class EventHandlers<T>
             final void Function(dynamic) resolve,
             final Null Function(Object) reject,
           ) {
-            handler(json).then(resolve).catchError(reject);
+            handler(fromJson(dartify(json))).then(resolve).catchError(reject);
           }),
         );
-    final resultJs =
-        allowSafePromiseInterop<office_extension_js.EventHandlerResultJsImpl>(
+    final resultJs = callMethod(
       jsObject,
-      'run',
-      promiseCallback,
+      'add',
+      [allowInterop(promiseCallback)],
     );
 
     return EventHandlerResult.getInstance(resultJs);
@@ -136,18 +132,22 @@ class EventHandlers<T>
   /// provided to the `add` method as an event handler.
   void remove(final Future<dynamic> Function(T args) handler) {
     js.PromiseJsImpl<dynamic> promiseCallback(
-      final Map<String, dynamic> json,
+      final dynamic json,
     ) =>
         js.PromiseJsImpl<dynamic>(
           allowInterop((
             final void Function(dynamic) resolve,
             final Null Function(Object) reject,
           ) {
-            handler(fromJson(json)).then(resolve).catchError(reject);
+            handler(fromJson(dartify(json))).then(resolve).catchError(reject);
           }),
         );
 
-    super.jsObject.remove(allowInterop(promiseCallback));
+    callMethod(
+      jsObject,
+      'remove',
+      [allowInterop(promiseCallback)],
+    );
   }
 }
 
@@ -161,10 +161,8 @@ class EventHandlerResult<T>
   factory EventHandlerResult.getInstance(
     final office_extension_js.EventHandlerResultJsImpl jsObject,
   ) {
-    return (_expando[jsObject] ??= EventHandlerResult._fromJsObject(jsObject))
-        as EventHandlerResult<T>;
+    return EventHandlerResult._fromJsObject(jsObject);
   }
-  static final _expando = Expando<EventHandlerResult<dynamic>>();
 
   /// The request context associated with the object
   ClientRequestContext get context =>

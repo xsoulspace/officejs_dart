@@ -100,3 +100,27 @@ js.PromiseJsImpl<S> handleFutureWithMapper<T, S>(
 /// Resolves error.
 void Function(Object) resolveError(final Completer c) =>
     allowInterop(c.completeError);
+
+/// Returns Dart representation from JS Object.
+dynamic dartify(final Object? jsObject) {
+  if (_isBasicType(jsObject)) {
+    return jsObject;
+  }
+
+  // Handle list
+  if (jsObject is Iterable) {
+    return jsObject.map(dartify).toList();
+  }
+
+  // Assume a map then...
+  return dartifyMap(jsObject!);
+}
+
+Map<String, dynamic> dartifyMap(final Object jsObject) {
+  final keys = js.objectKeys(jsObject);
+  final map = <String, dynamic>{};
+  for (final key in keys) {
+    map[key] = dartify(util.getProperty(jsObject, key));
+  }
+  return map;
+}
