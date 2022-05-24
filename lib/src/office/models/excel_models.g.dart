@@ -7,14 +7,16 @@ part of 'excel_models.dart';
 // **************************************************************************
 
 _$_WorksheetDeletedEventArgs _$$_WorksheetDeletedEventArgsFromJson(
-        Map<String, dynamic> json) =>
+  final Map<String, dynamic> json,
+) =>
     _$_WorksheetDeletedEventArgs(
       source: $enumDecode(_$EventSourceEnumMap, json['source']),
       worksheetId: json['worksheetId'] as String,
     );
 
 Map<String, dynamic> _$$_WorksheetDeletedEventArgsToJson(
-        _$_WorksheetDeletedEventArgs instance) =>
+  final _$_WorksheetDeletedEventArgs instance,
+) =>
     <String, dynamic>{
       'source': _$EventSourceEnumMap[instance.source],
       'worksheetId': instance.worksheetId,
@@ -26,33 +28,38 @@ const _$EventSourceEnumMap = {
 };
 
 _$_WorksheetAddedEventArgs _$$_WorksheetAddedEventArgsFromJson(
-        Map<String, dynamic> json) =>
+  final Map<String, dynamic> json,
+) =>
     _$_WorksheetAddedEventArgs(
       source: $enumDecode(_$EventSourceEnumMap, json['source']),
       worksheetId: json['worksheetId'] as String,
     );
 
 Map<String, dynamic> _$$_WorksheetAddedEventArgsToJson(
-        _$_WorksheetAddedEventArgs instance) =>
+  final _$_WorksheetAddedEventArgs instance,
+) =>
     <String, dynamic>{
       'source': _$EventSourceEnumMap[instance.source],
       'worksheetId': instance.worksheetId,
     };
 
 _$_WorksheetActivatedEventArgs _$$_WorksheetActivatedEventArgsFromJson(
-        Map<String, dynamic> json) =>
+  final Map<String, dynamic> json,
+) =>
     _$_WorksheetActivatedEventArgs(
       worksheetId: json['worksheetId'] as String,
     );
 
 Map<String, dynamic> _$$_WorksheetActivatedEventArgsToJson(
-        _$_WorksheetActivatedEventArgs instance) =>
+  final _$_WorksheetActivatedEventArgs instance,
+) =>
     <String, dynamic>{
       'worksheetId': instance.worksheetId,
     };
 
 _$_WorksheetChangedEventArgs _$$_WorksheetChangedEventArgsFromJson(
-        Map<String, dynamic> json) =>
+  final Map<String, dynamic> json,
+) =>
     _$_WorksheetChangedEventArgs(
       address: json['address'] as String,
       changeType: $enumDecode(_$DataChangeTypeEnumMap, json['changeType']),
@@ -61,7 +68,8 @@ _$_WorksheetChangedEventArgs _$$_WorksheetChangedEventArgsFromJson(
     );
 
 Map<String, dynamic> _$$_WorksheetChangedEventArgsToJson(
-        _$_WorksheetChangedEventArgs instance) =>
+  final _$_WorksheetChangedEventArgs instance,
+) =>
     <String, dynamic>{
       'address': instance.address,
       'changeType': _$DataChangeTypeEnumMap[instance.changeType],
@@ -81,7 +89,8 @@ const _$DataChangeTypeEnumMap = {
 };
 
 _$_WorksheetNameChangedEventArgs _$$_WorksheetNameChangedEventArgsFromJson(
-        Map<String, dynamic> json) =>
+  final Map<String, dynamic> json,
+) =>
     _$_WorksheetNameChangedEventArgs(
       nameAfter: json['nameAfter'] as String,
       type: $enumDecode(_$EventTypeEnumMap, json['type']),
@@ -91,7 +100,8 @@ _$_WorksheetNameChangedEventArgs _$$_WorksheetNameChangedEventArgsFromJson(
     );
 
 Map<String, dynamic> _$$_WorksheetNameChangedEventArgsToJson(
-        _$_WorksheetNameChangedEventArgs instance) =>
+  final _$_WorksheetNameChangedEventArgs instance,
+) =>
     <String, dynamic>{
       'nameAfter': instance.nameAfter,
       'type': _$EventTypeEnumMap[instance.type],

@@ -3,7 +3,7 @@ library excel.init;
 
 import 'package:js/js.dart';
 
-import '../office_interpops/excel_js_impl.dart' as excel_js;
+import '../office_interops/excel_js_impl.dart' as excel_js;
 import 'es6_js_impl.dart';
 
 @JS('getOfficeHelpers')

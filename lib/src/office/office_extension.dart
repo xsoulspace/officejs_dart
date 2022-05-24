@@ -3,8 +3,8 @@ library office_extension;
 import 'dart:js';
 
 import '../abstract/js_object_wrapper.dart';
-import '../js_interpops/es6_js_impl.dart' as js;
-import '../office_interpops/office_extension_js_impl.dart'
+import '../js_interops/es6_js_impl.dart' as js;
+import '../office_interops/office_extension_js_impl.dart'
     as office_extension_js;
 import '../utils/interpop_utils.dart';
 

@@ -1,6 +1,6 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
 
-import '../../office_interpops/office_js_impl.dart';
+import '../../office_interops/office_js_impl.dart';
 
 part 'office_models.freezed.dart';
 part 'office_models.g.dart';

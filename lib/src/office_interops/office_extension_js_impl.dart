@@ -3,7 +3,7 @@ library office_extension_js;
 
 import 'package:js/js.dart';
 
-import '../js_interpops/es6_js_impl.dart';
+import '../js_interops/es6_js_impl.dart';
 
 /// An abstract RequestContext object that facilitates requests to the
 /// host Office application.

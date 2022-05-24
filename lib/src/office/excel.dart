@@ -4,9 +4,9 @@ import 'package:js/js.dart';
 
 import './office_extension.dart' as office_extension;
 import '../abstract/js_object_wrapper.dart';
-import '../js_interpops/es6_js_impl.dart' as js;
-import '../js_interpops/office_helpers_js_impl.dart';
-import '../office_interpops/excel_js_impl.dart' as excel_js;
+import '../js_interops/es6_js_impl.dart' as js;
+import '../js_interops/office_helpers_js_impl.dart';
+import '../office_interops/excel_js_impl.dart' as excel_js;
 import '../utils/interpop_utils.dart';
 import 'models/excel_models.dart';
 

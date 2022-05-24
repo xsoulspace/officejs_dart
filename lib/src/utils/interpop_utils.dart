@@ -4,7 +4,7 @@ import 'dart:js';
 
 import 'package:js/js_util.dart' as util;
 
-import '../js_interpops/es6_js_impl.dart' as js;
+import '../js_interops/es6_js_impl.dart' as js;
 
 dynamic jsifyList(final Iterable list) =>
     js.toJSArray(list.map(jsify).toList());

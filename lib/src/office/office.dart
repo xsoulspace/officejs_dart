@@ -1,7 +1,7 @@
 import 'package:js/js.dart';
 
-import '../js_interpops/es6_js_impl.dart' as js;
-import '../js_interpops/office_helpers_js_impl.dart';
+import '../js_interops/es6_js_impl.dart' as js;
+import '../js_interops/office_helpers_js_impl.dart';
 import '../utils/interpop_utils.dart';
 import 'models/office_models.dart';
 
