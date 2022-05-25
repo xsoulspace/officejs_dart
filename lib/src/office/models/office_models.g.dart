@@ -6,13 +6,13 @@ part of 'office_models.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-_$_OfficeInfo _$$_OfficeInfoFromJson(final Map<String, dynamic> json) =>
+_$_OfficeInfo _$$_OfficeInfoFromJson(Map<String, dynamic> json) =>
     _$_OfficeInfo(
       host: $enumDecode(_$HostTypeEnumMap, json['host']),
       platform: $enumDecodeNullable(_$PlatformTypeEnumMap, json['platform']),
     );
 
-Map<String, dynamic> _$$_OfficeInfoToJson(final _$_OfficeInfo instance) =>
+Map<String, dynamic> _$$_OfficeInfoToJson(_$_OfficeInfo instance) =>
     <String, dynamic>{
       'host': _$HostTypeEnumMap[instance.host],
       'platform': _$PlatformTypeEnumMap[instance.platform],

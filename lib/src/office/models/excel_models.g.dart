@@ -7,8 +7,7 @@ part of 'excel_models.dart';
 // **************************************************************************
 
 _$_WorksheetDeletedEventArgs _$$_WorksheetDeletedEventArgsFromJson(
-  final Map<String, dynamic> json,
-) =>
+        Map<String, dynamic> json) =>
     _$_WorksheetDeletedEventArgs(
       source: $enumDecode(_$EventSourceEnumMap, json['source']),
       worksheetId: json['worksheetId'] as String,
@@ -16,8 +15,7 @@ _$_WorksheetDeletedEventArgs _$$_WorksheetDeletedEventArgsFromJson(
     );
 
 Map<String, dynamic> _$$_WorksheetDeletedEventArgsToJson(
-  final _$_WorksheetDeletedEventArgs instance,
-) =>
+        _$_WorksheetDeletedEventArgs instance) =>
     <String, dynamic>{
       'source': _$EventSourceEnumMap[instance.source],
       'worksheetId': instance.worksheetId,
@@ -81,8 +79,7 @@ const _$EventTypeEnumMap = {
 };
 
 _$_WorksheetAddedEventArgs _$$_WorksheetAddedEventArgsFromJson(
-  final Map<String, dynamic> json,
-) =>
+        Map<String, dynamic> json) =>
     _$_WorksheetAddedEventArgs(
       source: $enumDecode(_$EventSourceEnumMap, json['source']),
       worksheetId: json['worksheetId'] as String,
@@ -90,8 +87,7 @@ _$_WorksheetAddedEventArgs _$$_WorksheetAddedEventArgsFromJson(
     );
 
 Map<String, dynamic> _$$_WorksheetAddedEventArgsToJson(
-  final _$_WorksheetAddedEventArgs instance,
-) =>
+        _$_WorksheetAddedEventArgs instance) =>
     <String, dynamic>{
       'source': _$EventSourceEnumMap[instance.source],
       'worksheetId': instance.worksheetId,
@@ -99,24 +95,21 @@ Map<String, dynamic> _$$_WorksheetAddedEventArgsToJson(
     };
 
 _$_WorksheetActivatedEventArgs _$$_WorksheetActivatedEventArgsFromJson(
-  final Map<String, dynamic> json,
-) =>
+        Map<String, dynamic> json) =>
     _$_WorksheetActivatedEventArgs(
       worksheetId: json['worksheetId'] as String,
       type: $enumDecode(_$EventTypeEnumMap, json['type']),
     );
 
 Map<String, dynamic> _$$_WorksheetActivatedEventArgsToJson(
-  final _$_WorksheetActivatedEventArgs instance,
-) =>
+        _$_WorksheetActivatedEventArgs instance) =>
     <String, dynamic>{
       'worksheetId': instance.worksheetId,
       'type': _$EventTypeEnumMap[instance.type],
     };
 
 _$_WorksheetChangedEventArgs _$$_WorksheetChangedEventArgsFromJson(
-  final Map<String, dynamic> json,
-) =>
+        Map<String, dynamic> json) =>
     _$_WorksheetChangedEventArgs(
       address: json['address'] as String,
       changeType: $enumDecode(_$DataChangeTypeEnumMap, json['changeType']),
@@ -126,8 +119,7 @@ _$_WorksheetChangedEventArgs _$$_WorksheetChangedEventArgsFromJson(
     );
 
 Map<String, dynamic> _$$_WorksheetChangedEventArgsToJson(
-  final _$_WorksheetChangedEventArgs instance,
-) =>
+        _$_WorksheetChangedEventArgs instance) =>
     <String, dynamic>{
       'address': instance.address,
       'changeType': _$DataChangeTypeEnumMap[instance.changeType],
@@ -148,8 +140,7 @@ const _$DataChangeTypeEnumMap = {
 };
 
 _$_WorksheetNameChangedEventArgs _$$_WorksheetNameChangedEventArgsFromJson(
-  final Map<String, dynamic> json,
-) =>
+        Map<String, dynamic> json) =>
     _$_WorksheetNameChangedEventArgs(
       nameAfter: json['nameAfter'] as String,
       type: $enumDecode(_$EventTypeEnumMap, json['type']),
@@ -159,8 +150,7 @@ _$_WorksheetNameChangedEventArgs _$$_WorksheetNameChangedEventArgsFromJson(
     );
 
 Map<String, dynamic> _$$_WorksheetNameChangedEventArgsToJson(
-  final _$_WorksheetNameChangedEventArgs instance,
-) =>
+        _$_WorksheetNameChangedEventArgs instance) =>
     <String, dynamic>{
       'nameAfter': instance.nameAfter,
       'type': _$EventTypeEnumMap[instance.type],
@@ -170,8 +160,7 @@ Map<String, dynamic> _$$_WorksheetNameChangedEventArgsToJson(
     };
 
 _$_WorksheetMovedEventArgs _$$_WorksheetMovedEventArgsFromJson(
-  final Map<String, dynamic> json,
-) =>
+        Map<String, dynamic> json) =>
     _$_WorksheetMovedEventArgs(
       positionAfter: json['positionAfter'] as int,
       positionBefore: json['positionBefore'] as int,
@@ -181,8 +170,7 @@ _$_WorksheetMovedEventArgs _$$_WorksheetMovedEventArgsFromJson(
     );
 
 Map<String, dynamic> _$$_WorksheetMovedEventArgsToJson(
-  final _$_WorksheetMovedEventArgs instance,
-) =>
+        _$_WorksheetMovedEventArgs instance) =>
     <String, dynamic>{
       'positionAfter': instance.positionAfter,
       'positionBefore': instance.positionBefore,
