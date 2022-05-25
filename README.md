@@ -27,6 +27,12 @@ That's all you need to do)
 
 ```javascript
 window.addEventListener("load", function (ev) {
+  class OfficeHelpers {
+    constructor(runExcel, officeOnReady) {
+      this.officeOnReady = officeOnReady;
+      this.runExcel = runExcel;
+    }
+  }
   // Download main.dart.js
   _flutter.loader
     .loadEntrypoint({
@@ -52,12 +58,9 @@ window.addEventListener("load", function (ev) {
       scriptTag.id = "office";
       scriptTag.addEventListener("load", () => {
         console.log("office loaded");
-        class OfficeHelpers {
-          runExcel = Excel.run;
-          officeOnReady = Office.onReady;
-        }
-        window["getOfficeHelpers"] = () => new OfficeHelpers();
-        window.dispatchEvent(new Event("office-loaded"));
+
+        window["getOfficeHelpers"] = () =>
+          new OfficeHelpers(Excel.run, Office.onReady);
         console.log("helpers injected");
       });
       document.getElementsByTagName("head")[0].appendChild(scriptTag);
