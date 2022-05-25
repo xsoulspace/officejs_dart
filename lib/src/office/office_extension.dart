@@ -30,7 +30,7 @@ class ClientRequestContext
   }
 
   Future<T> sync<T>([final T? passThroughValue]) async {
-    return handleThenable(super.jsObject.sync(passThroughValue));
+    return handleThenable(jsObject.sync(passThroughValue));
   }
 }
 
@@ -49,9 +49,9 @@ class ClientObject
   static final _expando = Expando<ClientObject>();
 
   ClientRequestContext get context =>
-      ClientRequestContext.getInstance(super.jsObject.context);
+      ClientRequestContext.getInstance(jsObject.context);
 
-  bool get isNullObject => super.jsObject.isNullObject;
+  bool get isNullObject => jsObject.isNullObject;
 }
 
 class ClientResult<T>
@@ -69,7 +69,7 @@ class ClientResult<T>
   }
   static final _expando = Expando<ClientResult<dynamic>>();
 
-  T get value => super.jsObject.value;
+  T get value => jsObject.value;
 }
 
 typedef FromJson<T> = T Function(Map<String, dynamic>);
@@ -166,6 +166,6 @@ class EventHandlerResult<T>
 
   /// The request context associated with the object
   ClientRequestContext get context =>
-      ClientRequestContext.getInstance(super.jsObject.context);
+      ClientRequestContext.getInstance(jsObject.context);
   void remove() => super.jsObject.remove();
 }

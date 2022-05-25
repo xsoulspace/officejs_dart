@@ -60,10 +60,10 @@ class RequestContext extends JsObjectWrapper<excel_js.RequestContextJsImpl> {
 
   static final _expando = Expando<RequestContext>();
 
-  Workbook get workbook => Workbook.getInstance(super.jsObject.workbook);
+  Workbook get workbook => Workbook.getInstance(jsObject.workbook);
 
   Future<T> sync<T>([final T? passThroughValue]) {
-    return handleThenable(super.jsObject.sync(passThroughValue));
+    return handleThenable(jsObject.sync(passThroughValue));
   }
 }
 
@@ -81,14 +81,13 @@ class Workbook extends JsObjectWrapper<excel_js.WorkbookJsImpl> {
 
   static final _expando = Expando<Workbook>();
 
-  RequestContext get context =>
-      RequestContext.getInstance(super.jsObject.context);
+  RequestContext get context => RequestContext.getInstance(jsObject.context);
 
   WorksheetCollection get worksheets =>
-      WorksheetCollection.getInstance(super.jsObject.worksheets);
+      WorksheetCollection.getInstance(jsObject.worksheets);
 
   Worksheet load(final List<String> propertyNames) =>
-      Worksheet.getInstance(super.jsObject.load(propertyNames));
+      Worksheet.getInstance(jsObject.load(propertyNames));
 }
 
 class WorksheetCollection
@@ -106,56 +105,55 @@ class WorksheetCollection
 
   static final _expando = Expando<WorksheetCollection>();
 
-  RequestContext get context =>
-      RequestContext.getInstance(super.jsObject.context);
+  RequestContext get context => RequestContext.getInstance(jsObject.context);
 
   List<Worksheet> get items =>
-      super.jsObject.items.map(Worksheet.getInstance).toList();
+      jsObject.items.map(Worksheet.getInstance).toList();
 
   office_extension.ClientResult getCount({final bool? visibleOnly}) =>
       office_extension.ClientResult.getInstance(
-        super.jsObject.getCount(visibleOnly),
+        jsObject.getCount(visibleOnly),
       );
   Worksheet getFirst({final bool? visibleOnly}) =>
-      Worksheet.getInstance(super.jsObject.getFirst(visibleOnly));
+      Worksheet.getInstance(jsObject.getFirst(visibleOnly));
 
   Worksheet getItem(final String key) =>
-      Worksheet.getInstance(super.jsObject.getItem(key));
+      Worksheet.getInstance(jsObject.getItem(key));
 
   office_extension.EventHandlers<WorksheetActivatedEventArgs> get onActivated =>
       office_extension.EventHandlers.getInstance(
-        super.jsObject.onActivated,
+        jsObject.onActivated,
         WorksheetActivatedEventArgs.fromJson,
       );
   office_extension.EventHandlers<WorksheetAddedEventArgs> get onAdded =>
       office_extension.EventHandlers.getInstance(
-        super.jsObject.onAdded,
+        jsObject.onAdded,
         WorksheetAddedEventArgs.fromJson,
       );
   office_extension.EventHandlers<WorksheetDeletedEventArgs> get onDeleted =>
       office_extension.EventHandlers.getInstance(
-        super.jsObject.onDeleted,
+        jsObject.onDeleted,
         WorksheetDeletedEventArgs.fromJson,
       );
   office_extension.EventHandlers<WorksheetChangedEventArgs> get onChanged =>
       office_extension.EventHandlers.getInstance(
-        super.jsObject.onChanged,
+        jsObject.onChanged,
         WorksheetChangedEventArgs.fromJson,
       );
   office_extension.EventHandlers<WorksheetNameChangedEventArgs>
       get onNameChanged => office_extension.EventHandlers.getInstance(
-            super.jsObject.onChanged,
+            jsObject.onChanged,
             WorksheetNameChangedEventArgs.fromJson,
           );
   Worksheet getActiveWorksheet() =>
-      Worksheet.getInstance(super.jsObject.getActiveWorksheet());
+      Worksheet.getInstance(jsObject.getActiveWorksheet());
   WorksheetCollection load(final List<String> propertyNames) {
-    return WorksheetCollection.getInstance(super.jsObject.load(propertyNames));
+    return WorksheetCollection.getInstance(jsObject.load(propertyNames));
   }
 }
 
 class Worksheet extends JsObjectWrapper<excel_js.WorksheetJsImpl> {
-  Worksheet._fromJsObject(super.jsObject);
+  Worksheet._fromJsObject(final super.jsObject);
 
   /// Creates a [Worksheet] from a [jsObject].
   ///
@@ -167,23 +165,23 @@ class Worksheet extends JsObjectWrapper<excel_js.WorksheetJsImpl> {
   }
   static final _expando = Expando<Worksheet>();
 
-  RequestContext get context =>
-      RequestContext.getInstance(super.jsObject.context);
+  RequestContext get context => RequestContext.getInstance(jsObject.context);
 
-  String get id => super.jsObject.id;
+  String get id => jsObject.id;
 
-  String get name => super.jsObject.name;
-  set name(final String value) => super.jsObject.name = value;
+  String get name => jsObject.name;
+  set name(final String value) => jsObject.name = value;
 
-  int get position => super.jsObject.position;
-  set position(final int value) => super.jsObject.position = value;
+  int get position => jsObject.position;
+  set position(final int value) => jsObject.position = value;
 
-  bool get showGridlines => super.jsObject.showGridlines;
-  set showGridlines(final bool value) => super.jsObject.showGridlines = value;
+  bool get showGridlines => jsObject.showGridlines;
+  set showGridlines(final bool value) => jsObject.showGridlines = value;
 
-  String? get tabColor => super.jsObject.tabColor;
-  set tabColor(final String? value) => super.jsObject.tabColor = value;
+  String? get tabColor => jsObject.tabColor;
+  set tabColor(final String? value) => jsObject.tabColor = value;
 
   Worksheet load(final List<String> propertyNames) =>
-      Worksheet.getInstance(super.jsObject.load(propertyNames));
+      Worksheet.getInstance(jsObject.load(propertyNames));
+  void activate() => jsObject.activate();
 }
