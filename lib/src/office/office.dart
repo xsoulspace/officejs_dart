@@ -11,7 +11,7 @@ class Office {
 
   static Future<OfficeInfo?> getInfo() async {
     if (_info != null) return _info!;
-    final officeHelper = await handleThenable(getOfficeHelpers());
+    final officeHelper = getOfficeHelpers();
 
     js.PromiseJsImpl<dynamic> promiseCallback(
       final dynamic info,

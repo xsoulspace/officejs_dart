@@ -20,8 +20,8 @@ OfficeInfo _$OfficeInfoFromJson(Map<String, dynamic> json) {
 
 /// @nodoc
 mixin _$OfficeInfo {
-  PlatformType get host => throw _privateConstructorUsedError;
-  HostType get platform => throw _privateConstructorUsedError;
+  HostType get host => throw _privateConstructorUsedError;
+  PlatformType? get platform => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
@@ -34,7 +34,7 @@ abstract class $OfficeInfoCopyWith<$Res> {
   factory $OfficeInfoCopyWith(
           OfficeInfo value, $Res Function(OfficeInfo) then) =
       _$OfficeInfoCopyWithImpl<$Res>;
-  $Res call({PlatformType host, HostType platform});
+  $Res call({HostType host, PlatformType? platform});
 }
 
 /// @nodoc
@@ -54,11 +54,11 @@ class _$OfficeInfoCopyWithImpl<$Res> implements $OfficeInfoCopyWith<$Res> {
       host: host == freezed
           ? _value.host
           : host // ignore: cast_nullable_to_non_nullable
-              as PlatformType,
+              as HostType,
       platform: platform == freezed
           ? _value.platform
           : platform // ignore: cast_nullable_to_non_nullable
-              as HostType,
+              as PlatformType?,
     ));
   }
 }
@@ -70,7 +70,7 @@ abstract class _$$_OfficeInfoCopyWith<$Res>
           _$_OfficeInfo value, $Res Function(_$_OfficeInfo) then) =
       __$$_OfficeInfoCopyWithImpl<$Res>;
   @override
-  $Res call({PlatformType host, HostType platform});
+  $Res call({HostType host, PlatformType? platform});
 }
 
 /// @nodoc
@@ -92,11 +92,11 @@ class __$$_OfficeInfoCopyWithImpl<$Res> extends _$OfficeInfoCopyWithImpl<$Res>
       host: host == freezed
           ? _value.host
           : host // ignore: cast_nullable_to_non_nullable
-              as PlatformType,
+              as HostType,
       platform: platform == freezed
           ? _value.platform
           : platform // ignore: cast_nullable_to_non_nullable
-              as HostType,
+              as PlatformType?,
     ));
   }
 }
@@ -105,15 +105,15 @@ class __$$_OfficeInfoCopyWithImpl<$Res> extends _$OfficeInfoCopyWithImpl<$Res>
 
 @JsonSerializable(explicitToJson: true)
 class _$_OfficeInfo extends _OfficeInfo {
-  const _$_OfficeInfo({required this.host, required this.platform}) : super._();
+  const _$_OfficeInfo({required this.host, this.platform}) : super._();
 
   factory _$_OfficeInfo.fromJson(Map<String, dynamic> json) =>
       _$$_OfficeInfoFromJson(json);
 
   @override
-  final PlatformType host;
+  final HostType host;
   @override
-  final HostType platform;
+  final PlatformType? platform;
 
   @override
   String toString() {
@@ -149,17 +149,17 @@ class _$_OfficeInfo extends _OfficeInfo {
 
 abstract class _OfficeInfo extends OfficeInfo {
   const factory _OfficeInfo(
-      {required final PlatformType host,
-      required final HostType platform}) = _$_OfficeInfo;
+      {required final HostType host,
+      final PlatformType? platform}) = _$_OfficeInfo;
   const _OfficeInfo._() : super._();
 
   factory _OfficeInfo.fromJson(Map<String, dynamic> json) =
       _$_OfficeInfo.fromJson;
 
   @override
-  PlatformType get host => throw _privateConstructorUsedError;
+  HostType get host => throw _privateConstructorUsedError;
   @override
-  HostType get platform => throw _privateConstructorUsedError;
+  PlatformType? get platform => throw _privateConstructorUsedError;
   @override
   @JsonKey(ignore: true)
   _$$_OfficeInfoCopyWith<_$_OfficeInfo> get copyWith =>

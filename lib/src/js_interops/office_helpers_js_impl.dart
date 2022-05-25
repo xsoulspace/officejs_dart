@@ -7,7 +7,7 @@ import '../office_interops/excel_js_impl.dart' as excel_js;
 import 'es6_js_impl.dart';
 
 @JS('getOfficeHelpers')
-external PromiseJsImpl<OfficeHelpersJsImpl> getOfficeHelpers();
+external OfficeHelpersJsImpl getOfficeHelpers();
 
 @JS('OfficeHelpers')
 abstract class OfficeHelpersJsImpl {

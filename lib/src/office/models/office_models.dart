@@ -18,8 +18,8 @@ class OfficeInfo with _$OfficeInfo {
     explicitToJson: true,
   )
   const factory OfficeInfo({
-    required final PlatformType host,
-    required final HostType platform,
+    required final HostType host,
+    final PlatformType? platform,
   }) = _OfficeInfo;
   const OfficeInfo._();
   factory OfficeInfo.fromJson(final Map<String, dynamic> json) =>
