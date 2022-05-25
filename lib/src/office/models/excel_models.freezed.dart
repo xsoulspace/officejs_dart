@@ -31,6 +31,11 @@ mixin _$WorksheetDeletedEventArgs {
   /// [Api set: ExcelApi 1.7]
   String get worksheetId => throw _privateConstructorUsedError;
 
+  /// Gets the type of the event. See `Excel.EventType` for details.
+  ///
+  /// [Api set: ExcelApi 1.7]
+  EventType get type => throw _privateConstructorUsedError;
+
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
   $WorksheetDeletedEventArgsCopyWith<WorksheetDeletedEventArgs> get copyWith =>
@@ -42,7 +47,7 @@ abstract class $WorksheetDeletedEventArgsCopyWith<$Res> {
   factory $WorksheetDeletedEventArgsCopyWith(WorksheetDeletedEventArgs value,
           $Res Function(WorksheetDeletedEventArgs) then) =
       _$WorksheetDeletedEventArgsCopyWithImpl<$Res>;
-  $Res call({EventSource source, String worksheetId});
+  $Res call({EventSource source, String worksheetId, EventType type});
 }
 
 /// @nodoc
@@ -58,6 +63,7 @@ class _$WorksheetDeletedEventArgsCopyWithImpl<$Res>
   $Res call({
     Object? source = freezed,
     Object? worksheetId = freezed,
+    Object? type = freezed,
   }) {
     return _then(_value.copyWith(
       source: source == freezed
@@ -68,6 +74,10 @@ class _$WorksheetDeletedEventArgsCopyWithImpl<$Res>
           ? _value.worksheetId
           : worksheetId // ignore: cast_nullable_to_non_nullable
               as String,
+      type: type == freezed
+          ? _value.type
+          : type // ignore: cast_nullable_to_non_nullable
+              as EventType,
     ));
   }
 }
@@ -80,7 +90,7 @@ abstract class _$$_WorksheetDeletedEventArgsCopyWith<$Res>
           $Res Function(_$_WorksheetDeletedEventArgs) then) =
       __$$_WorksheetDeletedEventArgsCopyWithImpl<$Res>;
   @override
-  $Res call({EventSource source, String worksheetId});
+  $Res call({EventSource source, String worksheetId, EventType type});
 }
 
 /// @nodoc
@@ -100,6 +110,7 @@ class __$$_WorksheetDeletedEventArgsCopyWithImpl<$Res>
   $Res call({
     Object? source = freezed,
     Object? worksheetId = freezed,
+    Object? type = freezed,
   }) {
     return _then(_$_WorksheetDeletedEventArgs(
       source: source == freezed
@@ -110,6 +121,10 @@ class __$$_WorksheetDeletedEventArgsCopyWithImpl<$Res>
           ? _value.worksheetId
           : worksheetId // ignore: cast_nullable_to_non_nullable
               as String,
+      type: type == freezed
+          ? _value.type
+          : type // ignore: cast_nullable_to_non_nullable
+              as EventType,
     ));
   }
 }
@@ -119,7 +134,7 @@ class __$$_WorksheetDeletedEventArgsCopyWithImpl<$Res>
 @JsonSerializable(explicitToJson: true)
 class _$_WorksheetDeletedEventArgs extends _WorksheetDeletedEventArgs {
   const _$_WorksheetDeletedEventArgs(
-      {required this.source, required this.worksheetId})
+      {required this.source, required this.worksheetId, required this.type})
       : super._();
 
   factory _$_WorksheetDeletedEventArgs.fromJson(Map<String, dynamic> json) =>
@@ -137,9 +152,15 @@ class _$_WorksheetDeletedEventArgs extends _WorksheetDeletedEventArgs {
   @override
   final String worksheetId;
 
+  /// Gets the type of the event. See `Excel.EventType` for details.
+  ///
+  /// [Api set: ExcelApi 1.7]
+  @override
+  final EventType type;
+
   @override
   String toString() {
-    return 'WorksheetDeletedEventArgs(source: $source, worksheetId: $worksheetId)';
+    return 'WorksheetDeletedEventArgs(source: $source, worksheetId: $worksheetId, type: $type)';
   }
 
   @override
@@ -149,7 +170,8 @@ class _$_WorksheetDeletedEventArgs extends _WorksheetDeletedEventArgs {
             other is _$_WorksheetDeletedEventArgs &&
             const DeepCollectionEquality().equals(other.source, source) &&
             const DeepCollectionEquality()
-                .equals(other.worksheetId, worksheetId));
+                .equals(other.worksheetId, worksheetId) &&
+            const DeepCollectionEquality().equals(other.type, type));
   }
 
   @JsonKey(ignore: true)
@@ -157,7 +179,8 @@ class _$_WorksheetDeletedEventArgs extends _WorksheetDeletedEventArgs {
   int get hashCode => Object.hash(
       runtimeType,
       const DeepCollectionEquality().hash(source),
-      const DeepCollectionEquality().hash(worksheetId));
+      const DeepCollectionEquality().hash(worksheetId),
+      const DeepCollectionEquality().hash(type));
 
   @JsonKey(ignore: true)
   @override
@@ -174,7 +197,8 @@ class _$_WorksheetDeletedEventArgs extends _WorksheetDeletedEventArgs {
 abstract class _WorksheetDeletedEventArgs extends WorksheetDeletedEventArgs {
   const factory _WorksheetDeletedEventArgs(
       {required final EventSource source,
-      required final String worksheetId}) = _$_WorksheetDeletedEventArgs;
+      required final String worksheetId,
+      required final EventType type}) = _$_WorksheetDeletedEventArgs;
   const _WorksheetDeletedEventArgs._() : super._();
 
   factory _WorksheetDeletedEventArgs.fromJson(Map<String, dynamic> json) =
@@ -192,6 +216,12 @@ abstract class _WorksheetDeletedEventArgs extends WorksheetDeletedEventArgs {
   ///
   /// [Api set: ExcelApi 1.7]
   String get worksheetId => throw _privateConstructorUsedError;
+  @override
+
+  /// Gets the type of the event. See `Excel.EventType` for details.
+  ///
+  /// [Api set: ExcelApi 1.7]
+  EventType get type => throw _privateConstructorUsedError;
   @override
   @JsonKey(ignore: true)
   _$$_WorksheetDeletedEventArgsCopyWith<_$_WorksheetDeletedEventArgs>
@@ -215,6 +245,11 @@ mixin _$WorksheetAddedEventArgs {
   /// [Api set: ExcelApi 1.7]
   String get worksheetId => throw _privateConstructorUsedError;
 
+  /// Gets the type of the event. See `Excel.EventType` for details.
+  ///
+  /// [Api set: ExcelApi 1.7]
+  EventType get type => throw _privateConstructorUsedError;
+
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
   $WorksheetAddedEventArgsCopyWith<WorksheetAddedEventArgs> get copyWith =>
@@ -226,7 +261,7 @@ abstract class $WorksheetAddedEventArgsCopyWith<$Res> {
   factory $WorksheetAddedEventArgsCopyWith(WorksheetAddedEventArgs value,
           $Res Function(WorksheetAddedEventArgs) then) =
       _$WorksheetAddedEventArgsCopyWithImpl<$Res>;
-  $Res call({EventSource source, String worksheetId});
+  $Res call({EventSource source, String worksheetId, EventType type});
 }
 
 /// @nodoc
@@ -242,6 +277,7 @@ class _$WorksheetAddedEventArgsCopyWithImpl<$Res>
   $Res call({
     Object? source = freezed,
     Object? worksheetId = freezed,
+    Object? type = freezed,
   }) {
     return _then(_value.copyWith(
       source: source == freezed
@@ -252,6 +288,10 @@ class _$WorksheetAddedEventArgsCopyWithImpl<$Res>
           ? _value.worksheetId
           : worksheetId // ignore: cast_nullable_to_non_nullable
               as String,
+      type: type == freezed
+          ? _value.type
+          : type // ignore: cast_nullable_to_non_nullable
+              as EventType,
     ));
   }
 }
@@ -263,7 +303,7 @@ abstract class _$$_WorksheetAddedEventArgsCopyWith<$Res>
           $Res Function(_$_WorksheetAddedEventArgs) then) =
       __$$_WorksheetAddedEventArgsCopyWithImpl<$Res>;
   @override
-  $Res call({EventSource source, String worksheetId});
+  $Res call({EventSource source, String worksheetId, EventType type});
 }
 
 /// @nodoc
@@ -282,6 +322,7 @@ class __$$_WorksheetAddedEventArgsCopyWithImpl<$Res>
   $Res call({
     Object? source = freezed,
     Object? worksheetId = freezed,
+    Object? type = freezed,
   }) {
     return _then(_$_WorksheetAddedEventArgs(
       source: source == freezed
@@ -292,6 +333,10 @@ class __$$_WorksheetAddedEventArgsCopyWithImpl<$Res>
           ? _value.worksheetId
           : worksheetId // ignore: cast_nullable_to_non_nullable
               as String,
+      type: type == freezed
+          ? _value.type
+          : type // ignore: cast_nullable_to_non_nullable
+              as EventType,
     ));
   }
 }
@@ -301,7 +346,7 @@ class __$$_WorksheetAddedEventArgsCopyWithImpl<$Res>
 @JsonSerializable(explicitToJson: true)
 class _$_WorksheetAddedEventArgs extends _WorksheetAddedEventArgs {
   const _$_WorksheetAddedEventArgs(
-      {required this.source, required this.worksheetId})
+      {required this.source, required this.worksheetId, required this.type})
       : super._();
 
   factory _$_WorksheetAddedEventArgs.fromJson(Map<String, dynamic> json) =>
@@ -319,9 +364,15 @@ class _$_WorksheetAddedEventArgs extends _WorksheetAddedEventArgs {
   @override
   final String worksheetId;
 
+  /// Gets the type of the event. See `Excel.EventType` for details.
+  ///
+  /// [Api set: ExcelApi 1.7]
+  @override
+  final EventType type;
+
   @override
   String toString() {
-    return 'WorksheetAddedEventArgs(source: $source, worksheetId: $worksheetId)';
+    return 'WorksheetAddedEventArgs(source: $source, worksheetId: $worksheetId, type: $type)';
   }
 
   @override
@@ -331,7 +382,8 @@ class _$_WorksheetAddedEventArgs extends _WorksheetAddedEventArgs {
             other is _$_WorksheetAddedEventArgs &&
             const DeepCollectionEquality().equals(other.source, source) &&
             const DeepCollectionEquality()
-                .equals(other.worksheetId, worksheetId));
+                .equals(other.worksheetId, worksheetId) &&
+            const DeepCollectionEquality().equals(other.type, type));
   }
 
   @JsonKey(ignore: true)
@@ -339,7 +391,8 @@ class _$_WorksheetAddedEventArgs extends _WorksheetAddedEventArgs {
   int get hashCode => Object.hash(
       runtimeType,
       const DeepCollectionEquality().hash(source),
-      const DeepCollectionEquality().hash(worksheetId));
+      const DeepCollectionEquality().hash(worksheetId),
+      const DeepCollectionEquality().hash(type));
 
   @JsonKey(ignore: true)
   @override
@@ -357,7 +410,8 @@ class _$_WorksheetAddedEventArgs extends _WorksheetAddedEventArgs {
 abstract class _WorksheetAddedEventArgs extends WorksheetAddedEventArgs {
   const factory _WorksheetAddedEventArgs(
       {required final EventSource source,
-      required final String worksheetId}) = _$_WorksheetAddedEventArgs;
+      required final String worksheetId,
+      required final EventType type}) = _$_WorksheetAddedEventArgs;
   const _WorksheetAddedEventArgs._() : super._();
 
   factory _WorksheetAddedEventArgs.fromJson(Map<String, dynamic> json) =
@@ -376,6 +430,12 @@ abstract class _WorksheetAddedEventArgs extends WorksheetAddedEventArgs {
   /// [Api set: ExcelApi 1.7]
   String get worksheetId => throw _privateConstructorUsedError;
   @override
+
+  /// Gets the type of the event. See `Excel.EventType` for details.
+  ///
+  /// [Api set: ExcelApi 1.7]
+  EventType get type => throw _privateConstructorUsedError;
+  @override
   @JsonKey(ignore: true)
   _$$_WorksheetAddedEventArgsCopyWith<_$_WorksheetAddedEventArgs>
       get copyWith => throw _privateConstructorUsedError;
@@ -393,6 +453,11 @@ mixin _$WorksheetActivatedEventArgs {
   /// [Api set: ExcelApi 1.7]
   String get worksheetId => throw _privateConstructorUsedError;
 
+  /// Gets the ID of the worksheet that is activated.
+  ///
+  /// [Api set: ExcelApi 1.7]
+  EventType get type => throw _privateConstructorUsedError;
+
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
   $WorksheetActivatedEventArgsCopyWith<WorksheetActivatedEventArgs>
@@ -405,7 +470,7 @@ abstract class $WorksheetActivatedEventArgsCopyWith<$Res> {
           WorksheetActivatedEventArgs value,
           $Res Function(WorksheetActivatedEventArgs) then) =
       _$WorksheetActivatedEventArgsCopyWithImpl<$Res>;
-  $Res call({String worksheetId});
+  $Res call({String worksheetId, EventType type});
 }
 
 /// @nodoc
@@ -420,12 +485,17 @@ class _$WorksheetActivatedEventArgsCopyWithImpl<$Res>
   @override
   $Res call({
     Object? worksheetId = freezed,
+    Object? type = freezed,
   }) {
     return _then(_value.copyWith(
       worksheetId: worksheetId == freezed
           ? _value.worksheetId
           : worksheetId // ignore: cast_nullable_to_non_nullable
               as String,
+      type: type == freezed
+          ? _value.type
+          : type // ignore: cast_nullable_to_non_nullable
+              as EventType,
     ));
   }
 }
@@ -438,7 +508,7 @@ abstract class _$$_WorksheetActivatedEventArgsCopyWith<$Res>
           $Res Function(_$_WorksheetActivatedEventArgs) then) =
       __$$_WorksheetActivatedEventArgsCopyWithImpl<$Res>;
   @override
-  $Res call({String worksheetId});
+  $Res call({String worksheetId, EventType type});
 }
 
 /// @nodoc
@@ -457,12 +527,17 @@ class __$$_WorksheetActivatedEventArgsCopyWithImpl<$Res>
   @override
   $Res call({
     Object? worksheetId = freezed,
+    Object? type = freezed,
   }) {
     return _then(_$_WorksheetActivatedEventArgs(
       worksheetId: worksheetId == freezed
           ? _value.worksheetId
           : worksheetId // ignore: cast_nullable_to_non_nullable
               as String,
+      type: type == freezed
+          ? _value.type
+          : type // ignore: cast_nullable_to_non_nullable
+              as EventType,
     ));
   }
 }
@@ -471,7 +546,9 @@ class __$$_WorksheetActivatedEventArgsCopyWithImpl<$Res>
 
 @JsonSerializable(explicitToJson: true)
 class _$_WorksheetActivatedEventArgs extends _WorksheetActivatedEventArgs {
-  const _$_WorksheetActivatedEventArgs({required this.worksheetId}) : super._();
+  const _$_WorksheetActivatedEventArgs(
+      {required this.worksheetId, required this.type})
+      : super._();
 
   factory _$_WorksheetActivatedEventArgs.fromJson(Map<String, dynamic> json) =>
       _$$_WorksheetActivatedEventArgsFromJson(json);
@@ -482,9 +559,15 @@ class _$_WorksheetActivatedEventArgs extends _WorksheetActivatedEventArgs {
   @override
   final String worksheetId;
 
+  /// Gets the ID of the worksheet that is activated.
+  ///
+  /// [Api set: ExcelApi 1.7]
+  @override
+  final EventType type;
+
   @override
   String toString() {
-    return 'WorksheetActivatedEventArgs(worksheetId: $worksheetId)';
+    return 'WorksheetActivatedEventArgs(worksheetId: $worksheetId, type: $type)';
   }
 
   @override
@@ -493,13 +576,16 @@ class _$_WorksheetActivatedEventArgs extends _WorksheetActivatedEventArgs {
         (other.runtimeType == runtimeType &&
             other is _$_WorksheetActivatedEventArgs &&
             const DeepCollectionEquality()
-                .equals(other.worksheetId, worksheetId));
+                .equals(other.worksheetId, worksheetId) &&
+            const DeepCollectionEquality().equals(other.type, type));
   }
 
   @JsonKey(ignore: true)
   @override
   int get hashCode => Object.hash(
-      runtimeType, const DeepCollectionEquality().hash(worksheetId));
+      runtimeType,
+      const DeepCollectionEquality().hash(worksheetId),
+      const DeepCollectionEquality().hash(type));
 
   @JsonKey(ignore: true)
   @override
@@ -516,7 +602,8 @@ class _$_WorksheetActivatedEventArgs extends _WorksheetActivatedEventArgs {
 abstract class _WorksheetActivatedEventArgs
     extends WorksheetActivatedEventArgs {
   const factory _WorksheetActivatedEventArgs(
-      {required final String worksheetId}) = _$_WorksheetActivatedEventArgs;
+      {required final String worksheetId,
+      required final EventType type}) = _$_WorksheetActivatedEventArgs;
   const _WorksheetActivatedEventArgs._() : super._();
 
   factory _WorksheetActivatedEventArgs.fromJson(Map<String, dynamic> json) =
@@ -528,6 +615,12 @@ abstract class _WorksheetActivatedEventArgs
   ///
   /// [Api set: ExcelApi 1.7]
   String get worksheetId => throw _privateConstructorUsedError;
+  @override
+
+  /// Gets the ID of the worksheet that is activated.
+  ///
+  /// [Api set: ExcelApi 1.7]
+  EventType get type => throw _privateConstructorUsedError;
   @override
   @JsonKey(ignore: true)
   _$$_WorksheetActivatedEventArgsCopyWith<_$_WorksheetActivatedEventArgs>
@@ -565,6 +658,11 @@ mixin _$WorksheetChangedEventArgs {
   /// [Api set: ExcelApi 1.7]
   String get worksheetId => throw _privateConstructorUsedError;
 
+  /// Gets the ID of the worksheet that is activated.
+  ///
+  /// [Api set: ExcelApi 1.7]
+  EventType get type => throw _privateConstructorUsedError;
+
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
   $WorksheetChangedEventArgsCopyWith<WorksheetChangedEventArgs> get copyWith =>
@@ -580,7 +678,8 @@ abstract class $WorksheetChangedEventArgsCopyWith<$Res> {
       {String address,
       DataChangeType changeType,
       EventSource source,
-      String worksheetId});
+      String worksheetId,
+      EventType type});
 }
 
 /// @nodoc
@@ -598,6 +697,7 @@ class _$WorksheetChangedEventArgsCopyWithImpl<$Res>
     Object? changeType = freezed,
     Object? source = freezed,
     Object? worksheetId = freezed,
+    Object? type = freezed,
   }) {
     return _then(_value.copyWith(
       address: address == freezed
@@ -616,6 +716,10 @@ class _$WorksheetChangedEventArgsCopyWithImpl<$Res>
           ? _value.worksheetId
           : worksheetId // ignore: cast_nullable_to_non_nullable
               as String,
+      type: type == freezed
+          ? _value.type
+          : type // ignore: cast_nullable_to_non_nullable
+              as EventType,
     ));
   }
 }
@@ -632,7 +736,8 @@ abstract class _$$_WorksheetChangedEventArgsCopyWith<$Res>
       {String address,
       DataChangeType changeType,
       EventSource source,
-      String worksheetId});
+      String worksheetId,
+      EventType type});
 }
 
 /// @nodoc
@@ -654,6 +759,7 @@ class __$$_WorksheetChangedEventArgsCopyWithImpl<$Res>
     Object? changeType = freezed,
     Object? source = freezed,
     Object? worksheetId = freezed,
+    Object? type = freezed,
   }) {
     return _then(_$_WorksheetChangedEventArgs(
       address: address == freezed
@@ -672,6 +778,10 @@ class __$$_WorksheetChangedEventArgsCopyWithImpl<$Res>
           ? _value.worksheetId
           : worksheetId // ignore: cast_nullable_to_non_nullable
               as String,
+      type: type == freezed
+          ? _value.type
+          : type // ignore: cast_nullable_to_non_nullable
+              as EventType,
     ));
   }
 }
@@ -684,7 +794,8 @@ class _$_WorksheetChangedEventArgs extends _WorksheetChangedEventArgs {
       {required this.address,
       required this.changeType,
       required this.source,
-      required this.worksheetId})
+      required this.worksheetId,
+      required this.type})
       : super._();
 
   factory _$_WorksheetChangedEventArgs.fromJson(Map<String, dynamic> json) =>
@@ -718,9 +829,15 @@ class _$_WorksheetChangedEventArgs extends _WorksheetChangedEventArgs {
   @override
   final String worksheetId;
 
+  /// Gets the ID of the worksheet that is activated.
+  ///
+  /// [Api set: ExcelApi 1.7]
+  @override
+  final EventType type;
+
   @override
   String toString() {
-    return 'WorksheetChangedEventArgs(address: $address, changeType: $changeType, source: $source, worksheetId: $worksheetId)';
+    return 'WorksheetChangedEventArgs(address: $address, changeType: $changeType, source: $source, worksheetId: $worksheetId, type: $type)';
   }
 
   @override
@@ -733,7 +850,8 @@ class _$_WorksheetChangedEventArgs extends _WorksheetChangedEventArgs {
                 .equals(other.changeType, changeType) &&
             const DeepCollectionEquality().equals(other.source, source) &&
             const DeepCollectionEquality()
-                .equals(other.worksheetId, worksheetId));
+                .equals(other.worksheetId, worksheetId) &&
+            const DeepCollectionEquality().equals(other.type, type));
   }
 
   @JsonKey(ignore: true)
@@ -743,7 +861,8 @@ class _$_WorksheetChangedEventArgs extends _WorksheetChangedEventArgs {
       const DeepCollectionEquality().hash(address),
       const DeepCollectionEquality().hash(changeType),
       const DeepCollectionEquality().hash(source),
-      const DeepCollectionEquality().hash(worksheetId));
+      const DeepCollectionEquality().hash(worksheetId),
+      const DeepCollectionEquality().hash(type));
 
   @JsonKey(ignore: true)
   @override
@@ -762,7 +881,8 @@ abstract class _WorksheetChangedEventArgs extends WorksheetChangedEventArgs {
       {required final String address,
       required final DataChangeType changeType,
       required final EventSource source,
-      required final String worksheetId}) = _$_WorksheetChangedEventArgs;
+      required final String worksheetId,
+      required final EventType type}) = _$_WorksheetChangedEventArgs;
   const _WorksheetChangedEventArgs._() : super._();
 
   factory _WorksheetChangedEventArgs.fromJson(Map<String, dynamic> json) =
@@ -795,6 +915,12 @@ abstract class _WorksheetChangedEventArgs extends WorksheetChangedEventArgs {
   ///
   /// [Api set: ExcelApi 1.7]
   String get worksheetId => throw _privateConstructorUsedError;
+  @override
+
+  /// Gets the ID of the worksheet that is activated.
+  ///
+  /// [Api set: ExcelApi 1.7]
+  EventType get type => throw _privateConstructorUsedError;
   @override
   @JsonKey(ignore: true)
   _$$_WorksheetChangedEventArgsCopyWith<_$_WorksheetChangedEventArgs>
@@ -1096,5 +1222,309 @@ abstract class _WorksheetNameChangedEventArgs
   @override
   @JsonKey(ignore: true)
   _$$_WorksheetNameChangedEventArgsCopyWith<_$_WorksheetNameChangedEventArgs>
+      get copyWith => throw _privateConstructorUsedError;
+}
+
+WorksheetMovedEventArgs _$WorksheetMovedEventArgsFromJson(
+    Map<String, dynamic> json) {
+  return _WorksheetMovedEventArgs.fromJson(json);
+}
+
+/// @nodoc
+mixin _$WorksheetMovedEventArgs {
+  /// Gets the new position of the worksheet, after the move.
+  ///
+  /// @remarks
+  /// [Api set: ExcelApiOnline 1.1]
+  int get positionAfter => throw _privateConstructorUsedError;
+
+  /// Gets the previous position of the worksheet, prior to the move.
+  ///
+  /// @remarks
+  /// [Api set: ExcelApiOnline 1.1]
+  int get positionBefore => throw _privateConstructorUsedError;
+
+  /// The source of the event. It can be local or remote (through co-authoring).
+  ///
+  /// @remarks
+  /// [Api set: ExcelApiOnline 1.1]
+  EventSource get source => throw _privateConstructorUsedError;
+
+  /// Gets the type of the event.
+  ///
+  /// @remarks
+  /// [Api set: ExcelApiOnline 1.1]
+  EventType get type => throw _privateConstructorUsedError;
+
+  /// Gets the ID of the worksheet that was moved.
+  ///
+  /// @remarks
+  /// [Api set: ExcelApiOnline 1.1]
+  String get worksheetId => throw _privateConstructorUsedError;
+
+  Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
+  @JsonKey(ignore: true)
+  $WorksheetMovedEventArgsCopyWith<WorksheetMovedEventArgs> get copyWith =>
+      throw _privateConstructorUsedError;
+}
+
+/// @nodoc
+abstract class $WorksheetMovedEventArgsCopyWith<$Res> {
+  factory $WorksheetMovedEventArgsCopyWith(WorksheetMovedEventArgs value,
+          $Res Function(WorksheetMovedEventArgs) then) =
+      _$WorksheetMovedEventArgsCopyWithImpl<$Res>;
+  $Res call(
+      {int positionAfter,
+      int positionBefore,
+      EventSource source,
+      EventType type,
+      String worksheetId});
+}
+
+/// @nodoc
+class _$WorksheetMovedEventArgsCopyWithImpl<$Res>
+    implements $WorksheetMovedEventArgsCopyWith<$Res> {
+  _$WorksheetMovedEventArgsCopyWithImpl(this._value, this._then);
+
+  final WorksheetMovedEventArgs _value;
+  // ignore: unused_field
+  final $Res Function(WorksheetMovedEventArgs) _then;
+
+  @override
+  $Res call({
+    Object? positionAfter = freezed,
+    Object? positionBefore = freezed,
+    Object? source = freezed,
+    Object? type = freezed,
+    Object? worksheetId = freezed,
+  }) {
+    return _then(_value.copyWith(
+      positionAfter: positionAfter == freezed
+          ? _value.positionAfter
+          : positionAfter // ignore: cast_nullable_to_non_nullable
+              as int,
+      positionBefore: positionBefore == freezed
+          ? _value.positionBefore
+          : positionBefore // ignore: cast_nullable_to_non_nullable
+              as int,
+      source: source == freezed
+          ? _value.source
+          : source // ignore: cast_nullable_to_non_nullable
+              as EventSource,
+      type: type == freezed
+          ? _value.type
+          : type // ignore: cast_nullable_to_non_nullable
+              as EventType,
+      worksheetId: worksheetId == freezed
+          ? _value.worksheetId
+          : worksheetId // ignore: cast_nullable_to_non_nullable
+              as String,
+    ));
+  }
+}
+
+/// @nodoc
+abstract class _$$_WorksheetMovedEventArgsCopyWith<$Res>
+    implements $WorksheetMovedEventArgsCopyWith<$Res> {
+  factory _$$_WorksheetMovedEventArgsCopyWith(_$_WorksheetMovedEventArgs value,
+          $Res Function(_$_WorksheetMovedEventArgs) then) =
+      __$$_WorksheetMovedEventArgsCopyWithImpl<$Res>;
+  @override
+  $Res call(
+      {int positionAfter,
+      int positionBefore,
+      EventSource source,
+      EventType type,
+      String worksheetId});
+}
+
+/// @nodoc
+class __$$_WorksheetMovedEventArgsCopyWithImpl<$Res>
+    extends _$WorksheetMovedEventArgsCopyWithImpl<$Res>
+    implements _$$_WorksheetMovedEventArgsCopyWith<$Res> {
+  __$$_WorksheetMovedEventArgsCopyWithImpl(_$_WorksheetMovedEventArgs _value,
+      $Res Function(_$_WorksheetMovedEventArgs) _then)
+      : super(_value, (v) => _then(v as _$_WorksheetMovedEventArgs));
+
+  @override
+  _$_WorksheetMovedEventArgs get _value =>
+      super._value as _$_WorksheetMovedEventArgs;
+
+  @override
+  $Res call({
+    Object? positionAfter = freezed,
+    Object? positionBefore = freezed,
+    Object? source = freezed,
+    Object? type = freezed,
+    Object? worksheetId = freezed,
+  }) {
+    return _then(_$_WorksheetMovedEventArgs(
+      positionAfter: positionAfter == freezed
+          ? _value.positionAfter
+          : positionAfter // ignore: cast_nullable_to_non_nullable
+              as int,
+      positionBefore: positionBefore == freezed
+          ? _value.positionBefore
+          : positionBefore // ignore: cast_nullable_to_non_nullable
+              as int,
+      source: source == freezed
+          ? _value.source
+          : source // ignore: cast_nullable_to_non_nullable
+              as EventSource,
+      type: type == freezed
+          ? _value.type
+          : type // ignore: cast_nullable_to_non_nullable
+              as EventType,
+      worksheetId: worksheetId == freezed
+          ? _value.worksheetId
+          : worksheetId // ignore: cast_nullable_to_non_nullable
+              as String,
+    ));
+  }
+}
+
+/// @nodoc
+
+@JsonSerializable(explicitToJson: true)
+class _$_WorksheetMovedEventArgs extends _WorksheetMovedEventArgs {
+  const _$_WorksheetMovedEventArgs(
+      {required this.positionAfter,
+      required this.positionBefore,
+      required this.source,
+      required this.type,
+      required this.worksheetId})
+      : super._();
+
+  factory _$_WorksheetMovedEventArgs.fromJson(Map<String, dynamic> json) =>
+      _$$_WorksheetMovedEventArgsFromJson(json);
+
+  /// Gets the new position of the worksheet, after the move.
+  ///
+  /// @remarks
+  /// [Api set: ExcelApiOnline 1.1]
+  @override
+  final int positionAfter;
+
+  /// Gets the previous position of the worksheet, prior to the move.
+  ///
+  /// @remarks
+  /// [Api set: ExcelApiOnline 1.1]
+  @override
+  final int positionBefore;
+
+  /// The source of the event. It can be local or remote (through co-authoring).
+  ///
+  /// @remarks
+  /// [Api set: ExcelApiOnline 1.1]
+  @override
+  final EventSource source;
+
+  /// Gets the type of the event.
+  ///
+  /// @remarks
+  /// [Api set: ExcelApiOnline 1.1]
+  @override
+  final EventType type;
+
+  /// Gets the ID of the worksheet that was moved.
+  ///
+  /// @remarks
+  /// [Api set: ExcelApiOnline 1.1]
+  @override
+  final String worksheetId;
+
+  @override
+  String toString() {
+    return 'WorksheetMovedEventArgs(positionAfter: $positionAfter, positionBefore: $positionBefore, source: $source, type: $type, worksheetId: $worksheetId)';
+  }
+
+  @override
+  bool operator ==(dynamic other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$_WorksheetMovedEventArgs &&
+            const DeepCollectionEquality()
+                .equals(other.positionAfter, positionAfter) &&
+            const DeepCollectionEquality()
+                .equals(other.positionBefore, positionBefore) &&
+            const DeepCollectionEquality().equals(other.source, source) &&
+            const DeepCollectionEquality().equals(other.type, type) &&
+            const DeepCollectionEquality()
+                .equals(other.worksheetId, worksheetId));
+  }
+
+  @JsonKey(ignore: true)
+  @override
+  int get hashCode => Object.hash(
+      runtimeType,
+      const DeepCollectionEquality().hash(positionAfter),
+      const DeepCollectionEquality().hash(positionBefore),
+      const DeepCollectionEquality().hash(source),
+      const DeepCollectionEquality().hash(type),
+      const DeepCollectionEquality().hash(worksheetId));
+
+  @JsonKey(ignore: true)
+  @override
+  _$$_WorksheetMovedEventArgsCopyWith<_$_WorksheetMovedEventArgs>
+      get copyWith =>
+          __$$_WorksheetMovedEventArgsCopyWithImpl<_$_WorksheetMovedEventArgs>(
+              this, _$identity);
+
+  @override
+  Map<String, dynamic> toJson() {
+    return _$$_WorksheetMovedEventArgsToJson(this);
+  }
+}
+
+abstract class _WorksheetMovedEventArgs extends WorksheetMovedEventArgs {
+  const factory _WorksheetMovedEventArgs(
+      {required final int positionAfter,
+      required final int positionBefore,
+      required final EventSource source,
+      required final EventType type,
+      required final String worksheetId}) = _$_WorksheetMovedEventArgs;
+  const _WorksheetMovedEventArgs._() : super._();
+
+  factory _WorksheetMovedEventArgs.fromJson(Map<String, dynamic> json) =
+      _$_WorksheetMovedEventArgs.fromJson;
+
+  @override
+
+  /// Gets the new position of the worksheet, after the move.
+  ///
+  /// @remarks
+  /// [Api set: ExcelApiOnline 1.1]
+  int get positionAfter => throw _privateConstructorUsedError;
+  @override
+
+  /// Gets the previous position of the worksheet, prior to the move.
+  ///
+  /// @remarks
+  /// [Api set: ExcelApiOnline 1.1]
+  int get positionBefore => throw _privateConstructorUsedError;
+  @override
+
+  /// The source of the event. It can be local or remote (through co-authoring).
+  ///
+  /// @remarks
+  /// [Api set: ExcelApiOnline 1.1]
+  EventSource get source => throw _privateConstructorUsedError;
+  @override
+
+  /// Gets the type of the event.
+  ///
+  /// @remarks
+  /// [Api set: ExcelApiOnline 1.1]
+  EventType get type => throw _privateConstructorUsedError;
+  @override
+
+  /// Gets the ID of the worksheet that was moved.
+  ///
+  /// @remarks
+  /// [Api set: ExcelApiOnline 1.1]
+  String get worksheetId => throw _privateConstructorUsedError;
+  @override
+  @JsonKey(ignore: true)
+  _$$_WorksheetMovedEventArgsCopyWith<_$_WorksheetMovedEventArgs>
       get copyWith => throw _privateConstructorUsedError;
 }

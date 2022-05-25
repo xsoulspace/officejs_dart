@@ -11,6 +11,14 @@ and the Flutter guide for
 [developing packages and plugins](https://flutter.dev/developing-packages).
 -->
 
+<p align="center">
+  <a title="License" href="https://github.com/xsoulspace/officejs_dart/blob/master/LICENSE" ><img src="https://img.shields.io/github/license/xsoulspace/officejs_dart.svg" /></a>
+  <a title="Discord" href="https://discord.com/invite/y54DpJwmAn" ><img src="https://img.shields.io/discord/696688204476055592.svg" /></a>
+  <a title="Contributor Covenant" href="https://github.com/xsoulspace/officejs_dart/blob/master/CODE_OF_CONDUCT.md" ><img src="https://img.shields.io/badge/Contributor%20Covenant-v2.0%20adopted-ff69b4.svg" /></a>
+  <a title="Contributors" href="https://github.com/xsoulspace/officejs_dart/graphs/contributors" ><img src="https://img.shields.io/github/contributors/xsoulspace/officejs_dart.svg" /></a>
+  <a href="https://patreon.com/arenukvern"><img src="https://img.shields.io/endpoint.svg?url=https%3A%2F%2Fshieldsio-patreon.vercel.app%2Fapi%3Fusername%3Darenukvern%26type%3Dpatrons&style=flat" alt="Support me on Patreon" /></a>
+</p>
+
 Unofficial Office.js (https://github.com/OfficeDev/office-js) wrapper for Flutter/Dart
 
 Please note: the package is a Work In Progress and in highly risk of change.
@@ -27,12 +35,6 @@ That's all you need to do)
 
 ```javascript
 window.addEventListener("load", function (ev) {
-  class OfficeHelpers {
-    constructor(runExcel, officeOnReady) {
-      this.officeOnReady = officeOnReady;
-      this.runExcel = runExcel;
-    }
-  }
   // Download main.dart.js
   _flutter.loader
     .loadEntrypoint({
@@ -58,9 +60,12 @@ window.addEventListener("load", function (ev) {
       scriptTag.id = "office";
       scriptTag.addEventListener("load", () => {
         console.log("office loaded");
-
-        window["getOfficeHelpers"] = () =>
-          new OfficeHelpers(Excel.run, Office.onReady);
+        class OfficeHelpers {
+          officeOnReady = Office.onReady;
+          // may cause an error Excel is not defined
+          runExcel = Excel.run;
+        }
+        window["getOfficeHelpers"] = () => new OfficeHelpers();
         console.log("helpers injected");
       });
       document.getElementsByTagName("head")[0].appendChild(scriptTag);

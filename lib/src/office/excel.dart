@@ -120,6 +120,12 @@ class WorksheetCollection
   Worksheet getItem(final String key) =>
       Worksheet.getInstance(jsObject.getItem(key));
 
+  office_extension.EventHandlers<WorksheetMovedEventArgs> get onMoved =>
+      office_extension.EventHandlers.getInstance(
+        jsObject.onMoved,
+        WorksheetMovedEventArgs.fromJson,
+      );
+
   office_extension.EventHandlers<WorksheetActivatedEventArgs> get onActivated =>
       office_extension.EventHandlers.getInstance(
         jsObject.onActivated,

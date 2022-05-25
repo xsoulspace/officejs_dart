@@ -30,15 +30,15 @@ class WorksheetDeletedEventArgs with _$WorksheetDeletedEventArgs {
     ///
     /// [Api set: ExcelApi 1.7]
     required final String worksheetId,
+
+    /// Gets the type of the event. See `Excel.EventType` for details.
+    ///
+    /// [Api set: ExcelApi 1.7]
+    required final EventType type,
   }) = _WorksheetDeletedEventArgs;
   const WorksheetDeletedEventArgs._();
   factory WorksheetDeletedEventArgs.fromJson(final Map<String, dynamic> json) =>
       _$WorksheetDeletedEventArgsFromJson(json);
-
-  /// Gets the type of the event. See `Excel.EventType` for details.
-  ///
-  /// [Api set: ExcelApi 1.7]
-  EventType get type => EventType.worksheetDeleted;
 }
 
 /// Provides information about the worksheet that raised the added event.
@@ -66,15 +66,15 @@ class WorksheetAddedEventArgs with _$WorksheetAddedEventArgs {
     ///
     /// [Api set: ExcelApi 1.7]
     required final String worksheetId,
+
+    /// Gets the type of the event. See `Excel.EventType` for details.
+    ///
+    /// [Api set: ExcelApi 1.7]
+    required final EventType type,
   }) = _WorksheetAddedEventArgs;
   const WorksheetAddedEventArgs._();
   factory WorksheetAddedEventArgs.fromJson(final Map<String, dynamic> json) =>
       _$WorksheetAddedEventArgsFromJson(json);
-
-  /// Gets the type of the event. See `Excel.EventType` for details.
-  ///
-  /// [Api set: ExcelApi 1.7]
-  EventType get type => EventType.worksheetAdded;
 }
 
 /// Provides information about the worksheet that raised the activated event.
@@ -97,17 +97,17 @@ class WorksheetActivatedEventArgs with _$WorksheetActivatedEventArgs {
     ///
     /// [Api set: ExcelApi 1.7]
     required final String worksheetId,
+
+    /// Gets the ID of the worksheet that is activated.
+    ///
+    /// [Api set: ExcelApi 1.7]
+    required final EventType type,
   }) = _WorksheetActivatedEventArgs;
   const WorksheetActivatedEventArgs._();
   factory WorksheetActivatedEventArgs.fromJson(
     final Map<String, dynamic> json,
   ) =>
       _$WorksheetActivatedEventArgsFromJson(json);
-
-  /// Gets the ID of the worksheet that is activated.
-  ///
-  /// [Api set: ExcelApi 1.7]
-  EventType get type => EventType.worksheetActivated;
 }
 
 /// Provides information about the worksheet that raised the changed event.
@@ -150,17 +150,17 @@ class WorksheetChangedEventArgs with _$WorksheetChangedEventArgs {
     ///
     /// [Api set: ExcelApi 1.7]
     required final String worksheetId,
+
+    /// Gets the ID of the worksheet that is activated.
+    ///
+    /// [Api set: ExcelApi 1.7]
+    required final EventType type,
   }) = _WorksheetChangedEventArgs;
   const WorksheetChangedEventArgs._();
   factory WorksheetChangedEventArgs.fromJson(
     final Map<String, dynamic> json,
   ) =>
       _$WorksheetChangedEventArgsFromJson(json);
-
-  /// Gets the ID of the worksheet that is activated.
-  ///
-  /// [Api set: ExcelApi 1.7]
-  EventType get type => EventType.worksheetChanged;
 }
 
 /// Provides information about the worksheet whose name has changed.
@@ -212,4 +212,57 @@ class WorksheetNameChangedEventArgs with _$WorksheetNameChangedEventArgs {
     final Map<String, dynamic> json,
   ) =>
       _$WorksheetNameChangedEventArgsFromJson(json);
+}
+
+/// Provides information about the worksheet that raised the changed event.
+///
+/// [Api set: ExcelApi 1.7]
+@immutable
+@Freezed(
+  fromJson: true,
+  toJson: true,
+  equal: true,
+  addImplicitFinal: true,
+  copyWith: true,
+)
+class WorksheetMovedEventArgs with _$WorksheetMovedEventArgs {
+  @JsonSerializable(
+    explicitToJson: true,
+  )
+  const factory WorksheetMovedEventArgs({
+    /// Gets the new position of the worksheet, after the move.
+    ///
+    /// @remarks
+    /// [Api set: ExcelApiOnline 1.1]
+    required final int positionAfter,
+
+    /// Gets the previous position of the worksheet, prior to the move.
+    ///
+    /// @remarks
+    /// [Api set: ExcelApiOnline 1.1]
+    required final int positionBefore,
+
+    /// The source of the event. It can be local or remote (through co-authoring).
+    ///
+    /// @remarks
+    /// [Api set: ExcelApiOnline 1.1]
+    required final EventSource source,
+
+    /// Gets the type of the event.
+    ///
+    /// @remarks
+    /// [Api set: ExcelApiOnline 1.1]
+    required final EventType type,
+
+    /// Gets the ID of the worksheet that was moved.
+    ///
+    /// @remarks
+    /// [Api set: ExcelApiOnline 1.1]
+    required final String worksheetId,
+  }) = _WorksheetMovedEventArgs;
+  const WorksheetMovedEventArgs._();
+  factory WorksheetMovedEventArgs.fromJson(
+    final Map<String, dynamic> json,
+  ) =>
+      _$WorksheetMovedEventArgsFromJson(json);
 }

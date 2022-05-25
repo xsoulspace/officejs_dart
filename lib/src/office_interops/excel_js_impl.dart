@@ -111,6 +111,15 @@ abstract class WorksheetCollectionJsImpl {
   /// To get proper type convert to [WorksheetNameChangedEventArgs]
   external office_extension_js.EventHandlersJsImpl get onNameChanged;
 
+  /// Occurs when a worksheet is moved within a workbook. This event only triggers when a worksheet is directly moved within a workbook. This event doesn't trigger when the position of a worksheet is indirectly changed, such as when a new worksheet is inserted and causes existing worksheets to change positions.
+  ///
+  /// @remarks
+  /// [Api set: ExcelApiOnline 1.1]
+  ///
+  /// @eventproperty
+  /// To get proper type convert to [WorksheetMovedEventArgs]
+  external office_extension_js.EventHandlersJsImpl get onMoved;
+
   /// Gets a worksheet object using its name or ID.
   ///
   /// Api set: ExcelApi 1.1
