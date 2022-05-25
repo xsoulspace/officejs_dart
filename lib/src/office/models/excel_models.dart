@@ -1,6 +1,6 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
 
-import '../../office_interops/excel_js_impl.dart';
+import 'excel_typedefs.dart';
 
 part 'excel_models.freezed.dart';
 part 'excel_models.g.dart';
