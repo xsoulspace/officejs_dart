@@ -148,7 +148,7 @@ class WorksheetCollection
       );
   office_extension.EventHandlers<WorksheetNameChangedEventArgs>
       get onNameChanged => office_extension.EventHandlers.getInstance(
-            jsObject.onChanged,
+            jsObject.onNameChanged,
             WorksheetNameChangedEventArgs.fromJson,
           );
   Worksheet getActiveWorksheet() =>
