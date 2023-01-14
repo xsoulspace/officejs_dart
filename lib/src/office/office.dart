@@ -2,7 +2,7 @@ import 'package:js/js.dart';
 
 import '../js_interops/es6_js_impl.dart' as js;
 import '../js_interops/office_helpers_js_impl.dart';
-import '../utils/interpop_utils.dart';
+import '../utils/interop_utils.dart';
 import 'models/office_models.dart';
 
 class Office {

@@ -6,7 +6,7 @@ import '../abstract/js_object_wrapper.dart';
 import '../js_interops/es6_js_impl.dart' as js;
 import '../office_interops/office_extension_js_impl.dart'
     as office_extension_js;
-import '../utils/interpop_utils.dart';
+import '../utils/interop_utils.dart';
 
 class ClientRequestContext
     extends JsObjectWrapper<office_extension_js.ClientRequestContextJsImpl> {

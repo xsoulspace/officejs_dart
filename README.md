@@ -16,7 +16,6 @@ and the Flutter guide for
   <a title="Discord" href="https://discord.com/invite/y54DpJwmAn" ><img src="https://img.shields.io/discord/696688204476055592.svg" /></a>
   <a title="Contributor Covenant" href="https://github.com/xsoulspace/officejs_dart/blob/master/CODE_OF_CONDUCT.md" ><img src="https://img.shields.io/badge/Contributor%20Covenant-v2.0%20adopted-ff69b4.svg" /></a>
   <a title="Contributors" href="https://github.com/xsoulspace/officejs_dart/graphs/contributors" ><img src="https://img.shields.io/github/contributors/xsoulspace/officejs_dart.svg" /></a>
-  <a href="https://patreon.com/arenukvern"><img src="https://img.shields.io/endpoint.svg?url=https%3A%2F%2Fshieldsio-patreon.vercel.app%2Fapi%3Fusername%3Darenukvern%26type%3Dpatrons&style=flat" alt="Support me on Patreon" /></a>
 </p>
 
 Unofficial Office.js (https://github.com/OfficeDev/office-js) wrapper for Flutter/Dart
@@ -72,6 +71,16 @@ window.addEventListener("load", function (ev) {
     });
 });
 ```
+
+## Donations / Sponsor
+
+Please sponsor or donate to the creator on [Boosty](https://boosty.to/arenukvern) or [CloudTips](https://pay.cloudtips.ru/p/1629cd27).
+
+Thank you for your support and have a great day! 🌄
+
+## Getting Help
+
+If you need help getting started or have questions, check out our [Discord Community](https://discord.gg/y54DpJwmAn).
 
 ## Usage
 

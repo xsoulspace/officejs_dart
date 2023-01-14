@@ -7,7 +7,7 @@ import '../abstract/js_object_wrapper.dart';
 import '../js_interops/es6_js_impl.dart' as js;
 import '../js_interops/office_helpers_js_impl.dart';
 import '../office_interops/excel_js_impl.dart' as excel_js;
-import '../utils/interpop_utils.dart';
+import '../utils/interop_utils.dart';
 import 'models/excel_models.dart';
 
 class Excel {
@@ -159,7 +159,7 @@ class WorksheetCollection
 }
 
 class Worksheet extends JsObjectWrapper<excel_js.WorksheetJsImpl> {
-  Worksheet._fromJsObject(final super.jsObject);
+  Worksheet._fromJsObject(super.jsObject);
 
   /// Creates a [Worksheet] from a [jsObject].
   ///
