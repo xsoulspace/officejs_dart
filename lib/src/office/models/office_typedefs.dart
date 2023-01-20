@@ -64,3 +64,18 @@ enum PlatformType {
   @JsonValue('Universal')
   universal
 }
+
+/// Specifies an item's type.
+///
+/// @remarks
+///
+/// **{@link https://learn.microsoft.com/office/dev/add-ins/outlook/outlook-add-ins-overview#extension-points | Applicable Outlook mode}**: Compose or Read
+enum ItemType {
+  /// An email, meeting request, meeting response, or meeting cancellation.
+  @JsonValue('message')
+  message,
+
+  /// An appointment item.
+  @JsonValue('appointment')
+  appointment
+}

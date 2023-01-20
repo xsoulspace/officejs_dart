@@ -27,7 +27,7 @@ Do not use it in production.
 
 <!-- TODO: List what your package can do. Maybe include images, gifs, or videos. -->
 
-## Getting started
+## Getting started with Excel
 
 To start, add in the index.html "Initialize office" `then` section.
 That's all you need to do)
@@ -63,6 +63,50 @@ window.addEventListener("load", function (ev) {
           officeOnReady = Office.onReady;
           // may cause an error Excel is not defined
           runExcel = Excel.run;
+        }
+        window["getOfficeHelpers"] = () => new OfficeHelpers();
+        console.log("helpers injected");
+      });
+      document.getElementsByTagName("head")[0].appendChild(scriptTag);
+    });
+});
+```
+
+## Getting started with Outlook
+
+To start, add in the index.html "Initialize office" `then` section.
+That's all you need to do)
+
+```javascript
+window.addEventListener("load", function (ev) {
+  // Download main.dart.js
+  _flutter.loader
+    .loadEntrypoint({
+      serviceWorker: {
+        serviceWorkerVersion: serviceWorkerVersion,
+      },
+    })
+    .then(function (engineInitializer) {
+      return engineInitializer.initializeEngine();
+    })
+    .then(function (appRunner) {
+      return appRunner.runApp();
+    })
+    /** Initialize office **/
+    .then(function () {
+      console.log("intializing office");
+      const officeEl = document.getElementById("office");
+      if (officeEl != null) return;
+
+      const scriptTag = document.createElement("script");
+      scriptTag.src =
+        "https://appsforoffice.microsoft.com/lib/1/hosted/office.js";
+      scriptTag.id = "office";
+      scriptTag.addEventListener("load", () => {
+        console.log("office loaded");
+        class OfficeHelpers {
+          officeOnReady = Office.onReady;
+          context = Office.context;
         }
         window["getOfficeHelpers"] = () => new OfficeHelpers();
         console.log("helpers injected");

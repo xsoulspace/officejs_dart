@@ -4,6 +4,7 @@ library excel.init;
 import 'package:js/js.dart';
 
 import '../office_interops/excel_js_impl.dart' as excel_js;
+import '../office_interops/office_js_impl.dart' as office_js;
 import 'es6_js_impl.dart';
 
 @JS('getOfficeHelpers')
@@ -21,6 +22,8 @@ abstract class OfficeHelpersJsImpl {
   /// Since the Office add-in and the Excel application run in
   /// two different processes, the RequestContext is required to get access
   /// to the Excel object model from the add-in.
+  ///
+  /// Use this method only when you work with Excel
   @JS('runExcel')
   external PromiseJsImpl<excel_js.RequestContextJsImpl> runExcel(
     final PromiseJsImpl<excel_js.RequestContextJsImpl> Function(
@@ -53,4 +56,8 @@ abstract class OfficeHelpersJsImpl {
   external PromiseJsImpl<dynamic> officeOnReady(
     final dynamic Function() callback,
   );
+
+  /// Use this method only when you work with Outlook
+  @JS('context')
+  external office_js.ContextJsImpl get context;
 }
