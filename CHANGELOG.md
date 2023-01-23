@@ -1,3 +1,7 @@
+## 0.3.1
+
+- added name property for Excel Workbook
+
 ## 0.3.0
 
 - added basic outlook context with mailbox.

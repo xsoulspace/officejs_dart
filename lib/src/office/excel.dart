@@ -86,6 +86,8 @@ class Workbook extends JsObjectWrapper<excel_js.WorkbookJsImpl> {
   WorksheetCollection get worksheets =>
       WorksheetCollection.getInstance(jsObject.worksheets);
 
+  String get name => jsObject.name;
+
   Worksheet load(final List<String> propertyNames) =>
       Worksheet.getInstance(jsObject.load(propertyNames));
 }

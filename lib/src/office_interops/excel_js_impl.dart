@@ -3,7 +3,6 @@
 @JS('Excel')
 library excel_js;
 
-import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:js/js.dart';
 
 import 'office_core_js_impl.dart' as office_core_js;
@@ -29,6 +28,12 @@ abstract class WorkbookJsImpl {
   ///
   /// Api set: ExcelApi 1.1
   external WorksheetCollectionJsImpl get worksheets;
+
+  /// Gets the workbook name.
+  ///
+  /// @remarks
+  /// Api set: ExcelApi 1.7
+  external String get name;
 
   /// Queues up a command to load the specified properties of the object.
   /// You must call `context.sync()` before reading the properties.
