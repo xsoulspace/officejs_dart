@@ -23,9 +23,10 @@ abstract class RequestContextJsImpl
 }
 
 @JS('Workbook')
-abstract class WorkbookJsImpl {
+abstract class WorkbookJsImpl extends office_extension_js.ClientObjectJsImpl {
   /// The request context associated with the object. This connects
   /// the add-in's process to the Office host application's process. */
+  @override
   external RequestContextJsImpl get context;
 
   /// Represents a collection of worksheets associated with the workbook.
@@ -49,9 +50,11 @@ abstract class WorkbookJsImpl {
 }
 
 @JS('WorksheetCollection')
-abstract class WorksheetCollectionJsImpl {
+abstract class WorksheetCollectionJsImpl
+    extends office_extension_js.ClientObjectJsImpl {
   /// The request context associated with the object. This connects
   /// the add-in's process to the Office host application's process. */
+  @override
   external RequestContextJsImpl get context;
 
   /// Gets the loaded child items in this collection. */
@@ -120,7 +123,12 @@ abstract class WorksheetCollectionJsImpl {
   /// To get proper type convert to [WorksheetNameChangedEventArgs]
   external office_extension_js.EventHandlersJsImpl get onNameChanged;
 
-  /// Occurs when a worksheet is moved within a workbook. This event only triggers when a worksheet is directly moved within a workbook. This event doesn't trigger when the position of a worksheet is indirectly changed, such as when a new worksheet is inserted and causes existing worksheets to change positions.
+  /// Occurs when a worksheet is moved within a workbook.
+  /// This event only triggers when a worksheet is directly
+  /// moved within a workbook. This event doesn't trigger when
+  ///  the position of a worksheet is indirectly changed, such
+  /// as when a new worksheet is inserted and causes existing
+  /// worksheets to change positions.
   ///
   /// @remarks
   /// [Api set: ExcelApiOnline 1.1]
@@ -151,9 +159,10 @@ abstract class WorksheetCollectionJsImpl {
 }
 
 @JS('Worksheet')
-abstract class WorksheetJsImpl {
+abstract class WorksheetJsImpl extends office_extension_js.ClientObjectJsImpl {
   /// The request context associated with the object. This connects
   /// the add-in's process to the Office host application's process. */
+  @override
   external RequestContextJsImpl get context;
 
   /// The display name of the worksheet.
@@ -229,9 +238,10 @@ abstract class WorksheetJsImpl {
 /// [Api set: ExcelApi 1.1]
 ///
 @JS('Range')
-abstract class RangeJsImpl {
+abstract class RangeJsImpl extends office_extension_js.ClientObjectJsImpl {
   /// The request context associated with the object. This connects
   /// the add-in's process to the Office host application's process. */
+  @override
   external RequestContextJsImpl get context;
 
   /// Returns the used range of the given range object.
@@ -244,6 +254,32 @@ abstract class RangeJsImpl {
   /// @param valuesOnly Considers only cells with values as used cells.
   /// [Api set: ExcelApi 1.2]
   external RangeJsImpl getUsedRange([final bool? valuesOnly]);
+
+  /// Returns a `Range` object that represents the surrounding region
+  /// for the top-left cell in this range. A surrounding region is
+  /// a range bounded by any combination of blank rows and
+  /// blank columns relative to this range.
+  ///
+  /// @remarks
+  /// [Api set: ExcelApi 1.7]
+  external RangeJsImpl getSurroundingRegion();
+
+  /// Gets the `Range` object beginning at a particular row index and
+  /// column index, and spanning a certain number of rows and columns.
+  ///
+  /// @remarks
+  /// [Api set: ExcelApi 1.7]
+  ///
+  /// @param startRow Start row (zero-indexed).
+  /// @param startColumn Start column (zero-indexed).
+  /// @param rowCount Number of rows to include in the range.
+  /// @param columnCount Number of columns to include in the range.
+  external RangeJsImpl getRangeByIndexes(
+    final int startRow,
+    final int startColumn,
+    final int rowCount,
+    final int columnCount,
+  );
 
   /// Gets a row contained in the range.
   ///
@@ -279,4 +315,65 @@ abstract class RangeJsImpl {
   /// [Api set: ExcelApi 1.1]
   external List<List<dynamic>> get values;
   external set values(final List<List<dynamic>> values);
+
+  /// Returns the total number of rows in the range.
+  ///
+  /// @remarks
+  /// [Api set: ExcelApi 1.1]
+  external int get rowCount;
+
+  /// Returns the row number of the first cell in the range. Zero-indexed.
+  ///
+  /// @remarks
+  /// [Api set: ExcelApi 1.1]
+  external int get rowIndex;
+
+  /// Specifies the total number of columns in the range.
+  ///
+  /// @remarks
+  /// [Api set: ExcelApi 1.1]
+  external int get columnCount;
+
+  /// Specifies the column number of the first cell in the range. Zero-indexed.
+  ///
+  /// @remarks
+  /// [Api set: ExcelApi 1.1]
+  external int get columnIndex;
+
+  /// Represents Excel's number format code for the given range.
+  ///
+  /// @remarks
+  /// [Api set: ExcelApi 1.1]
+  external List<List<dynamic>> get numberFormat;
+  external set numberFormat(final List<List<dynamic>> value);
+
+  /// Returns a format object, encapsulating the range's font,
+  /// fill, borders, alignment, and other properties.
+  ///
+  /// @remarks
+  /// [Api set: ExcelApi 1.1]
+  external RangeFormatJsImpl get format;
+}
+
+/// A format object encapsulating the range's font, fill, borders,
+/// alignment, and other properties.
+///
+/// @remarks
+/// [Api set: ExcelApi 1.1]
+@JS('RangeFormat')
+abstract class RangeFormatJsImpl
+    extends office_extension_js.ClientObjectJsImpl {
+  /// The request context associated with the object. This connects
+  /// the add-in's process to the Office host application's process. */
+  @override
+  external RequestContextJsImpl get context;
+
+  /// Specifies if Excel wraps the text in the object.
+  /// A `null` value indicates that the entire range
+  /// doesn't have a uniform wrap setting
+  ///
+  /// @remarks
+  /// [Api set: ExcelApi 1.1]
+  external bool get wrapText;
+  external set wrapText(final bool value);
 }

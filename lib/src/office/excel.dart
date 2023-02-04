@@ -221,6 +221,24 @@ class Range extends JsObjectWrapper<excel_js.RangeJsImpl> {
   Range getUsedRange({final bool? valuesOnly}) =>
       Range._fromJsObject(jsObject.getUsedRange(valuesOnly));
 
+  Range getSurroundingRegion() =>
+      Range._fromJsObject(jsObject.getSurroundingRegion());
+
+  Range getRangeByIndexes({
+    required final int startRow,
+    required final int startColumn,
+    required final int rowCount,
+    required final int columnCount,
+  }) {
+    final jsRange = jsObject.getRangeByIndexes(
+      startRow,
+      startColumn,
+      rowCount,
+      columnCount,
+    );
+    return Range._fromJsObject(jsRange);
+  }
+
   Range getRow(final int row) => Range._fromJsObject(jsObject.getRow(row));
 
   Range getColumn(final int column) =>
@@ -231,4 +249,33 @@ class Range extends JsObjectWrapper<excel_js.RangeJsImpl> {
 
   Range load(final List<String> propertyNames) =>
       Range.getInstance(jsObject.load(propertyNames));
+
+  int get rowCount => jsObject.rowCount;
+  int get rowIndex => jsObject.rowIndex;
+  int get columnCount => jsObject.columnCount;
+  int get columnIndex => jsObject.columnIndex;
+
+  List<List<dynamic>> get numberFormat => jsObject.values;
+  set numberFormat(final List<List<dynamic>> values) =>
+      jsObject.values = values;
+
+  List<List<dynamic>> get format => jsObject.values;
+}
+
+class RangeFormat extends JsObjectWrapper<excel_js.RangeFormatJsImpl> {
+  RangeFormat._fromJsObject(super.jsObject);
+
+  /// Creates a [RangeFormat] from a [jsObject].
+  ///
+  /// {@macro expando_explanation}
+  factory RangeFormat.getInstance(
+    final excel_js.RangeFormatJsImpl jsObject,
+  ) {
+    return _expando[jsObject] ??= RangeFormat._fromJsObject(jsObject);
+  }
+  static final _expando = Expando<RangeFormat>();
+  RequestContext get context => RequestContext.getInstance(jsObject.context);
+
+  bool get wrapText => jsObject.wrapText;
+  set wrapText(final bool value) => jsObject.wrapText = value;
 }
