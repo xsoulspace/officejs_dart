@@ -223,6 +223,9 @@ class Range extends JsObjectWrapper<excel_js.RangeJsImpl> {
 
   Range getRow(final int row) => Range._fromJsObject(jsObject.getRow(row));
 
+  Range getColumn(final int column) =>
+      Range._fromJsObject(jsObject.getColumn(column));
+
   List<List<dynamic>> get values => jsObject.values;
   set values(final List<List<dynamic>> values) => jsObject.values = values;
 

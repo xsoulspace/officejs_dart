@@ -253,6 +253,14 @@ abstract class RangeJsImpl {
   /// @param row Row number of the range to be retrieved. Zero-indexed.
   external RangeJsImpl getRow(final int row);
 
+  /// Gets a column contained in the range.
+  ///
+  /// @remarks
+  /// [Api set: ExcelApi 1.1]
+  ///
+  /// @param column Column number of the range to be retrieved. Zero-indexed.
+  external RangeJsImpl getColumn(final int column);
+
   /// Queues up a command to load the specified properties of the object.
   /// You must call `context.sync()` before reading the properties.
   ///
