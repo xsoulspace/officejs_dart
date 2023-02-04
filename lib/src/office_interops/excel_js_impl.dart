@@ -207,4 +207,68 @@ abstract class WorksheetJsImpl {
   ///
   /// Api set: ExcelApi 1.1
   external void activate();
+
+  /// Gets the `Range` object containing the single cell based on row and
+  /// column numbers. The cell can be outside the bounds of its parent range,
+  /// so long as it stays within the worksheet grid.
+  ///
+  /// @remarks
+  /// [Api set: ExcelApi 1.1]
+  ///
+  /// @param row The row number of the cell to be retrieved. Zero-indexed.
+  /// @param column The column number of the cell to be retrieved. Zero-indexed.
+  external RangeJsImpl getCell(final int row, final int column);
+}
+
+/// Range represents a set of one or more contiguous cells such as a cell,
+///  a row, a column, or a block of cells.
+/// To learn more about how ranges are used throughout the API,
+/// start with {@link https://docs.microsoft.com/office/dev/add-ins/excel/excel-add-ins-core-concepts#ranges | Ranges in the Excel JavaScript API}.
+///
+/// @remarks
+/// [Api set: ExcelApi 1.1]
+///
+@JS('Range')
+abstract class RangeJsImpl {
+  /// The request context associated with the object. This connects
+  /// the add-in's process to the Office host application's process. */
+  external RequestContextJsImpl get context;
+
+  /// Returns the used range of the given range object.
+  /// If there are no used cells within the range, this function
+  /// will throw an `ItemNotFound` error.
+  ///
+  /// @remarks
+  /// [Api set: ExcelApi 1.1]
+  ///
+  /// @param valuesOnly Considers only cells with values as used cells.
+  /// [Api set: ExcelApi 1.2]
+  external RangeJsImpl getUsedRange([final bool? valuesOnly]);
+
+  /// Gets a row contained in the range.
+  ///
+  /// @remarks
+  /// [Api set: ExcelApi 1.1]
+  ///
+  /// @param row Row number of the range to be retrieved. Zero-indexed.
+  external RangeJsImpl getRow(final int row);
+
+  /// Queues up a command to load the specified properties of the object.
+  /// You must call `context.sync()` before reading the properties.
+  ///
+  /// @param propertyNames A comma-delimited string or an array of strings
+  /// that specify the properties to load.
+  external RangeJsImpl load(final List<String> propertyNames);
+
+  /// Represents the raw values of the specified range.
+  /// The data returned could be a string, number, or boolean.
+  /// Cells that contain an error will return the error string.
+  ///
+  /// If the returned value starts with a plus ("+"), minus ("-"),
+  /// or equal sign ("="), Excel interprets this value as a formula.
+  ///
+  /// @remarks
+  /// [Api set: ExcelApi 1.1]
+  external List<List<dynamic>> get values;
+  external set values(final List<List<dynamic>> values);
 }

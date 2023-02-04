@@ -192,7 +192,40 @@ class Worksheet extends JsObjectWrapper<excel_js.WorksheetJsImpl> {
   String? get tabColor => jsObject.tabColor;
   set tabColor(final String? value) => jsObject.tabColor = value;
 
+  Range getCell({
+    required final int row,
+    required final int column,
+  }) =>
+      Range._fromJsObject(jsObject.getCell(row, column));
+
   Worksheet load(final List<String> propertyNames) =>
       Worksheet.getInstance(jsObject.load(propertyNames));
+
   void activate() => jsObject.activate();
+}
+
+class Range extends JsObjectWrapper<excel_js.RangeJsImpl> {
+  Range._fromJsObject(super.jsObject);
+
+  /// Creates a [Range] from a [jsObject].
+  ///
+  /// {@macro expando_explanation}
+  factory Range.getInstance(
+    final excel_js.RangeJsImpl jsObject,
+  ) {
+    return _expando[jsObject] ??= Range._fromJsObject(jsObject);
+  }
+  static final _expando = Expando<Range>();
+  RequestContext get context => RequestContext.getInstance(jsObject.context);
+
+  Range getUsedRange({final bool? valuesOnly}) =>
+      Range._fromJsObject(jsObject.getUsedRange(valuesOnly));
+
+  Range getRow(final int row) => Range._fromJsObject(jsObject.getRow(row));
+
+  List<List<dynamic>> get values => jsObject.values;
+  set values(final List<List<dynamic>> values) => jsObject.values = values;
+
+  Range load(final List<String> propertyNames) =>
+      Range.getInstance(jsObject.load(propertyNames));
 }

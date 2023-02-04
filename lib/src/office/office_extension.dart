@@ -164,9 +164,8 @@ class TrackedObjects
   ) {
     return TrackedObjects._fromJsObject(jsObject);
   }
-  void add(final ClientObject object) => super.jsObject.add(object.jsObject);
-  void remove(final ClientObject object) =>
-      super.jsObject.remove(object.jsObject);
+  void add(final ClientObject object) => jsObject.add(object.jsObject);
+  void remove(final ClientObject object) => jsObject.remove(object.jsObject);
 }
 
 class EventHandlerResult<T>
@@ -185,5 +184,5 @@ class EventHandlerResult<T>
   /// The request context associated with the object
   ClientRequestContext get context =>
       ClientRequestContext.getInstance(jsObject.context);
-  void remove() => super.jsObject.remove();
+  void remove() => jsObject.remove();
 }
