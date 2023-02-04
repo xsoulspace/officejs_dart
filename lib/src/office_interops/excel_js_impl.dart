@@ -227,6 +227,23 @@ abstract class WorksheetJsImpl extends office_extension_js.ClientObjectJsImpl {
   /// @param row The row number of the cell to be retrieved. Zero-indexed.
   /// @param column The column number of the cell to be retrieved. Zero-indexed.
   external RangeJsImpl getCell(final int row, final int column);
+
+  /// Gets the `Range` object beginning at a particular row index and
+  /// column index, and spanning a certain number of rows and columns.
+  ///
+  /// @remarks
+  /// [Api set: ExcelApi 1.7]
+  ///
+  /// @param startRow Start row (zero-indexed).
+  /// @param startColumn Start column (zero-indexed).
+  /// @param rowCount Number of rows to include in the range.
+  /// @param columnCount Number of columns to include in the range.
+  external RangeJsImpl getRangeByIndexes(
+    final int startRow,
+    final int startColumn,
+    final int rowCount,
+    final int columnCount,
+  );
 }
 
 /// Range represents a set of one or more contiguous cells such as a cell,

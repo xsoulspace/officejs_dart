@@ -198,6 +198,21 @@ class Worksheet extends JsObjectWrapper<excel_js.WorksheetJsImpl> {
   }) =>
       Range._fromJsObject(jsObject.getCell(row, column));
 
+  Range getRangeByIndexes({
+    required final int startRow,
+    required final int startColumn,
+    required final int rowCount,
+    required final int columnCount,
+  }) {
+    final jsRange = jsObject.getRangeByIndexes(
+      startRow,
+      startColumn,
+      rowCount,
+      columnCount,
+    );
+    return Range._fromJsObject(jsRange);
+  }
+
   Worksheet load(final List<String> propertyNames) =>
       Worksheet.getInstance(jsObject.load(propertyNames));
 
