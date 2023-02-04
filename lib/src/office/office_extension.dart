@@ -1,5 +1,6 @@
 library office_extension;
 
+// ignore: avoid_web_libraries_in_flutter
 import 'dart:js';
 
 import '../abstract/js_object_wrapper.dart';
@@ -149,6 +150,23 @@ class EventHandlers<T>
       [allowInterop(promiseCallback)],
     );
   }
+}
+
+class TrackedObjects
+    extends JsObjectWrapper<office_extension_js.TrackedObjectsJsImpl> {
+  TrackedObjects._fromJsObject(super.jsObject);
+
+  /// Creates a [ClientResult] from a [jsObject].
+  ///
+  /// {@macro expando_explanation}
+  factory TrackedObjects.getInstance(
+    final office_extension_js.TrackedObjectsJsImpl jsObject,
+  ) {
+    return TrackedObjects._fromJsObject(jsObject);
+  }
+  void add(final ClientObject object) => super.jsObject.add(object.jsObject);
+  void remove(final ClientObject object) =>
+      super.jsObject.remove(object.jsObject);
 }
 
 class EventHandlerResult<T>

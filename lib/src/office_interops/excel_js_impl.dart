@@ -16,6 +16,10 @@ import 'office_extension_js_impl.dart' as office_extension_js;
 abstract class RequestContextJsImpl
     extends office_core_js.RequestContextJsImpl {
   external WorkbookJsImpl get workbook;
+
+  /// Collection of objects that are tracked for automatic adjustments based
+  /// on surrounding changes in the document.
+  external office_extension_js.TrackedObjectsJsImpl get trackedObjects;
 }
 
 @JS('Workbook')

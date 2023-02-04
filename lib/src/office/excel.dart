@@ -62,6 +62,9 @@ class RequestContext extends JsObjectWrapper<excel_js.RequestContextJsImpl> {
 
   Workbook get workbook => Workbook.getInstance(jsObject.workbook);
 
+  office_extension.TrackedObjects get trackedObjects =>
+      office_extension.TrackedObjects.getInstance(jsObject.trackedObjects);
+
   Future<T> sync<T>([final T? passThroughValue]) {
     return handleThenable(jsObject.sync(passThroughValue));
   }
