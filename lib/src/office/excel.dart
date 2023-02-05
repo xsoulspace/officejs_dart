@@ -70,7 +70,7 @@ class RequestContext extends JsObjectWrapper<excel_js.RequestContextJsImpl> {
   }
 }
 
-class Workbook extends JsObjectWrapper<excel_js.WorkbookJsImpl> {
+class Workbook extends office_extension.ClientObject<excel_js.WorkbookJsImpl> {
   Workbook._fromJsObject(super.jsObject);
 
   /// Creates a [Workbook] from a [jsObject].
@@ -96,7 +96,7 @@ class Workbook extends JsObjectWrapper<excel_js.WorkbookJsImpl> {
 }
 
 class WorksheetCollection
-    extends JsObjectWrapper<excel_js.WorksheetCollectionJsImpl> {
+    extends office_extension.ClientObject<excel_js.WorksheetCollectionJsImpl> {
   WorksheetCollection._fromJsObject(super.jsObject);
 
   /// Creates a [WorksheetCollection] from a [jsObject].
@@ -163,7 +163,8 @@ class WorksheetCollection
   }
 }
 
-class Worksheet extends JsObjectWrapper<excel_js.WorksheetJsImpl> {
+class Worksheet
+    extends office_extension.ClientObject<excel_js.WorksheetJsImpl> {
   Worksheet._fromJsObject(super.jsObject);
 
   /// Creates a [Worksheet] from a [jsObject].
@@ -219,7 +220,7 @@ class Worksheet extends JsObjectWrapper<excel_js.WorksheetJsImpl> {
   void activate() => jsObject.activate();
 }
 
-class Range extends JsObjectWrapper<excel_js.RangeJsImpl> {
+class Range extends office_extension.ClientObject<excel_js.RangeJsImpl> {
   Range._fromJsObject(super.jsObject);
 
   /// Creates a [Range] from a [jsObject].
@@ -261,6 +262,7 @@ class Range extends JsObjectWrapper<excel_js.RangeJsImpl> {
 
   List<List<dynamic>> get values =>
       List.castFrom<dynamic, List<dynamic>>(jsObject.values);
+
   set values(final List<List<dynamic>> values) => jsObject.values = values;
 
   Range load(final List<String> propertyNames) =>
@@ -279,7 +281,8 @@ class Range extends JsObjectWrapper<excel_js.RangeJsImpl> {
   RangeFormat get format => RangeFormat._fromJsObject(jsObject.format);
 }
 
-class RangeFormat extends JsObjectWrapper<excel_js.RangeFormatJsImpl> {
+class RangeFormat
+    extends office_extension.ClientObject<excel_js.RangeFormatJsImpl> {
   RangeFormat._fromJsObject(super.jsObject);
 
   /// Creates a [RangeFormat] from a [jsObject].
@@ -291,6 +294,7 @@ class RangeFormat extends JsObjectWrapper<excel_js.RangeFormatJsImpl> {
     return _expando[jsObject] ??= RangeFormat._fromJsObject(jsObject);
   }
   static final _expando = Expando<RangeFormat>();
+
   RequestContext get context => RequestContext.getInstance(jsObject.context);
 
   bool get wrapText => jsObject.wrapText;

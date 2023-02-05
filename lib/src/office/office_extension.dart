@@ -35,22 +35,14 @@ class ClientRequestContext
   }
 }
 
-class ClientObject
-    extends JsObjectWrapper<office_extension_js.ClientObjectJsImpl> {
-  ClientObject._fromJsObject(super.jsObject);
+class ClientObject<
+        TJsClientObject extends office_extension_js.ClientObjectJsImpl>
+    extends JsObjectWrapper<TJsClientObject> {
+  ClientObject(super.jsObject);
+  ClientObject.fromJsObject(super.jsObject);
 
-  /// Creates a [ClientObject] from a [jsObject].
-  ///
-  /// {@macro expando_explanation}
-  factory ClientObject.getInstance(
-    final office_extension_js.ClientObjectJsImpl jsObject,
-  ) {
-    return _expando[jsObject] ??= ClientObject._fromJsObject(jsObject);
-  }
-  static final _expando = Expando<ClientObject>();
-
-  ClientRequestContext get context =>
-      ClientRequestContext.getInstance(jsObject.context);
+  // ClientRequestContext get context =>
+  //     ClientRequestContext.getInstance(jsObject.context);
 
   bool get isNullObject => jsObject.isNullObject;
 }
