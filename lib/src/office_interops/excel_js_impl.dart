@@ -306,6 +306,27 @@ abstract class RangeJsImpl extends office_extension_js.ClientObjectJsImpl {
   /// @param row Row number of the range to be retrieved. Zero-indexed.
   external RangeJsImpl getRow(final int row);
 
+  /// Gets the last cell within the range. For example,
+  /// the last cell of "B2:D5" is "D5".
+  ///
+  /// @remarks
+  /// [Api set: ExcelApi 1.1]
+  external RangeJsImpl getLastCell();
+
+  /// Gets the last column within the range. For example,
+  /// the last column of "B2:D5" is "D2:D5".
+  ///
+  /// @remarks
+  /// [Api set: ExcelApi 1.1]
+  external RangeJsImpl getLastColumn();
+
+  /// Gets the last row within the range. For example,
+  /// the last row of "B2:D5" is "B5:D5".
+  ///
+  /// @remarks
+  /// [Api set: ExcelApi 1.1]
+  external RangeJsImpl getLastRow();
+
   /// Gets a column contained in the range.
   ///
   /// @remarks

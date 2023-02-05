@@ -257,6 +257,10 @@ class Range extends office_extension.ClientObject<excel_js.RangeJsImpl> {
 
   Range getRow(final int row) => Range._fromJsObject(jsObject.getRow(row));
 
+  Range getLastRow() => Range._fromJsObject(jsObject.getLastRow());
+  Range getLastColumn() => Range._fromJsObject(jsObject.getLastColumn());
+  Range getLastCell() => Range._fromJsObject(jsObject.getLastCell());
+
   Range getColumn(final int column) =>
       Range._fromJsObject(jsObject.getColumn(column));
 
