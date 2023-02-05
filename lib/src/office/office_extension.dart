@@ -1,5 +1,6 @@
 library office_extension;
 
+// ignore: avoid_web_libraries_in_flutter
 import 'dart:js';
 
 import '../abstract/js_object_wrapper.dart';
@@ -34,22 +35,14 @@ class ClientRequestContext
   }
 }
 
-class ClientObject
-    extends JsObjectWrapper<office_extension_js.ClientObjectJsImpl> {
-  ClientObject._fromJsObject(super.jsObject);
+class ClientObject<
+        TJsClientObject extends office_extension_js.ClientObjectJsImpl>
+    extends JsObjectWrapper<TJsClientObject> {
+  ClientObject(super.jsObject);
+  ClientObject.fromJsObject(super.jsObject);
 
-  /// Creates a [ClientObject] from a [jsObject].
-  ///
-  /// {@macro expando_explanation}
-  factory ClientObject.getInstance(
-    final office_extension_js.ClientObjectJsImpl jsObject,
-  ) {
-    return _expando[jsObject] ??= ClientObject._fromJsObject(jsObject);
-  }
-  static final _expando = Expando<ClientObject>();
-
-  ClientRequestContext get context =>
-      ClientRequestContext.getInstance(jsObject.context);
+  // ClientRequestContext get context =>
+  //     ClientRequestContext.getInstance(jsObject.context);
 
   bool get isNullObject => jsObject.isNullObject;
 }
@@ -151,6 +144,22 @@ class EventHandlers<T>
   }
 }
 
+class TrackedObjects
+    extends JsObjectWrapper<office_extension_js.TrackedObjectsJsImpl> {
+  TrackedObjects._fromJsObject(super.jsObject);
+
+  /// Creates a [ClientResult] from a [jsObject].
+  ///
+  /// {@macro expando_explanation}
+  factory TrackedObjects.getInstance(
+    final office_extension_js.TrackedObjectsJsImpl jsObject,
+  ) {
+    return TrackedObjects._fromJsObject(jsObject);
+  }
+  void add(final ClientObject object) => jsObject.add(object.jsObject);
+  void remove(final ClientObject object) => jsObject.remove(object.jsObject);
+}
+
 class EventHandlerResult<T>
     extends JsObjectWrapper<office_extension_js.EventHandlerResultJsImpl> {
   EventHandlerResult._fromJsObject(super.jsObject);
@@ -167,5 +176,5 @@ class EventHandlerResult<T>
   /// The request context associated with the object
   ClientRequestContext get context =>
       ClientRequestContext.getInstance(jsObject.context);
-  void remove() => super.jsObject.remove();
+  void remove() => jsObject.remove();
 }

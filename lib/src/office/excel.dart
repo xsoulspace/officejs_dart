@@ -62,12 +62,15 @@ class RequestContext extends JsObjectWrapper<excel_js.RequestContextJsImpl> {
 
   Workbook get workbook => Workbook.getInstance(jsObject.workbook);
 
+  office_extension.TrackedObjects get trackedObjects =>
+      office_extension.TrackedObjects.getInstance(jsObject.trackedObjects);
+
   Future<T> sync<T>([final T? passThroughValue]) {
     return handleThenable(jsObject.sync(passThroughValue));
   }
 }
 
-class Workbook extends JsObjectWrapper<excel_js.WorkbookJsImpl> {
+class Workbook extends office_extension.ClientObject<excel_js.WorkbookJsImpl> {
   Workbook._fromJsObject(super.jsObject);
 
   /// Creates a [Workbook] from a [jsObject].
@@ -93,7 +96,7 @@ class Workbook extends JsObjectWrapper<excel_js.WorkbookJsImpl> {
 }
 
 class WorksheetCollection
-    extends JsObjectWrapper<excel_js.WorksheetCollectionJsImpl> {
+    extends office_extension.ClientObject<excel_js.WorksheetCollectionJsImpl> {
   WorksheetCollection._fromJsObject(super.jsObject);
 
   /// Creates a [WorksheetCollection] from a [jsObject].
@@ -160,7 +163,8 @@ class WorksheetCollection
   }
 }
 
-class Worksheet extends JsObjectWrapper<excel_js.WorksheetJsImpl> {
+class Worksheet
+    extends office_extension.ClientObject<excel_js.WorksheetJsImpl> {
   Worksheet._fromJsObject(super.jsObject);
 
   /// Creates a [Worksheet] from a [jsObject].
@@ -189,7 +193,114 @@ class Worksheet extends JsObjectWrapper<excel_js.WorksheetJsImpl> {
   String? get tabColor => jsObject.tabColor;
   set tabColor(final String? value) => jsObject.tabColor = value;
 
+  Range getCell({
+    required final int row,
+    required final int column,
+  }) =>
+      Range._fromJsObject(jsObject.getCell(row, column));
+
+  Range getRangeByIndexes({
+    required final int startRow,
+    required final int startColumn,
+    required final int rowCount,
+    required final int columnCount,
+  }) {
+    final jsRange = jsObject.getRangeByIndexes(
+      startRow,
+      startColumn,
+      rowCount,
+      columnCount,
+    );
+    return Range._fromJsObject(jsRange);
+  }
+
   Worksheet load(final List<String> propertyNames) =>
       Worksheet.getInstance(jsObject.load(propertyNames));
+
   void activate() => jsObject.activate();
+}
+
+class Range extends office_extension.ClientObject<excel_js.RangeJsImpl> {
+  Range._fromJsObject(super.jsObject);
+
+  /// Creates a [Range] from a [jsObject].
+  ///
+  /// {@macro expando_explanation}
+  factory Range.getInstance(
+    final excel_js.RangeJsImpl jsObject,
+  ) {
+    return _expando[jsObject] ??= Range._fromJsObject(jsObject);
+  }
+  static final _expando = Expando<Range>();
+  RequestContext get context => RequestContext.getInstance(jsObject.context);
+
+  Range getUsedRange({final bool? valuesOnly}) =>
+      Range._fromJsObject(jsObject.getUsedRange(valuesOnly));
+
+  Range getSurroundingRegion() =>
+      Range._fromJsObject(jsObject.getSurroundingRegion());
+
+  Range getRangeByIndexes({
+    required final int startRow,
+    required final int startColumn,
+    required final int rowCount,
+    required final int columnCount,
+  }) {
+    final jsRange = jsObject.getRangeByIndexes(
+      startRow,
+      startColumn,
+      rowCount,
+      columnCount,
+    );
+    return Range._fromJsObject(jsRange);
+  }
+
+  Range getRow(final int row) => Range._fromJsObject(jsObject.getRow(row));
+
+  Range getLastRow() => Range._fromJsObject(jsObject.getLastRow());
+  Range getLastColumn() => Range._fromJsObject(jsObject.getLastColumn());
+  Range getLastCell() => Range._fromJsObject(jsObject.getLastCell());
+
+  Range getColumn(final int column) =>
+      Range._fromJsObject(jsObject.getColumn(column));
+
+  List<List<dynamic>> get values =>
+      List.castFrom<dynamic, List<dynamic>>(jsObject.values);
+
+  set values(final List<List<dynamic>> values) => jsObject.values = values;
+
+  Range load(final List<String> propertyNames) =>
+      Range.getInstance(jsObject.load(propertyNames));
+
+  int get rowCount => jsObject.rowCount;
+  int get rowIndex => jsObject.rowIndex;
+  int get columnCount => jsObject.columnCount;
+  int get columnIndex => jsObject.columnIndex;
+
+  List<List<dynamic>> get numberFormat =>
+      List.castFrom<dynamic, List<dynamic>>(jsObject.values);
+  set numberFormat(final List<List<dynamic>> values) =>
+      jsObject.values = values;
+
+  RangeFormat get format => RangeFormat._fromJsObject(jsObject.format);
+}
+
+class RangeFormat
+    extends office_extension.ClientObject<excel_js.RangeFormatJsImpl> {
+  RangeFormat._fromJsObject(super.jsObject);
+
+  /// Creates a [RangeFormat] from a [jsObject].
+  ///
+  /// {@macro expando_explanation}
+  factory RangeFormat.getInstance(
+    final excel_js.RangeFormatJsImpl jsObject,
+  ) {
+    return _expando[jsObject] ??= RangeFormat._fromJsObject(jsObject);
+  }
+  static final _expando = Expando<RangeFormat>();
+
+  RequestContext get context => RequestContext.getInstance(jsObject.context);
+
+  bool get wrapText => jsObject.wrapText;
+  set wrapText(final bool value) => jsObject.wrapText = value;
 }
