@@ -1,3 +1,5 @@
+// ignore_for_file: invalid_annotation_target
+
 import 'package:freezed_annotation/freezed_annotation.dart';
 
 import 'excel_typedefs.dart';
@@ -126,16 +128,21 @@ class WorksheetChangedEventArgs with _$WorksheetChangedEventArgs {
     explicitToJson: true,
   )
   const factory WorksheetChangedEventArgs({
-    /// Gets the range address that represents the changed area of a specific worksheet.
+    /// Gets the range address that represents
+    /// the changed area of a specific worksheet.
     ///
     /// [Api set: ExcelApi 1.7]
     required final String address,
 
-    /// Gets the change type that represents how the changed event is triggered. See `Excel.DataChangeType` for details.
+    /// Gets the change type that represents how
+    /// the changed event is triggered. See `Excel.DataChangeType` for details.
     ///
     /// [Api set: ExcelApi 1.7]
     required final DataChangeType changeType,
-    // Represents the information about the change detail. This property can be retrieved when the changed event is triggered on a single cell. If the changed event is triggered on multiple cells, this property cannot be retrieved.
+    // Represents the information about the change
+    //detail. This property can be retrieved when the changed
+    //event is triggered on a single cell. If the changed event
+    //is triggered on multiple cells, this property cannot be retrieved.
     //
     // [Api set: ExcelApi 1.9]
     //
@@ -242,7 +249,8 @@ class WorksheetMovedEventArgs with _$WorksheetMovedEventArgs {
     /// [Api set: ExcelApiOnline 1.1]
     required final int positionBefore,
 
-    /// The source of the event. It can be local or remote (through co-authoring).
+    /// The source of the event. It can be local or remote
+    /// (through co-authoring).
     ///
     /// @remarks
     /// [Api set: ExcelApiOnline 1.1]

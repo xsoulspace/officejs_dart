@@ -39,7 +39,8 @@ abstract class ContextJsImpl {
 ///
 /// - `diagnostics`: Provides diagnostic information to an Outlook add-in.
 ///
-/// - `item`: Provides methods and properties for accessing a message or appointment in an Outlook add-in.
+/// - `item`: Provides methods and properties for accessing a message or
+///  appointment in an Outlook add-in.
 ///
 /// - `userProfile`: Provides information about the user in an Outlook add-in.
 ///
@@ -94,7 +95,9 @@ abstract class MailboxJsImpl {
 abstract class ItemJsImpl {
   /// Gets the type of item that an instance represents.
   ///
-  /// The `itemType` property returns one of the `ItemType` enumeration values, indicating whether the `item` object instance is a message or an appointment.
+  /// The `itemType` property returns one of the `ItemType`
+  /// enumeration values, indicating whether the `item` object instance
+  /// is a message or an appointment.
   ///
   /// @remarks
   ///

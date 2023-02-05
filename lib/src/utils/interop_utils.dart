@@ -1,5 +1,6 @@
 /// original source: https://github.com/FirebaseExtended/firebase-dart
 import 'dart:async';
+// ignore: avoid_web_libraries_in_flutter
 import 'dart:js';
 
 import 'package:js/js_util.dart' as util;
@@ -71,8 +72,10 @@ Future<T> handleThenable<T>(final js.PromiseJsImpl<T> thenable) async {
   T value;
   try {
     value = await util.promiseToFuture(thenable);
+    // ignore: avoid_catches_without_on_clauses
   } catch (e) {
     if (util.hasProperty(e, 'code')) {
+      // TODO(arenukvern): add proper error handling, https://github.com/xsoulspace/officejs_dart/issues/1
       // throw _FirebaseErrorWrapper(e as FirebaseError);
     }
     rethrow;
