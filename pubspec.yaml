@@ -1,7 +1,7 @@
 name: officejs
 description: Unofficial Office.js (https://github.com/OfficeDev/office-js)
   wrapper for Flutter/Dart
-version: 0.3.1
+version: 0.4.0
 # TODO(arenukvern): add homepage
 homepage: https://github.com/xsoulspace/officejs_dart
 
