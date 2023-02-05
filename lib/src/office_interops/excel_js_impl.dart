@@ -330,8 +330,8 @@ abstract class RangeJsImpl extends office_extension_js.ClientObjectJsImpl {
   ///
   /// @remarks
   /// [Api set: ExcelApi 1.1]
-  external List<List<dynamic>> get values;
-  external set values(final List<List<dynamic>> values);
+  external List<dynamic> get values;
+  external set values(final List<dynamic> values);
 
   /// Returns the total number of rows in the range.
   ///
@@ -361,8 +361,8 @@ abstract class RangeJsImpl extends office_extension_js.ClientObjectJsImpl {
   ///
   /// @remarks
   /// [Api set: ExcelApi 1.1]
-  external List<List<dynamic>> get numberFormat;
-  external set numberFormat(final List<List<dynamic>> value);
+  external List<dynamic> get numberFormat;
+  external set numberFormat(final List<dynamic> value);
 
   /// Returns a format object, encapsulating the range's font,
   /// fill, borders, alignment, and other properties.

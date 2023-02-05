@@ -259,7 +259,8 @@ class Range extends JsObjectWrapper<excel_js.RangeJsImpl> {
   Range getColumn(final int column) =>
       Range._fromJsObject(jsObject.getColumn(column));
 
-  List<List<dynamic>> get values => jsObject.values;
+  List<List<dynamic>> get values =>
+      List.castFrom<dynamic, List<dynamic>>(jsObject.values);
   set values(final List<List<dynamic>> values) => jsObject.values = values;
 
   Range load(final List<String> propertyNames) =>
@@ -270,11 +271,12 @@ class Range extends JsObjectWrapper<excel_js.RangeJsImpl> {
   int get columnCount => jsObject.columnCount;
   int get columnIndex => jsObject.columnIndex;
 
-  List<List<dynamic>> get numberFormat => jsObject.values;
+  List<List<dynamic>> get numberFormat =>
+      List.castFrom<dynamic, List<dynamic>>(jsObject.values);
   set numberFormat(final List<List<dynamic>> values) =>
       jsObject.values = values;
 
-  List<List<dynamic>> get format => jsObject.values;
+  RangeFormat get format => RangeFormat._fromJsObject(jsObject.format);
 }
 
 class RangeFormat extends JsObjectWrapper<excel_js.RangeFormatJsImpl> {
