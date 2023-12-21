@@ -5,8 +5,11 @@ library excel_js;
 
 import 'package:js/js.dart';
 
+
 import 'office_core_js_impl.dart' as office_core_js;
 import 'office_extension_js_impl.dart' as office_extension_js;
+
+
 
 /// The RequestContext object facilitates requests to the Excel application.
 /// Since the Office add-in and the Excel application run in
@@ -396,6 +399,8 @@ abstract class RangeJsImpl extends office_extension_js.ClientObjectJsImpl {
 
   //new clear code
   external Future<void> clear();
+  // Add the following method to the RangeJsImpl class
+  external Future<void> delete(String shiftDirection);
 }
 
 /// A format object encapsulating the range's font, fill, borders,
@@ -419,7 +424,9 @@ abstract class RangeFormatJsImpl
   /// [Api set: ExcelApi 1.1]
   external bool get wrapText;
   external set wrapText(final bool value);
-  
+
+
+
 
 
 }
