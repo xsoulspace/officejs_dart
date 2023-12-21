@@ -261,6 +261,19 @@ class Range extends office_extension.ClientObject<excel_js.RangeJsImpl> {
   Range getLastColumn() => Range._fromJsObject(jsObject.getLastColumn());
   Range getLastCell() => Range._fromJsObject(jsObject.getLastCell());
 
+
+  Future<void> clear() async {
+    // Ensure context is synced before using the range
+    await context.sync();
+
+    // Call clear method on the range
+    jsObject.clear();
+
+    // Ensure changes are synchronized with the workbook
+    await context.sync();
+  }
+
+
   Range getColumn(final int column) =>
       Range._fromJsObject(jsObject.getColumn(column));
 
@@ -303,4 +316,5 @@ class RangeFormat
 
   bool get wrapText => jsObject.wrapText;
   set wrapText(final bool value) => jsObject.wrapText = value;
+  
 }
