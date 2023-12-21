@@ -280,6 +280,7 @@ abstract class RangeJsImpl extends office_extension_js.ClientObjectJsImpl {
   /// @remarks
   /// [Api set: ExcelApi 1.7]
   external RangeJsImpl getSurroundingRegion();
+  
 
   /// Gets the `Range` object beginning at a particular row index and
   /// column index, and spanning a certain number of rows and columns.
@@ -391,6 +392,10 @@ abstract class RangeJsImpl extends office_extension_js.ClientObjectJsImpl {
   /// @remarks
   /// [Api set: ExcelApi 1.1]
   external RangeFormatJsImpl get format;
+
+
+  //new clear code
+  external Future<void> clear();
 }
 
 /// A format object encapsulating the range's font, fill, borders,
@@ -414,4 +419,7 @@ abstract class RangeFormatJsImpl
   /// [Api set: ExcelApi 1.1]
   external bool get wrapText;
   external set wrapText(final bool value);
+  
+
+
 }
