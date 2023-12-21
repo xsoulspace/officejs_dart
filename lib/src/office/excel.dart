@@ -273,6 +273,10 @@ class Range extends office_extension.ClientObject<excel_js.RangeJsImpl> {
     await context.sync();
   }
 
+  Future<void> delete(String shiftDirection) async {
+    jsObject.delete(shiftDirection);
+  }
+
 
   Range getColumn(final int column) =>
       Range._fromJsObject(jsObject.getColumn(column));
@@ -316,5 +320,10 @@ class RangeFormat
 
   bool get wrapText => jsObject.wrapText;
   set wrapText(final bool value) => jsObject.wrapText = value;
-  
+
 }
+
+
+
+
+
