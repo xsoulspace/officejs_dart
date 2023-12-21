@@ -1,432 +1,200 @@
-// ignore_for_file: avoid_positional_boolean_parameters
+import 'package:freezed_annotation/freezed_annotation.dart';
 
-@JS('Excel')
-library excel_js;
+/// [Api set: ExcelApi 1.7]
+enum EventSource {
+  /// Local means the event comes from a local user session.
+  @JsonValue('Local')
+  local,
 
-import 'package:js/js.dart';
-
-
-import 'office_core_js_impl.dart' as office_core_js;
-import 'office_extension_js_impl.dart' as office_extension_js;
-
-
-
-/// The RequestContext object facilitates requests to the Excel application.
-/// Since the Office add-in and the Excel application run in
-/// two different processes, the request context is required
-/// to get access to the Excel object model from the add-in.
-@JS('RequestContext')
-abstract class RequestContextJsImpl
-    extends office_core_js.RequestContextJsImpl {
-  external WorkbookJsImpl get workbook;
-
-  /// Collection of objects that are tracked for automatic adjustments based
-  /// on surrounding changes in the document.
-  external office_extension_js.TrackedObjectsJsImpl get trackedObjects;
+  /// Remote means the event comes from a remote user session.
+  @JsonValue('Remote')
+  remote,
 }
 
-@JS('Workbook')
-abstract class WorkbookJsImpl extends office_extension_js.ClientObjectJsImpl {
-  /// The request context associated with the object. This connects
-  /// the add-in's process to the Office host application's process. */
-  @override
-  external RequestContextJsImpl get context;
+/// [Api set: ExcelApi 1.7]
+enum EventType {
+  /// `WorksheetChanged` represents the type of event registered on a `Worksheet` or `WorksheetCollection` and occurs when data changes.
+  @JsonValue('WorksheetChanged')
+  worksheetChanged,
 
-  /// Represents a collection of worksheets associated with the workbook.
-  ///
-  /// Api set: ExcelApi 1.1
-  external WorksheetCollectionJsImpl get worksheets;
+  /// `WorksheetSelectionChanged` represents the type of event registered on a `Worksheet` and occurs when the selection changes.
+  worksheetSelectionChanged,
 
-  /// Gets the workbook name.
-  ///
-  /// @remarks
-  /// Api set: ExcelApi 1.7
-  external String get name;
+  /// `WorksheetAdded` represents the type of event registered on a `WorksheetCollection` and occurs when a new worksheet is added to the workbook.
+  @JsonValue('WorksheetAdded')
+  worksheetAdded,
 
-  /// Queues up a command to load the specified properties of the object.
-  /// You must call `context.sync()` before reading the properties.
+  /// `WorksheetActivated` represents the type of event registered on a `Worksheet` or `WorksheetCollection` and occurs when a worksheet activates.
+  @JsonValue('WorksheetActivated')
+  worksheetActivated,
+
+  /// `WorksheetDeactivated` represents the type of event registered on a `Worksheet` or `WorksheetCollection` and occurs when a worksheet deactivates.
+  @JsonValue('WorksheetDeactivated')
+  worksheetDeactivated,
+
+  /// `TableChanged` represents the type of event registered on a `Table` and occurs when data changes.
+  tableChanged,
+
+  /// `TableSelectionChanged` represents the type of event registered on a `Table` and occurs when the selection changes.
+  tableSelectionChanged,
+
+  /// `WorksheetDeleted` represents the type of event registered on a `WorksheetCollection` and occurs when a worksheet is deleted from the workbook.
+  @JsonValue('WorksheetDeleted')
+  worksheetDeleted,
+
+  /// `ChartAdded` represents the type of event registered on a `ChartCollection` and occurs when a new chart is added to the worksheet.
+  chartAdded,
+
+  /// `ChartActivated` represents the type of event registered on a `Chart` or `ChartCollection` and occurs when a chart activates.
+  chartActivated,
+
+  /// `ChartDeactivated` represents the type of event registered on a `Chart` or `ChartCollection` and occurs when a chart deactivates.
+  chartDeactivated,
+
+  /// `ChartDeleted` represents the type of event registered on a `ChartCollection` and occurs when a chart is deleted from the worksheet.
+  chartDeleted,
+
+  /// `WorksheetCalculated` represents the type of event registered on a `Worksheet` or `WorksheetCollection` and occurs when a worksheet is calculated.
+  worksheetCalculated,
+
+  /// `VisualSelectionChanged` represents the type of event registered on a `VisualCollection` and occurs when the visual selection changes.
+  visualSelectionChanged,
+
+  /// `AgaveVisualUpdate` represents the type of an event that is associated with an agave visual and carries a new data view following a data change.
+  agaveVisualUpdate,
+
+  /// `TableAdded` represents the type of event registered on a `TableCollection` and occurs when a table is added.
+  tableAdded,
+
+  /// `TableDeleted` represents the type of event that is registered on a `TableCollection` and occurs when a table is deleted.
+  tableDeleted,
+
+  /// `TableFiltered` represents the type of event registered on a table or `TableCollection` and occurs when the data of a table is filtered.
+  tableFiltered,
+
+  /// `WorksheetFiltered` represents the type of event registered on a worksheet or `WorksheetCollection` and occurs when the data of an AutoFilter in the worksheet is filtered.
+  worksheetFiltered,
+
+  /// `ShapeActivated` represents the type of event that is registered on a `Shape` and occurs when the shape activates.
+  shapeActivated,
+
+  /// `ShapeDeactivated` represents the type of event that is registered on a `Shape` and occurs when the shape deactivates.
+  shapeDeactivated,
+
+  /// `VisualChange` represents the type of event registered on a `Visual` and occurs when there is a visual change.
+  visualChange,
+
+  /// `WorkbookAutoSaveSettingChanged` represents the type of event registered on a workbook and occurs when there is an auto save setting change.
+  workbookAutoSaveSettingChanged,
+
+  /// `WorksheetFormatChanged` represents the type of event registered on a worksheet and occurs when a format is changed.
+  worksheetFormatChanged,
+
+  /// `RibbonCommandExecuted` represents the type of event registered on the ribbon and occurs when a user clicks on the ribbon
+  ribbonCommandExecuted,
+
+  /// `WorksheetRowSorted` represents the type of event registered on a worksheet and occurs when rows are sorted.
+  worksheetRowSorted,
+
+  /// `WorksheetColumnSorted` represents the type of event registered on a worksheet and occurs columns are sorted.
+  worksheetColumnSorted,
+
+  /// `WorksheetSingleClicked` represents the type of event registered on a worksheet and occurs when a cell is left-clicked or tapped.
+  worksheetSingleClicked,
+
+  /// `WorksheetRowHiddenChanged` represents the type of event registered on a worksheet and occurs when a row's hidden state is changed.
+  worksheetRowHiddenChanged,
+
+  /// `CommentAdded` represents the type of event that is registered on a comment collection and occurs when comments are added.
   ///
-  /// @param propertyNames A comma-delimited string or an array of strings that
-  /// specify the properties to load.
-  ///
-  external WorksheetJsImpl load(final List<String> propertyNames);
+  commentAdded,
+
+  /// `CommentDeleted` represents the type of event that is registered on a comment collection and occurs when comments are deleted.
+  commentDeleted,
+
+  /// `CommentChanged` represents the type of event that is registered on a comment collection and occurs when comments are changed.
+  commentChanged,
+
+  /// `RefreshRequestCompleted` represents the type of event registered on a `LinkedDataType` and occurs when a request to refresh a data source is completed.
+  linkedDataTypeRefreshRequestCompleted,
+
+  /// `RefreshModeChanged` represents the type of event registered on a `LinkedDataType` and occurs when the linked data type refresh mode is changed.
+  linkedDataTypeRefreshModeChanged,
+
+  /// `LinkedDataTypeAdded` represents the type of event registered on a `LinkedDataType` and occurs when a new linked data type is added to the workbook.
+  linkedDataTypeLinkedDataTypeAdded,
+
+  /// `WorksheetFormulaChanged` represents the type of event registered on a worksheet and occurs when a formula is changed.
+  worksheetFormulaChanged,
+
+  /// `WorkbookActivated` represents the type of event which is fired when a workbook is activated.
+  @JsonValue('WorkbookActivated')
+  workbookActivated,
+
+  /// `WorkbookLinksChanged` represents the type of event which is fired when a workbook link is changed.
+  linkedWorkbookWorkbookLinksChanged,
+
+  /// `WorkbookLinksRefreshCompleted` represents the type of event registered on a linked Workbook and occurs when a linked workbook completes a refresh.
+  linkedWorkbookRefreshCompleted,
+
+  /// WorksheetProtectionChanged represents the type of event registered on worksheet, and occurs when protection status is changed.
+  worksheetProtectionChanged,
+
+  /// WorksheetNameChanged represents the type of event registered on a worksheet that occurs when its name changes.
+  @JsonValue('WorksheetNameChanged')
+  worksheetNameChanged,
+
+  /// WorksheetVisibilityChanged represents the type of event registered on a worksheet that occurs when its visibility changes.
+  @JsonValue('WorksheetVisibilityChanged')
+  worksheetVisibilityChanged,
+
+  /// WorksheetMoved represents the type of event registered on a worksheet that occurs when it is moved within a workbook.
+  @JsonValue('WorksheetMoved')
+  worksheetMoved,
+
+  /// LineageActivityUpdateAvailable represents the type of event registered when new revision updates lineage model.
+  lineageActivityUpdateAvailable,
 }
 
-@JS('WorksheetCollection')
-abstract class WorksheetCollectionJsImpl
-    extends office_extension_js.ClientObjectJsImpl {
-  /// The request context associated with the object. This connects
-  /// the add-in's process to the Office host application's process. */
-  @override
-  external RequestContextJsImpl get context;
+///[Api set: ExcelApi 1.7]
+enum DataChangeType {
+  /// `Unknown` indicates that the type of data change is not one of the listed types.
+  /// [Api set: ExcelApi The name of this value was 'Others' in ExcelApi 1.7]
+  @JsonValue('Unknown')
+  unknown,
 
-  /// Gets the loaded child items in this collection. */
-  external List<WorksheetJsImpl> get items;
-
-  /// Gets the number of worksheets in the collection.
-  ///
-  /// Api set: ExcelApi 1.4
-  ///
-  /// @param visibleOnly Optional. If `true`, considers only visible
-  /// worksheets, skipping over any hidden ones.
-  external office_extension_js.ClientResultJsImpl<int> getCount([
-    final bool? visibleOnly,
-  ]);
-
-  /// Gets the first worksheet in the collection.
-  ///
-  /// Api set: ExcelApi 1.5
-  ///
-  /// @param visibleOnly Optional. If `true`, considers only visible
-  /// worksheets, skipping over any hidden ones.
-  external WorksheetJsImpl getFirst(final bool? visibleOnly);
-
-  /// Occurs when any worksheet in the workbook is activated.
+  /// `RangeEdited` indicates that the data change event is triggered by a range being edited.
   /// [Api set: ExcelApi 1.7]
-  ///
-  /// @eventproperty
-  ///
-  /// To get proper type convert to [WorksheetActivatedEventArgs]
-  external office_extension_js.EventHandlersJsImpl get onActivated;
+  @JsonValue('Unknown')
+  rangeEdited,
 
-  /// Occurs when a new worksheet is added to the workbook.
-  ///
-  /// Api set: ExcelApi 1.7
-  ///
-  /// @eventproperty
-  ///
-  /// To get proper type convert to [WorksheetAddedEventArgs]
-  external office_extension_js.EventHandlersJsImpl get onAdded;
-
-  /// Occurs when a worksheet is deleted from the workbook.
-  ///
+  /// `RowInserted` indicates that the data change event is triggered by inserting new rows.
   /// [Api set: ExcelApi 1.7]
-  ///
-  /// @eventproperty
-  ///
-  /// To get proper type convert to [WorksheetDeletedEventArgs]
-  external office_extension_js.EventHandlersJsImpl get onDeleted;
+  @JsonValue('Unknown')
+  rowInserted,
 
-  /// Occurs when any worksheet in the workbook is changed.
-  ///
-  /// [Api set: ExcelApi 1.9]
-  ///
-  /// @eventproperty
-  ///
-  /// To get proper type convert to [WorksheetChangedEventArgs]
-  external office_extension_js.EventHandlersJsImpl get onChanged;
-
-  /// Occurs when the worksheet name is changed.
-  ///
-  /// @remarks
-  /// [Api set: ExcelApiOnline 1.1]
-  ///
-  /// @eventproperty
-  ///
-  /// To get proper type convert to [WorksheetNameChangedEventArgs]
-  external office_extension_js.EventHandlersJsImpl get onNameChanged;
-
-  /// Occurs when a worksheet is moved within a workbook.
-  /// This event only triggers when a worksheet is directly
-  /// moved within a workbook. This event doesn't trigger when
-  ///  the position of a worksheet is indirectly changed, such
-  /// as when a new worksheet is inserted and causes existing
-  /// worksheets to change positions.
-  ///
-  /// @remarks
-  /// [Api set: ExcelApiOnline 1.1]
-  ///
-  /// @eventproperty
-  /// To get proper type convert to [WorksheetMovedEventArgs]
-  external office_extension_js.EventHandlersJsImpl get onMoved;
-
-  /// Gets a worksheet object using its name or ID.
-  ///
-  /// Api set: ExcelApi 1.1
-  ///
-  /// @param key The name or ID of the worksheet.
-  ////
-  external WorksheetJsImpl getItem(final String key);
-
-  /// Gets the currently active worksheet in the workbook.
-  ///
-  /// Api set: ExcelApi 1.1
-  external WorksheetJsImpl getActiveWorksheet();
-
-  /// Queues up a command to load the specified properties of the object.
-  /// You must call `context.sync()` before reading the properties.
-  ///
-  /// @param propertyNames A comma-delimited string or an array of strings
-  /// that specify the properties to load.
-  external WorksheetCollectionJsImpl load(final List<String> propertyNames);
-}
-
-@JS('Worksheet')
-abstract class WorksheetJsImpl extends office_extension_js.ClientObjectJsImpl {
-  /// The request context associated with the object. This connects
-  /// the add-in's process to the Office host application's process. */
-  @override
-  external RequestContextJsImpl get context;
-
-  /// The display name of the worksheet.
-  ///
-  /// Api set: ExcelApi 1.1
-  external String get name;
-  external set name(final String value);
-
-  /// Returns a value that uniquely identifies the worksheet
-  /// in a given workbook. The value of the identifier remains the same
-  /// even when the worksheet is renamed or moved.
-  ///
-  /// Api set: ExcelApi 1.1
-  external String get id;
-
-  /// The zero-based position of the worksheet within the workbook.
-  ///
-  /// Api set: ExcelApi 1.1
-  external int get position;
-  external set position(final int value);
-
-  /// Specifies if gridlines are visible to the user.
-  ///
-  /// Api set: ExcelApi 1.8
-  external bool get showGridlines;
-  external set showGridlines(final bool value);
-
-  /// The tab color of the worksheet.
-  ///
-  /// When retrieving the tab color, if the worksheet is invisible,
-  /// the value will be `null`. If the worksheet is visible but
-  /// the tab color is set to auto, an empty string will be returned.
-  /// Otherwise, the property will be set to a color,
-  /// in the form #RRGGBB (e.g., "FFA500").
-  ///
-  /// When setting the color, use an empty-string to set an "auto" color,
-  /// or a real color otherwise.
-  ///
-  /// Api set: ExcelApi 1.7
-  external String? get tabColor;
-  external set tabColor(final String? value);
-
-  /// Queues up a command to load the specified properties of the object.
-  /// You must call `context.sync()` before reading the properties.
-  ///
-  /// @param propertyNames A comma-delimited string or an array of strings
-  /// that specify the properties to load.
-  external WorksheetJsImpl load(final List<String> propertyNames);
-
-  /// Activate the worksheet in the Excel UI.
-  ///
-  /// Api set: ExcelApi 1.1
-  external void activate();
-
-  /// Gets the `Range` object containing the single cell based on row and
-  /// column numbers. The cell can be outside the bounds of its parent range,
-  /// so long as it stays within the worksheet grid.
-  ///
-  /// @remarks
-  /// [Api set: ExcelApi 1.1]
-  ///
-  /// @param row The row number of the cell to be retrieved. Zero-indexed.
-  /// @param column The column number of the cell to be retrieved. Zero-indexed.
-  external RangeJsImpl getCell(final int row, final int column);
-
-  /// Gets the `Range` object beginning at a particular row index and
-  /// column index, and spanning a certain number of rows and columns.
-  ///
-  /// @remarks
+  /// `RowDeleted` indicates that the data change event is triggered by deleting rows.
   /// [Api set: ExcelApi 1.7]
-  ///
-  /// @param startRow Start row (zero-indexed).
-  /// @param startColumn Start column (zero-indexed).
-  /// @param rowCount Number of rows to include in the range.
-  /// @param columnCount Number of columns to include in the range.
-  external RangeJsImpl getRangeByIndexes(
-    final int startRow,
-    final int startColumn,
-    final int rowCount,
-    final int columnCount,
-  );
-}
+  @JsonValue('Unknown')
+  rowDeleted,
 
-/// Range represents a set of one or more contiguous cells such as a cell,
-///  a row, a column, or a block of cells.
-/// To learn more about how ranges are used throughout the API,
-/// start with {@link https://docs.microsoft.com/office/dev/add-ins/excel/excel-add-ins-core-concepts#ranges | Ranges in the Excel JavaScript API}.
-///
-/// @remarks
-/// [Api set: ExcelApi 1.1]
-///
-@JS('Range')
-abstract class RangeJsImpl extends office_extension_js.ClientObjectJsImpl {
-  /// The request context associated with the object. This connects
-  /// the add-in's process to the Office host application's process. */
-  @override
-  external RequestContextJsImpl get context;
-
-  /// Returns the used range of the given range object.
-  /// If there are no used cells within the range, this function
-  /// will throw an `ItemNotFound` error.
-  ///
-  /// @remarks
-  /// [Api set: ExcelApi 1.1]
-  ///
-  /// @param valuesOnly Considers only cells with values as used cells.
-  /// [Api set: ExcelApi 1.2]
-  external RangeJsImpl getUsedRange([final bool? valuesOnly]);
-
-  /// Returns a `Range` object that represents the surrounding region
-  /// for the top-left cell in this range. A surrounding region is
-  /// a range bounded by any combination of blank rows and
-  /// blank columns relative to this range.
-  ///
-  /// @remarks
+  /// `ColumnInserted` indicates that the data change event is triggered by inserting new columns.
   /// [Api set: ExcelApi 1.7]
-  external RangeJsImpl getSurroundingRegion();
-  
+  @JsonValue('ColumnInserted')
+  columnInserted,
 
-  /// Gets the `Range` object beginning at a particular row index and
-  /// column index, and spanning a certain number of rows and columns.
-  ///
-  /// @remarks
+  /// `ColumnDeleted` indicates that the data change event is triggered by deleting columns.
   /// [Api set: ExcelApi 1.7]
-  ///
-  /// @param startRow Start row (zero-indexed).
-  /// @param startColumn Start column (zero-indexed).
-  /// @param rowCount Number of rows to include in the range.
-  /// @param columnCount Number of columns to include in the range.
-  external RangeJsImpl getRangeByIndexes(
-    final int startRow,
-    final int startColumn,
-    final int rowCount,
-    final int columnCount,
-  );
+  @JsonValue('ColumnDeleted')
+  columnDeleted,
 
-  /// Gets a row contained in the range.
-  ///
-  /// @remarks
-  /// [Api set: ExcelApi 1.1]
-  ///
-  /// @param row Row number of the range to be retrieved. Zero-indexed.
-  external RangeJsImpl getRow(final int row);
+  /// `CellInserted` indicates that the data change event is triggered by inserting new cells.
+  /// [Api set: ExcelApi 1.7]
+  @JsonValue('CellInserted')
+  cellInserted,
 
-  /// Gets the last cell within the range. For example,
-  /// the last cell of "B2:D5" is "D5".
-  ///
-  /// @remarks
-  /// [Api set: ExcelApi 1.1]
-  external RangeJsImpl getLastCell();
-
-  /// Gets the last column within the range. For example,
-  /// the last column of "B2:D5" is "D2:D5".
-  ///
-  /// @remarks
-  /// [Api set: ExcelApi 1.1]
-  external RangeJsImpl getLastColumn();
-
-  /// Gets the last row within the range. For example,
-  /// the last row of "B2:D5" is "B5:D5".
-  ///
-  /// @remarks
-  /// [Api set: ExcelApi 1.1]
-  external RangeJsImpl getLastRow();
-
-  /// Gets a column contained in the range.
-  ///
-  /// @remarks
-  /// [Api set: ExcelApi 1.1]
-  ///
-  /// @param column Column number of the range to be retrieved. Zero-indexed.
-  external RangeJsImpl getColumn(final int column);
-
-  /// Queues up a command to load the specified properties of the object.
-  /// You must call `context.sync()` before reading the properties.
-  ///
-  /// @param propertyNames A comma-delimited string or an array of strings
-  /// that specify the properties to load.
-  external RangeJsImpl load(final List<String> propertyNames);
-
-  /// Represents the raw values of the specified range.
-  /// The data returned could be a string, number, or boolean.
-  /// Cells that contain an error will return the error string.
-  ///
-  /// If the returned value starts with a plus ("+"), minus ("-"),
-  /// or equal sign ("="), Excel interprets this value as a formula.
-  ///
-  /// @remarks
-  /// [Api set: ExcelApi 1.1]
-  external List<dynamic> get values;
-  external set values(final List<dynamic> values);
-
-  /// Returns the total number of rows in the range.
-  ///
-  /// @remarks
-  /// [Api set: ExcelApi 1.1]
-  external int get rowCount;
-
-  /// Returns the row number of the first cell in the range. Zero-indexed.
-  ///
-  /// @remarks
-  /// [Api set: ExcelApi 1.1]
-  external int get rowIndex;
-
-  /// Specifies the total number of columns in the range.
-  ///
-  /// @remarks
-  /// [Api set: ExcelApi 1.1]
-  external int get columnCount;
-
-  /// Specifies the column number of the first cell in the range. Zero-indexed.
-  ///
-  /// @remarks
-  /// [Api set: ExcelApi 1.1]
-  external int get columnIndex;
-
-  /// Represents Excel's number format code for the given range.
-  ///
-  /// @remarks
-  /// [Api set: ExcelApi 1.1]
-  external List<dynamic> get numberFormat;
-  external set numberFormat(final List<dynamic> value);
-
-  /// Returns a format object, encapsulating the range's font,
-  /// fill, borders, alignment, and other properties.
-  ///
-  /// @remarks
-  /// [Api set: ExcelApi 1.1]
-  external RangeFormatJsImpl get format;
-
-
-  //new clear code
-  external Future<void> clear();
-  // Add the following method to the RangeJsImpl class
-  external Future<void> delete(String shiftDirection);
-}
-
-/// A format object encapsulating the range's font, fill, borders,
-/// alignment, and other properties.
-///
-/// @remarks
-/// [Api set: ExcelApi 1.1]
-@JS('RangeFormat')
-abstract class RangeFormatJsImpl
-    extends office_extension_js.ClientObjectJsImpl {
-  /// The request context associated with the object. This connects
-  /// the add-in's process to the Office host application's process. */
-  @override
-  external RequestContextJsImpl get context;
-
-  /// Specifies if Excel wraps the text in the object.
-  /// A `null` value indicates that the entire range
-  /// doesn't have a uniform wrap setting
-  ///
-  /// @remarks
-  /// [Api set: ExcelApi 1.1]
-  external bool get wrapText;
-  external set wrapText(final bool value);
-
-
-
-
-
+  /// `CellDeleted` indicates that the data change event is triggered by deleting cells.
+  /// [Api set: ExcelApi 1.7]
+  @JsonValue('CellDeleted')
+  cellDeleted,
 }
