@@ -262,12 +262,12 @@ class Range extends office_extension.ClientObject<excel_js.RangeJsImpl> {
   Range getLastCell() => Range._fromJsObject(jsObject.getLastCell());
 
 
-  Future<void> clear() async {
+  Future<void> clear(String v) async {
     // Ensure context is synced before using the range
     await context.sync();
 
     // Call clear method on the range
-    jsObject.clear();
+    jsObject.clear(v);
 
     // Ensure changes are synchronized with the workbook
     await context.sync();
@@ -300,6 +300,18 @@ class Range extends office_extension.ClientObject<excel_js.RangeJsImpl> {
       jsObject.values = values;
 
   RangeFormat get format => RangeFormat._fromJsObject(jsObject.format);
+  
+  //new code starts
+  
+  Future<void> insert(String direction) async{
+    jsObject.insert(direction);
+  }
+
+
+
+//new code ends
+  
+  
 }
 
 class RangeFormat
@@ -320,6 +332,93 @@ class RangeFormat
 
   bool get wrapText => jsObject.wrapText;
   set wrapText(final bool value) => jsObject.wrapText = value;
+
+
+
+/*
+  //new code starts
+
+  bool get autoIndent => jsObject.autoIndent;
+  set autoIndent(bool value) => jsObject.autoIndent = value;
+
+  Excel.RangeBorderCollection get borders => Excel.RangeBorderCollection.getInstance(jsObject.borders);
+
+  double get columnWidth => jsObject.columnWidth;
+  set columnWidth(double value) => jsObject.columnWidth = value;
+
+  Excel.RangeFill get fill => Excel.RangeFill.getInstance(jsObject.fill);
+
+  Excel.RangeFont get font => Excel.RangeFont.getInstance(jsObject.font);
+
+  Excel.HorizontalAlignment get horizontalAlignment => jsObject.horizontalAlignment;
+  set horizontalAlignment(Excel.HorizontalAlignment value) => jsObject.horizontalAlignment = value;
+
+  int get indentLevel => jsObject.indentLevel;
+  set indentLevel(int value) => jsObject.indentLevel = value;
+
+  Excel.FormatProtection get protection => Excel.FormatProtection.getInstance(jsObject.protection);
+
+  Excel.ReadingOrder get readingOrder => jsObject.readingOrder;
+  set readingOrder(Excel.ReadingOrder value) => jsObject.readingOrder = value;
+
+  double get rowHeight => jsObject.rowHeight;
+  set rowHeight(double value) => jsObject.rowHeight = value;
+
+  bool get shrinkToFit => jsObject.shrinkToFit;
+  set shrinkToFit(bool value) => jsObject.shrinkToFit = value;
+
+  int get textOrientation => jsObject.textOrientation;
+  set textOrientation(int value) => jsObject.textOrientation = value;
+
+  bool get useStandardHeight => jsObject.useStandardHeight;
+  set useStandardHeight(bool value) => jsObject.useStandardHeight = value;
+
+  bool get useStandardWidth => jsObject.useStandardWidth;
+  set useStandardWidth(bool value) => jsObject.useStandardWidth = value;
+
+  Excel.VerticalAlignment get verticalAlignment => jsObject.verticalAlignment;
+  set verticalAlignment(Excel.VerticalAlignment value) => jsObject.verticalAlignment = value;
+
+  bool get wrapText => jsObject.wrapText;
+  set wrapText(bool value) => jsObject.wrapText = value;
+
+  void adjustIndent(int amount) {
+    jsObject.adjustIndent(amount);
+  }
+
+  void autofitColumns() {
+    jsObject.autofitColumns();
+  }
+
+  void autofitRows() {
+    jsObject.autofitRows();
+  }
+
+  void load(Excel.Interfaces.RangeFormatLoadOptions options) {
+    jsObject.load(options);
+  }
+
+  void loadProperties(List<String> propertyNames) {
+    jsObject.load(propertyNames);
+  }
+
+  void loadPropertiesAndPaths({String select, String expand}) {
+    jsObject.load({"select": select, "expand": expand});
+  }
+
+  void setProperties(Excel.Interfaces.RangeFormatUpdateData properties, OfficeExtension.UpdateOptions options) {
+    jsObject.set(properties, options);
+  }
+
+  void setFromExisting(Excel.RangeFormat properties) {
+    jsObject.set(properties);
+  }
+
+  Excel.Interfaces.RangeFormatData toJson() {
+    return jsObject.toJSON();
+  }
+//new code ends
+   */
 
 }
 
