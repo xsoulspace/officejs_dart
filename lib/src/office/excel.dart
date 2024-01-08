@@ -7,6 +7,7 @@ import '../abstract/js_object_wrapper.dart';
 import '../js_interops/es6_js_impl.dart' as js;
 import '../js_interops/office_helpers_js_impl.dart';
 import '../office_interops/excel_js_impl.dart' as excel_js;
+import '../office_interops/excel_js_impl.dart';
 import '../utils/interop_utils.dart';
 import 'models/excel_models.dart';
 
@@ -308,11 +309,113 @@ class Range extends office_extension.ClientObject<excel_js.RangeJsImpl> {
   }
 
 
+  //code to find matches
 
 //new code ends
-  
+
+// Dart-friendly wrapper for the find method
+  Range find(String text, {bool completeMatch = false, bool matchCase = false, String searchDirection = 'Forward'}) {
+    // Create the options object
+    var options = {
+      'completeMatch': completeMatch,
+      'matchCase': matchCase,
+      'searchDirection': searchDirection
+    };
+
+    // Call the find method on the underlying JS object
+    var foundRangeJsImpl = jsObject.find(text, options);
+
+    // Return a new Range instance wrapping the found RangeJsImpl
+    return Range.getInstance(foundRangeJsImpl);
+  }
+
+  // Implement a find and replace functionality method
+  Future<void> findAndReplace({
+    required String searchText,
+    required String replaceText,
+    bool matchCase = false,
+    bool completeMatch = false,
+  }) async {
+    // Define search options
+    var options = <String, dynamic>{
+      'completeMatch': completeMatch,
+      'matchCase': matchCase,
+      'searchDirection': 'Forward', // Or 'Backward'
+    };
+
+    // Enter the loop: find and replace all occurrences
+    while (true) {
+      var foundRangeJsImpl = jsObject.find(searchText, options);
+
+      // Null check based on Office.js Promise-like callback pattern
+      if (foundRangeJsImpl == null) {
+        // No more appearances are found, exit the loop
+        break;
+      }
+
+      // Get the Dart Range instance from the found JavaScript range object
+      Range foundRange = Range.getInstance(foundRangeJsImpl);
+
+      // Replace the text in the found range and load its address
+      foundRange.values = [[replaceText]];
+      foundRange.load(['address']); // Optional, if you want to check where the replacement took place
+
+      // Synchronize changes to the Excel workbook
+      await context.sync();
+
+      // Optionally, print the address of the replaced range (if you had loaded it earlier)
+      // print(foundRange.address);
+    }
+  }
+
+  // Method to load the address property
+  Future<String> loadAddress() async {
+    // Queue up a command to load the address property
+    jsObject.load(['address']);
+
+    // Run the queued-up command, and return a promise to indicate task completion
+    await context.sync();
+
+    // Return the address property
+    return jsObject.address;
+  }
+
+  // Method to activate (select) the range in the Excel workbook
+  Future<void> activate() async {
+    // Call the 'select' method on the range
+    jsObject.select();
+
+    // Since 'select' is an action that affects the state of the workbook interface,
+    // you should ensure any pending commands are synchronized with the Excel workbook
+    await context.sync();
+  }
+  // Method to find a string and activate (select) the range where it's found
+  Future<void> findAndActivate(String searchText, {bool matchCase = false, bool completeMatch = false}) async {
+    // Object to specify search options
+    final options = <String, dynamic>{
+      'completeMatch': completeMatch,
+      'matchCase': matchCase,
+      'searchDirection': 'Forward',
+    };
+
+    // Find the text in the range
+    final foundRangeJsImpl = jsObject.find(searchText, options);
+
+    // Before using foundRangeJsImpl, you may need a mechanism to ensure it's not null.
+    // if (foundRangeJsImpl == null) {
+    //   // Handle the scenario where the text is not found
+    //   return;
+    // }
+    // Wrap the JavaScript Range object with the Dart Range object
+    final foundRange = Range._fromJsObject(foundRangeJsImpl);
+
+    // Activate the found range
+    await foundRange.activate();
+  }
   
 }
+
+
 
 class RangeFormat
     extends office_extension.ClientObject<excel_js.RangeFormatJsImpl> {
@@ -335,94 +438,139 @@ class RangeFormat
 
 
 
-/*
+
   //new code starts
+// Alignment
 
-  bool get autoIndent => jsObject.autoIndent;
-  set autoIndent(bool value) => jsObject.autoIndent = value;
 
-  Excel.RangeBorderCollection get borders => Excel.RangeBorderCollection.getInstance(jsObject.borders);
 
-  double get columnWidth => jsObject.columnWidth;
-  set columnWidth(double value) => jsObject.columnWidth = value;
+  // Font
+  bool get bold => jsObject.font.bold;
+  set bold(final bool value) => jsObject.font.bold = value;
 
-  Excel.RangeFill get fill => Excel.RangeFill.getInstance(jsObject.fill);
+  bool get italic => jsObject.font.italic;
+  set italic(final bool value) => jsObject.font.italic = value;
 
-  Excel.RangeFont get font => Excel.RangeFont.getInstance(jsObject.font);
+  String get fontColor => jsObject.font.color;
+  set fontColor(final String value) => jsObject.font.color = value;
 
-  Excel.HorizontalAlignment get horizontalAlignment => jsObject.horizontalAlignment;
-  set horizontalAlignment(Excel.HorizontalAlignment value) => jsObject.horizontalAlignment = value;
+  String get fontName => jsObject.font.name;
+  set fontName(final String value) => jsObject.font.name = value;
 
-  int get indentLevel => jsObject.indentLevel;
-  set indentLevel(int value) => jsObject.indentLevel = value;
+  num get fontSize => jsObject.font.size;
+  set fontSize(final num value) => jsObject.font.size = value;
 
-  Excel.FormatProtection get protection => Excel.FormatProtection.getInstance(jsObject.protection);
+  // Fill
+  String get fillBackgroundColor => jsObject.fill.color;
+  set fillBackgroundColor(final String value) => jsObject.fill.color = value;
 
-  Excel.ReadingOrder get readingOrder => jsObject.readingOrder;
-  set readingOrder(Excel.ReadingOrder value) => jsObject.readingOrder = value;
+  String get fillPattern => jsObject.fill.pattern;
+  set fillPattern(final String value) => jsObject.fill.pattern = value;
 
-  double get rowHeight => jsObject.rowHeight;
-  set rowHeight(double value) => jsObject.rowHeight = value;
+  // Borders
 
-  bool get shrinkToFit => jsObject.shrinkToFit;
-  set shrinkToFit(bool value) => jsObject.shrinkToFit = value;
 
-  int get textOrientation => jsObject.textOrientation;
-  set textOrientation(int value) => jsObject.textOrientation = value;
+  Borders get borders => Borders.getInstance(jsObject.borders);
+  set borders(Borders value) => jsObject.borders = value.jsObject;
+//border code ends
 
-  bool get useStandardHeight => jsObject.useStandardHeight;
-  set useStandardHeight(bool value) => jsObject.useStandardHeight = value;
 
-  bool get useStandardWidth => jsObject.useStandardWidth;
-  set useStandardWidth(bool value) => jsObject.useStandardWidth = value;
 
-  Excel.VerticalAlignment get verticalAlignment => jsObject.verticalAlignment;
-  set verticalAlignment(Excel.VerticalAlignment value) => jsObject.verticalAlignment = value;
-
-  bool get wrapText => jsObject.wrapText;
-  set wrapText(bool value) => jsObject.wrapText = value;
-
-  void adjustIndent(int amount) {
-    jsObject.adjustIndent(amount);
-  }
-
-  void autofitColumns() {
-    jsObject.autofitColumns();
-  }
-
-  void autofitRows() {
-    jsObject.autofitRows();
-  }
-
-  void load(Excel.Interfaces.RangeFormatLoadOptions options) {
-    jsObject.load(options);
-  }
-
-  void loadProperties(List<String> propertyNames) {
-    jsObject.load(propertyNames);
-  }
-
-  void loadPropertiesAndPaths({String select, String expand}) {
-    jsObject.load({"select": select, "expand": expand});
-  }
-
-  void setProperties(Excel.Interfaces.RangeFormatUpdateData properties, OfficeExtension.UpdateOptions options) {
-    jsObject.set(properties, options);
-  }
-
-  void setFromExisting(Excel.RangeFormat properties) {
-    jsObject.set(properties);
-  }
-
-  Excel.Interfaces.RangeFormatData toJson() {
-    return jsObject.toJSON();
-  }
-//new code ends
-   */
 
 }
 
 
+class RangeBorder extends office_extension.ClientObject<excel_js.BorderJsImpl> {
+  RangeBorder._fromJsObject(super.jsObject);
+
+  factory RangeBorder.getInstance(excel_js.BorderJsImpl jsObject) {
+    return _expando[jsObject] ??= RangeBorder._fromJsObject(jsObject);
+  }
+  static final _expando = Expando<RangeBorder>();
+  
+
+  RequestContext get context => RequestContext.getInstance(jsObject.context);
+
+  String get color => jsObject.color;
+  set color(String value) => jsObject.color = value;
+
+  String get style => jsObject.style;
+  set style(String value) => jsObject.style = value;
+}
+
+
+
+class Borders extends office_extension.ClientObject<excel_js.BordersJsImpl> {
+  Borders._fromJsObject(excel_js.BordersJsImpl jsObject) : super(jsObject);
+
+  factory Borders.getInstance(excel_js.BordersJsImpl jsObject) {
+    return _expando[jsObject] ??= Borders._fromJsObject(jsObject);
+  }
+  static final _expando = Expando<Borders>();
+
+  RequestContext get context => RequestContext.getInstance(jsObject.context);
+
+  // Method to get a specific border by its side index
+  RangeBorder getItem(String sideIndex) {
+    var borderJsImpl = jsObject.getItem(sideIndex);
+    return RangeBorder.getInstance(borderJsImpl);
+  }
+
+  RangeBorder? get top => jsObject.top != null
+      ? RangeBorder.getInstance(jsObject.top!)
+      : null;
+  set top(RangeBorder? value) => jsObject.top = value?.jsObject;
+
+  RangeBorder? get bottom => jsObject.bottom != null
+      ? RangeBorder.getInstance(jsObject.bottom!)
+      : null;
+  set bottom(RangeBorder? value) => jsObject.bottom = value?.jsObject;
+
+  RangeBorder? get left => jsObject.left != null
+      ? RangeBorder.getInstance(jsObject.left!)
+      : null;
+  set left(RangeBorder? value) => jsObject.left = value?.jsObject;
+
+  RangeBorder? get right => jsObject.right != null
+      ? RangeBorder.getInstance(jsObject.right!)
+      : null;
+  set right(RangeBorder? value) => jsObject.right = value?.jsObject;
+}
+
+
+//new font class definition
+class Font extends office_extension.ClientObject<excel_js.FontJsImpl> {
+  Font._fromJsObject(super.jsObject);
+
+  /// Creates a [Font] from a [jsObject].
+  ///
+  /// {@macro expando_explanation}
+  factory Font.getInstance(final excel_js.FontJsImpl jsObject) {
+    return _expando[jsObject] ??= Font._fromJsObject(jsObject);
+  }
+
+  static final _expando = Expando<Font>();
+
+  /// Gets or sets a value that represents the bold status of the font.
+  bool get bold => jsObject.bold;
+  set bold(bool value) => jsObject.bold = value;
+
+  /// Gets or sets a value that represents the italic status of the font.
+  bool get italic => jsObject.italic;
+  set italic(bool value) => jsObject.italic = value;
+
+  /// Gets or sets the color of the given font.
+  String get fontColor => jsObject.color;
+  set fontColor(String value) => jsObject.color = value;
+
+  /// Gets or sets the name of the font.
+  String get fontName => jsObject.name;
+  set fontName(String value) => jsObject.name = value;
+
+  /// Gets or sets the size of the font in points.
+  num get fontSize => jsObject.size;
+  set fontSize(num value) => jsObject.size = value;
+}
 
 
 
