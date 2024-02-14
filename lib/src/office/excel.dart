@@ -1,6 +1,12 @@
 library excel;
 
 import 'package:js/js.dart';
+import 'package:flutter/material.dart';
+
+import 'dart:typed_data';
+import 'package:flutter/services.dart';
+import 'dart:convert';
+import 'dart:async';
 
 import './office_extension.dart' as office_extension;
 import '../abstract/js_object_wrapper.dart';
@@ -13,7 +19,9 @@ import 'models/excel_models.dart';
 
 class Excel {
   Excel._();
+
   static RequestContext? _context;
+
   // static Future<RequestContext> run() async {
   //   if (_context != null) return _context!;
 
@@ -41,6 +49,62 @@ class Excel {
     );
 
     return RequestContext.getInstance(contextJs);
+  }
+
+  static Future<void> copySheetsFromAsset(
+    String assetPath, {
+    BuildContext? buildContext,
+  }) async {
+    String message = '';
+    bool haveError = false;
+    try {
+      final context = await run();
+
+      await context.sync();
+      final workbook = context.workbook;
+
+      final ByteData byteData = await rootBundle.load(assetPath);
+      message += 'Loaded\n';
+      final List<int> bytes = byteData.buffer.asUint8List();
+      message += 'Converted\n';
+      final String base64Data = base64Encode(bytes);
+      message += '\n\n${base64Data}\n\n';
+      message += 'Finalised\n';
+
+      final options = {
+        'sheetNamesToInsert': [],
+        // Insert all sheets from the source workbook.
+        'positionType': 'after',
+        // Insert after the `relativeTo` sheet.
+        'relativeTo': 'Sheet1',
+        // The sheet relative to which the other sheets will be inserted.
+      };
+
+      await workbook.insertWorksheetsFromBase64(base64Data, options);
+      message += 'Passed to JS\n';
+
+      await context.sync();
+      message += 'Excel Synced\n';
+    } catch (error) {
+      print(error);
+      haveError = true;
+      if (buildContext != null) {
+        await showDialog(
+            context: buildContext,
+            builder: (BuildContext) {
+              return SelectableText(
+                  'Error in copySheetsFromAsset:\n${message} \n${error}');
+            });
+      }
+    }
+
+    if (buildContext != null && haveError == false) {
+      await showDialog(
+          context: buildContext,
+          builder: (BuildContext) {
+            return SelectableText('Info \n${message} ');
+          });
+    }
   }
 }
 
@@ -94,6 +158,70 @@ class Workbook extends office_extension.ClientObject<excel_js.WorkbookJsImpl> {
 
   Worksheet load(final List<String> propertyNames) =>
       Worksheet.getInstance(jsObject.load(propertyNames));
+
+  //new code
+  // Add a method for duplicating a worksheet
+  Future<void> duplicateSheetBackup(String originalSheetName,
+      {String? newSheetName} /*{String? beforeSheetName}*/) async {
+    // Get the RequestContext from the current Workbook instance
+    final RequestContext context = this.context;
+
+    try {
+      // Get the original worksheet to copy
+      Worksheet sheetToCopy =
+          context.workbook.worksheets.getItem(originalSheetName);
+      // Load the name property
+      sheetToCopy.load(['name']);
+
+      // Run the sync to load the property
+      await context.sync();
+
+      // Add a new worksheet
+      Worksheet newSheet = await context.workbook.worksheets
+          .add(newSheetName ?? (sheetToCopy.name + ' Copy'));
+      // Load the position property in case you need to reposition the sheet
+      newSheet.load(['position']);
+
+      // if (beforeSheetName != null) {
+      //   newSheet.position = worksheets.getItem(beforeSheetName).position;
+      //   // Load the position property
+      //   beforeSheet.load(['position']);
+      // }
+
+      // Sync the operations above
+      await context.sync();
+
+      // if (beforeSheetName != null) {
+      //   // Update the position of the new sheet
+      //   Worksheet beforeSheet = context.workbook.worksheets.getItem(beforeSheetName);
+      //   newSheet.position = beforeSheet.position;
+      //   // Ensure the position property is set in the batch
+      //   newSheet.load(['position']);
+      // }
+
+      // Final sync to ensure all pending operations complete
+      await context.sync();
+    } catch (error) {
+      print('Error duplicating worksheet: $error');
+      throw error;
+    }
+  }
+
+  Future<void> insertWorksheetsFromBase64(
+      String base64Data, Map<String, dynamic> options) async {
+    final completer = Completer<void>();
+
+    try {
+      // await jsObject.context.sync();
+      await jsObject.insertWorksheetsFromBase64(base64Data, options);
+      // await jsObject.context.sync();
+      completer.complete();
+    } catch (e) {
+      completer.completeError(e);
+    }
+
+    return completer.future;
+  }
 }
 
 class WorksheetCollection
@@ -162,6 +290,40 @@ class WorksheetCollection
   WorksheetCollection load(final List<String> propertyNames) {
     return WorksheetCollection.getInstance(jsObject.load(propertyNames));
   }
+
+  Future<Worksheet> add(String worksheetName) async {
+    final context = this.context;
+    final newWorksheet = this.jsObject.add(worksheetName);
+    await context.sync();
+    return Worksheet.getInstance(newWorksheet);
+  }
+
+  // Future<List<String>> addFromBase64({
+  //   required String base64File,
+  //   List<String>? sheetNamesToInsert,
+  //   String? positionTypeString,
+  //   dynamic relativeTo,
+  // }) async {
+  //   try{
+  //     final relativeToObject =
+  //     relativeTo is Worksheet ? relativeTo.jsObject : relativeTo;
+  //
+  //     final clientResult =  await jsObject.addFromBase64(
+  //         base64File,
+  //         sheetNamesToInsert,
+  //         positionTypeString,
+  //         relativeToObject
+  //     );
+  //
+  //     // Context sync is assumed to be called outside or handled within a batch operation.
+  //     await context.sync();
+  //
+  //     // Assuming ClientResultJsImpl is the correct type that corresponds to OfficeExtension.ClientResult
+  //     return clientResult;
+  //   }catch(e){
+  //     return e;
+  //   }
+  // }
 }
 
 class Worksheet
@@ -219,6 +381,11 @@ class Worksheet
       Worksheet.getInstance(jsObject.load(propertyNames));
 
   void activate() => jsObject.activate();
+
+  Range getUsedRange() {
+    final jsRange = jsObject.getUsedRange();
+    return Range._fromJsObject(jsRange);
+  }
 }
 
 class Range extends office_extension.ClientObject<excel_js.RangeJsImpl> {
@@ -262,7 +429,6 @@ class Range extends office_extension.ClientObject<excel_js.RangeJsImpl> {
   Range getLastColumn() => Range._fromJsObject(jsObject.getLastColumn());
   Range getLastCell() => Range._fromJsObject(jsObject.getLastCell());
 
-
   Future<void> clear(String v) async {
     // Ensure context is synced before using the range
     await context.sync();
@@ -277,7 +443,6 @@ class Range extends office_extension.ClientObject<excel_js.RangeJsImpl> {
   Future<void> delete(String shiftDirection) async {
     jsObject.delete(shiftDirection);
   }
-
 
   Range getColumn(final int column) =>
       Range._fromJsObject(jsObject.getColumn(column));
@@ -301,20 +466,22 @@ class Range extends office_extension.ClientObject<excel_js.RangeJsImpl> {
       jsObject.values = values;
 
   RangeFormat get format => RangeFormat._fromJsObject(jsObject.format);
-  
+
   //new code starts
-  
-  Future<void> insert(String direction) async{
+
+  Future<void> insert(String direction) async {
     jsObject.insert(direction);
   }
-
 
   //code to find matches
 
 //new code ends
 
 // Dart-friendly wrapper for the find method
-  Range find(String text, {bool completeMatch = false, bool matchCase = false, String searchDirection = 'Forward'}) {
+  Range find(String text,
+      {bool completeMatch = false,
+      bool matchCase = false,
+      String searchDirection = 'Forward'}) {
     // Create the options object
     var options = {
       'completeMatch': completeMatch,
@@ -357,8 +524,12 @@ class Range extends office_extension.ClientObject<excel_js.RangeJsImpl> {
       Range foundRange = Range.getInstance(foundRangeJsImpl);
 
       // Replace the text in the found range and load its address
-      foundRange.values = [[replaceText]];
-      foundRange.load(['address']); // Optional, if you want to check where the replacement took place
+      foundRange.values = [
+        [replaceText]
+      ];
+      foundRange.load([
+        'address'
+      ]); // Optional, if you want to check where the replacement took place
 
       // Synchronize changes to the Excel workbook
       await context.sync();
@@ -389,8 +560,10 @@ class Range extends office_extension.ClientObject<excel_js.RangeJsImpl> {
     // you should ensure any pending commands are synchronized with the Excel workbook
     await context.sync();
   }
+
   // Method to find a string and activate (select) the range where it's found
-  Future<void> findAndActivate(String searchText, {bool matchCase = false, bool completeMatch = false}) async {
+  Future<void> findAndActivate(String searchText,
+      {bool matchCase = false, bool completeMatch = false}) async {
     // Object to specify search options
     final options = <String, dynamic>{
       'completeMatch': completeMatch,
@@ -412,10 +585,11 @@ class Range extends office_extension.ClientObject<excel_js.RangeJsImpl> {
     // Activate the found range
     await foundRange.activate();
   }
-  
+
+  void copyFrom(List<List<dynamic>> data) {
+    jsObject.copyFrom(data);
+  }
 }
-
-
 
 class RangeFormat
     extends office_extension.ClientObject<excel_js.RangeFormatJsImpl> {
@@ -436,13 +610,8 @@ class RangeFormat
   bool get wrapText => jsObject.wrapText;
   set wrapText(final bool value) => jsObject.wrapText = value;
 
-
-
-
   //new code starts
 // Alignment
-
-
 
   // Font
   bool get bold => jsObject.font.bold;
@@ -469,16 +638,11 @@ class RangeFormat
 
   // Borders
 
-
   Borders get borders => Borders.getInstance(jsObject.borders);
   set borders(Borders value) => jsObject.borders = value.jsObject;
 //border code ends
 
-
-
-
 }
-
 
 class RangeBorder extends office_extension.ClientObject<excel_js.BorderJsImpl> {
   RangeBorder._fromJsObject(super.jsObject);
@@ -487,7 +651,6 @@ class RangeBorder extends office_extension.ClientObject<excel_js.BorderJsImpl> {
     return _expando[jsObject] ??= RangeBorder._fromJsObject(jsObject);
   }
   static final _expando = Expando<RangeBorder>();
-  
 
   RequestContext get context => RequestContext.getInstance(jsObject.context);
 
@@ -497,8 +660,6 @@ class RangeBorder extends office_extension.ClientObject<excel_js.BorderJsImpl> {
   String get style => jsObject.style;
   set style(String value) => jsObject.style = value;
 }
-
-
 
 class Borders extends office_extension.ClientObject<excel_js.BordersJsImpl> {
   Borders._fromJsObject(excel_js.BordersJsImpl jsObject) : super(jsObject);
@@ -516,9 +677,8 @@ class Borders extends office_extension.ClientObject<excel_js.BordersJsImpl> {
     return RangeBorder.getInstance(borderJsImpl);
   }
 
-  RangeBorder? get top => jsObject.top != null
-      ? RangeBorder.getInstance(jsObject.top!)
-      : null;
+  RangeBorder? get top =>
+      jsObject.top != null ? RangeBorder.getInstance(jsObject.top!) : null;
   set top(RangeBorder? value) => jsObject.top = value?.jsObject;
 
   RangeBorder? get bottom => jsObject.bottom != null
@@ -526,17 +686,14 @@ class Borders extends office_extension.ClientObject<excel_js.BordersJsImpl> {
       : null;
   set bottom(RangeBorder? value) => jsObject.bottom = value?.jsObject;
 
-  RangeBorder? get left => jsObject.left != null
-      ? RangeBorder.getInstance(jsObject.left!)
-      : null;
+  RangeBorder? get left =>
+      jsObject.left != null ? RangeBorder.getInstance(jsObject.left!) : null;
   set left(RangeBorder? value) => jsObject.left = value?.jsObject;
 
-  RangeBorder? get right => jsObject.right != null
-      ? RangeBorder.getInstance(jsObject.right!)
-      : null;
+  RangeBorder? get right =>
+      jsObject.right != null ? RangeBorder.getInstance(jsObject.right!) : null;
   set right(RangeBorder? value) => jsObject.right = value?.jsObject;
 }
-
 
 //new font class definition
 class Font extends office_extension.ClientObject<excel_js.FontJsImpl> {
@@ -571,6 +728,3 @@ class Font extends office_extension.ClientObject<excel_js.FontJsImpl> {
   num get fontSize => jsObject.size;
   set fontSize(num value) => jsObject.size = value;
 }
-
-
-
