@@ -5,11 +5,8 @@ library excel_js;
 
 import 'package:js/js.dart';
 
-
 import 'office_core_js_impl.dart' as office_core_js;
 import 'office_extension_js_impl.dart' as office_extension_js;
-
-
 
 /// The RequestContext object facilitates requests to the Excel application.
 /// Since the Office add-in and the Excel application run in
@@ -50,6 +47,10 @@ abstract class WorkbookJsImpl extends office_extension_js.ClientObjectJsImpl {
   /// specify the properties to load.
   ///
   external WorksheetJsImpl load(final List<String> propertyNames);
+
+  external Future<void> insertWorksheetsFromBase64(
+      String base64Data, Map<String, dynamic> options);
+  // external Future<void> addFromBase64(String base64Data, Map<String, dynamic> options);
 }
 
 @JS('WorksheetCollection')
@@ -159,6 +160,23 @@ abstract class WorksheetCollectionJsImpl
   /// @param propertyNames A comma-delimited string or an array of strings
   /// that specify the properties to load.
   external WorksheetCollectionJsImpl load(final List<String> propertyNames);
+
+  /// @param worksheetName The name of the new worksheet.
+  external WorksheetJsImpl add(String worksheetName);
+
+  // /// Inserts the specified worksheets of a workbook into the current workbook.
+  // /// @param base64File The base64-encoded string representing the source workbook file.
+  // /// @param sheetNamesToInsert The names of individual worksheets to insert.
+  // /// @param positionTypeString Where in the current workbook the new worksheets will be inserted.
+  // ///                           ("None" | "Before" | "After" | "Beginning" | "End")
+  // /// @param relativeTo The worksheet in the current workbook that is referenced for the positionType parameter.
+  // external Future<List<String>> addFromBase64(
+  //     String base64File,
+  //     [List<String>? sheetNamesToInsert,
+  //       String? positionTypeString, // should be one of the specified values or null
+  //       dynamic /* WorksheetJsImpl | String */ relativeTo
+  //     ]
+  //     );
 }
 
 @JS('Worksheet')
@@ -247,6 +265,8 @@ abstract class WorksheetJsImpl extends office_extension_js.ClientObjectJsImpl {
     final int rowCount,
     final int columnCount,
   );
+
+  external RangeJsImpl getUsedRange();
 }
 
 /// Range represents a set of one or more contiguous cells such as a cell,
@@ -283,7 +303,6 @@ abstract class RangeJsImpl extends office_extension_js.ClientObjectJsImpl {
   /// @remarks
   /// [Api set: ExcelApi 1.7]
   external RangeJsImpl getSurroundingRegion();
-  
 
   /// Gets the `Range` object beginning at a particular row index and
   /// column index, and spanning a certain number of rows and columns.
@@ -396,18 +415,12 @@ abstract class RangeJsImpl extends office_extension_js.ClientObjectJsImpl {
   /// [Api set: ExcelApi 1.1]
   external RangeFormatJsImpl get format;
 
-
   //new clear code
   external Future<void> clear(String v);
   // Add the following method to the RangeJsImpl class
   external Future<void> delete(String shiftDirection);
 
-
-
   external Future<void> insert(String direction);
-
-
-
 
   //new code
 
@@ -415,17 +428,15 @@ abstract class RangeJsImpl extends office_extension_js.ClientObjectJsImpl {
   external RangeJsImpl find(String text, [dynamic options]);
 
   external String get address;
-  
+
 //new code end
   // Externally define the 'select' JavaScript method, which will be called from Dart
   external Future<void> select();
 
+  external void copyFrom(List<List<dynamic>> data);
 }
 
-
-
 //adding new font classes code here
-
 
 //font class definition
 @JS('Font')
@@ -471,12 +482,7 @@ abstract class FontJsImpl extends office_extension_js.ClientObjectJsImpl {
   external set size(num value);
 }
 
-
 //end font style code here
-
-
-
-
 
 /// A format object encapsulating the range's font, fill, borders,
 /// alignment, and other properties.
@@ -499,18 +505,14 @@ abstract class RangeFormatJsImpl
   /// [Api set: ExcelApi 1.1]
   external bool get wrapText;
   external set wrapText(final bool value);
-  
-
 
   //new code starts
-  
 
   external FontJsImpl get font;
   external set font(FontJsImpl value);
 
   external dynamic get fill;
   external set fill(dynamic value);
-  
 
   external dynamic get numberFormat;
   external set numberFormat(dynamic value);
@@ -519,10 +521,8 @@ abstract class RangeFormatJsImpl
   external set protection(dynamic value);
   //new code ends
 
-
   external BordersJsImpl get borders;
   external set borders(BordersJsImpl value);
-
 }
 
 @JS('Border')
@@ -556,7 +556,3 @@ abstract class BordersJsImpl extends office_extension_js.ClientObjectJsImpl {
   external BorderJsImpl? get right;
   external set right(BorderJsImpl? value);
 }
-
-
-
-
