@@ -1,7 +1,4 @@
-@JS()
-library excel.init;
-
-import 'package:js/js.dart';
+import 'dart:js_interop';
 
 import '../office_interops/excel_js_impl.dart' as excel_js;
 import '../office_interops/office_js_impl.dart' as office_js;
@@ -11,7 +8,10 @@ import 'es6_js_impl.dart';
 external OfficeHelpersJsImpl getOfficeHelpers();
 
 @JS('OfficeHelpers')
-abstract class OfficeHelpersJsImpl {
+@staticInterop
+class OfficeHelpersJsImpl {}
+
+extension OfficeHelpersJsImplExtension on OfficeHelpersJsImpl {
   /// Executes a batch script that performs actions on the Excel object model,
   /// using a new RequestContext. When the promise is resolved,
   /// any tracked objects that were automatically allocated
@@ -24,12 +24,8 @@ abstract class OfficeHelpersJsImpl {
   /// to the Excel object model from the add-in.
   ///
   /// Use this method only when you work with Excel
-  @JS('runExcel')
   external PromiseJsImpl<excel_js.RequestContextJsImpl> runExcel(
-    final PromiseJsImpl<excel_js.RequestContextJsImpl> Function(
-      excel_js.RequestContextJsImpl,
-    )
-        batch,
+    final JSFunction batch,
   );
 
   /// Ensures that the Office JavaScript APIs are ready to be called
@@ -52,12 +48,8 @@ abstract class OfficeHelpersJsImpl {
   /// initialization is completed.
   ///
   /// convert dynamic to [OfficeInfo] via [dartify]
-  @JS('officeOnReady')
-  external PromiseJsImpl<dynamic> officeOnReady(
-    final dynamic Function() callback,
-  );
+  external PromiseJsImpl<JSAny?> officeOnReady(final JSFunction callback);
 
   /// Use this method only when you work with Outlook
-  @JS('context')
   external office_js.ContextJsImpl get context;
 }

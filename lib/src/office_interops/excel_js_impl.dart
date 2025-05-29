@@ -1,9 +1,6 @@
 // ignore_for_file: avoid_positional_boolean_parameters
 
-@JS('Excel')
-library excel_js;
-
-import 'package:js/js.dart';
+import 'dart:js_interop';
 
 import 'office_core_js_impl.dart' as office_core_js;
 import 'office_extension_js_impl.dart' as office_extension_js;
@@ -12,9 +9,11 @@ import 'office_extension_js_impl.dart' as office_extension_js;
 /// Since the Office add-in and the Excel application run in
 /// two different processes, the request context is required
 /// to get access to the Excel object model from the add-in.
-@JS('RequestContext')
-abstract class RequestContextJsImpl
-    extends office_core_js.RequestContextJsImpl {
+@JS('Excel.RequestContext')
+@staticInterop
+class RequestContextJsImpl extends office_core_js.RequestContextJsImpl {}
+
+extension RequestContextJsImplExtension on RequestContextJsImpl {
   external WorkbookJsImpl get workbook;
 
   /// Collection of objects that are tracked for automatic adjustments based
@@ -22,11 +21,13 @@ abstract class RequestContextJsImpl
   external office_extension_js.TrackedObjectsJsImpl get trackedObjects;
 }
 
-@JS('Workbook')
-abstract class WorkbookJsImpl extends office_extension_js.ClientObjectJsImpl {
+@JS('Excel.Workbook')
+@staticInterop
+class WorkbookJsImpl extends office_extension_js.ClientObjectJsImpl {}
+
+extension WorkbookJsImplExtension on WorkbookJsImpl {
   /// The request context associated with the object. This connects
   /// the add-in's process to the Office host application's process. */
-  @override
   external RequestContextJsImpl get context;
 
   /// Represents a collection of worksheets associated with the workbook.
@@ -38,7 +39,7 @@ abstract class WorkbookJsImpl extends office_extension_js.ClientObjectJsImpl {
   ///
   /// @remarks
   /// Api set: ExcelApi 1.7
-  external String get name;
+  external JSString get name;
 
   /// Queues up a command to load the specified properties of the object.
   /// You must call `context.sync()` before reading the properties.
@@ -46,19 +47,21 @@ abstract class WorkbookJsImpl extends office_extension_js.ClientObjectJsImpl {
   /// @param propertyNames A comma-delimited string or an array of strings that
   /// specify the properties to load.
   ///
-  external WorksheetJsImpl load(final List<String> propertyNames);
+  external WorksheetJsImpl load(final JSArray<JSString> propertyNames);
 }
 
-@JS('WorksheetCollection')
-abstract class WorksheetCollectionJsImpl
-    extends office_extension_js.ClientObjectJsImpl {
+@JS('Excel.WorksheetCollection')
+@staticInterop
+class WorksheetCollectionJsImpl
+    extends office_extension_js.ClientObjectJsImpl {}
+
+extension WorksheetCollectionJsImplExtension on WorksheetCollectionJsImpl {
   /// The request context associated with the object. This connects
   /// the add-in's process to the Office host application's process. */
-  @override
   external RequestContextJsImpl get context;
 
   /// Gets the loaded child items in this collection. */
-  external List<WorksheetJsImpl> get items;
+  external JSArray<JSAny> get items;
 
   /// Gets the number of worksheets in the collection.
   ///
@@ -66,8 +69,8 @@ abstract class WorksheetCollectionJsImpl
   ///
   /// @param visibleOnly Optional. If `true`, considers only visible
   /// worksheets, skipping over any hidden ones.
-  external office_extension_js.ClientResultJsImpl<int> getCount([
-    final bool? visibleOnly,
+  external office_extension_js.ClientResultJsImpl<JSAny> getCount([
+    final JSBoolean? visibleOnly,
   ]);
 
   /// Gets the first worksheet in the collection.
@@ -76,7 +79,7 @@ abstract class WorksheetCollectionJsImpl
   ///
   /// @param visibleOnly Optional. If `true`, considers only visible
   /// worksheets, skipping over any hidden ones.
-  external WorksheetJsImpl getFirst(final bool? visibleOnly);
+  external WorksheetJsImpl getFirst(final JSBoolean? visibleOnly);
 
   /// Occurs when any worksheet in the workbook is activated.
   /// [Api set: ExcelApi 1.7]
@@ -143,7 +146,7 @@ abstract class WorksheetCollectionJsImpl
   ///
   /// @param key The name or ID of the worksheet.
   ////
-  external WorksheetJsImpl getItem(final String key);
+  external WorksheetJsImpl getItem(final JSString key);
 
   /// Gets the currently active worksheet in the workbook.
   ///
@@ -155,40 +158,44 @@ abstract class WorksheetCollectionJsImpl
   ///
   /// @param propertyNames A comma-delimited string or an array of strings
   /// that specify the properties to load.
-  external WorksheetCollectionJsImpl load(final List<String> propertyNames);
+  external WorksheetCollectionJsImpl load(
+    final JSArray<JSString> propertyNames,
+  );
 }
 
-@JS('Worksheet')
-abstract class WorksheetJsImpl extends office_extension_js.ClientObjectJsImpl {
+@JS('Excel.Worksheet')
+@staticInterop
+class WorksheetJsImpl extends office_extension_js.ClientObjectJsImpl {}
+
+extension WorksheetJsImplExtension on WorksheetJsImpl {
   /// The request context associated with the object. This connects
   /// the add-in's process to the Office host application's process. */
-  @override
   external RequestContextJsImpl get context;
 
   /// The display name of the worksheet.
   ///
   /// Api set: ExcelApi 1.1
-  external String get name;
-  external set name(final String value);
+  external JSString get name;
+  external set name(final JSString value);
 
   /// Returns a value that uniquely identifies the worksheet
   /// in a given workbook. The value of the identifier remains the same
   /// even when the worksheet is renamed or moved.
   ///
   /// Api set: ExcelApi 1.1
-  external String get id;
+  external JSString get id;
 
   /// The zero-based position of the worksheet within the workbook.
   ///
   /// Api set: ExcelApi 1.1
-  external int get position;
-  external set position(final int value);
+  external JSNumber get position;
+  external set position(final JSNumber value);
 
   /// Specifies if gridlines are visible to the user.
   ///
   /// Api set: ExcelApi 1.8
-  external bool get showGridlines;
-  external set showGridlines(final bool value);
+  external JSBoolean get showGridlines;
+  external set showGridlines(final JSBoolean value);
 
   /// The tab color of the worksheet.
   ///
@@ -202,15 +209,15 @@ abstract class WorksheetJsImpl extends office_extension_js.ClientObjectJsImpl {
   /// or a real color otherwise.
   ///
   /// Api set: ExcelApi 1.7
-  external String? get tabColor;
-  external set tabColor(final String? value);
+  external JSString? get tabColor;
+  external set tabColor(final JSString? value);
 
   /// Queues up a command to load the specified properties of the object.
   /// You must call `context.sync()` before reading the properties.
   ///
   /// @param propertyNames A comma-delimited string or an array of strings
   /// that specify the properties to load.
-  external WorksheetJsImpl load(final List<String> propertyNames);
+  external WorksheetJsImpl load(final JSArray<JSString> propertyNames);
 
   /// Activate the worksheet in the Excel UI.
   ///
@@ -226,7 +233,7 @@ abstract class WorksheetJsImpl extends office_extension_js.ClientObjectJsImpl {
   ///
   /// @param row The row number of the cell to be retrieved. Zero-indexed.
   /// @param column The column number of the cell to be retrieved. Zero-indexed.
-  external RangeJsImpl getCell(final int row, final int column);
+  external RangeJsImpl getCell(final JSNumber row, final JSNumber column);
 
   /// Gets the `Range` object beginning at a particular row index and
   /// column index, and spanning a certain number of rows and columns.
@@ -239,10 +246,10 @@ abstract class WorksheetJsImpl extends office_extension_js.ClientObjectJsImpl {
   /// @param rowCount Number of rows to include in the range.
   /// @param columnCount Number of columns to include in the range.
   external RangeJsImpl getRangeByIndexes(
-    final int startRow,
-    final int startColumn,
-    final int rowCount,
-    final int columnCount,
+    final JSNumber startRow,
+    final JSNumber startColumn,
+    final JSNumber rowCount,
+    final JSNumber columnCount,
   );
 }
 
@@ -254,35 +261,82 @@ abstract class WorksheetJsImpl extends office_extension_js.ClientObjectJsImpl {
 /// @remarks
 /// [Api set: ExcelApi 1.1]
 ///
-@JS('Range')
-abstract class RangeJsImpl extends office_extension_js.ClientObjectJsImpl {
+@JS('Excel.Range')
+@staticInterop
+class RangeJsImpl extends office_extension_js.ClientObjectJsImpl {}
+
+extension RangeJsImplExtension on RangeJsImpl {
   /// The request context associated with the object. This connects
   /// the add-in's process to the Office host application's process. */
-  @override
   external RequestContextJsImpl get context;
 
-  /// Returns the used range of the given range object.
-  /// If there are no used cells within the range, this function
-  /// will throw an `ItemNotFound` error.
+  /// Represents the range values of the specified range.
+  /// The data returned could be a string, number, or boolean.
+  /// Cells that contain an error will return the error string.
+  /// If the returned value starts with a plus ("+"), minus ("-"),
+  /// or equal sign ("="), Excel interprets this value as a formula.
+  ///
+  /// Api set: ExcelApi 1.1
+  external JSAny get values;
+  external set values(final JSAny value);
+
+  /// The number of rows in the range.
+  ///
+  /// Api set: ExcelApi 1.1
+  external JSNumber get rowCount;
+
+  /// Returns the row number of the first cell in the range. Zero-indexed.
+  ///
+  /// Api set: ExcelApi 1.1
+  external JSNumber get rowIndex;
+
+  /// The number of columns in the range.
+  ///
+  /// Api set: ExcelApi 1.1
+  external JSNumber get columnCount;
+
+  /// Returns the column number of the first cell in the range. Zero-indexed.
+  ///
+  /// Api set: ExcelApi 1.1
+  external JSNumber get columnIndex;
+
+  /// Returns a format object, encapsulating the range's font, fill,
+  /// borders, alignment, and other properties.
+  ///
+  /// Api set: ExcelApi 1.1
+  external RangeFormatJsImpl get format;
+
+  /// Gets the `Range` object containing the single cell based on row and
+  /// column numbers. The cell can be outside the bounds of its parent range,
+  /// so long as it stays within the worksheet grid. The returned cell is
+  /// located relative to the top left cell of the range.
   ///
   /// @remarks
   /// [Api set: ExcelApi 1.1]
   ///
-  /// @param valuesOnly Considers only cells with values as used cells.
-  /// [Api set: ExcelApi 1.2]
-  external RangeJsImpl getUsedRange([final bool? valuesOnly]);
+  /// @param row Row number of the cell to be retrieved. Zero-indexed.
+  /// @param column Column number of the cell to be retrieved. Zero-indexed.
+  external RangeJsImpl getCell(final JSNumber row, final JSNumber column);
 
-  /// Returns a `Range` object that represents the surrounding region
-  /// for the top-left cell in this range. A surrounding region is
-  /// a range bounded by any combination of blank rows and
-  /// blank columns relative to this range.
+  /// Gets a `Range` object similar to the current `Range` object, but with
+  /// its bottom-right corner expanded (or contracted) by some number of rows and columns.
   ///
   /// @remarks
-  /// [Api set: ExcelApi 1.7]
-  external RangeJsImpl getSurroundingRegion();
+  /// [Api set: ExcelApi 1.2]
+  ///
+  /// @param deltaRows The number of rows by which to expand the bottom-right corner,
+  /// relative to the current range. Use a positive number to expand the range,
+  /// or a negative number to decrease it.
+  /// @param deltaColumns The number of columns by which to expand the bottom-right corner,
+  /// relative to the current range. Use a positive number to expand the range,
+  /// or a negative number to decrease it.
+  external RangeJsImpl getResizedRange(
+    final JSNumber deltaRows,
+    final JSNumber deltaColumns,
+  );
 
-  /// Gets the `Range` object beginning at a particular row index and
-  /// column index, and spanning a certain number of rows and columns.
+  /// Gets the `Range` object beginning at a particular row index and column index,
+  /// and spanning a certain number of rows and columns.
   ///
   /// @remarks
   /// [Api set: ExcelApi 1.7]
@@ -292,126 +346,94 @@ abstract class RangeJsImpl extends office_extension_js.ClientObjectJsImpl {
   /// @param rowCount Number of rows to include in the range.
   /// @param columnCount Number of columns to include in the range.
   external RangeJsImpl getRangeByIndexes(
-    final int startRow,
-    final int startColumn,
-    final int rowCount,
-    final int columnCount,
+    final JSNumber startRow,
+    final JSNumber startColumn,
+    final JSNumber rowCount,
+    final JSNumber columnCount,
   );
 
-  /// Gets a row contained in the range.
+  /// Gets the entire row of the range.
   ///
   /// @remarks
   /// [Api set: ExcelApi 1.1]
   ///
   /// @param row Row number of the range to be retrieved. Zero-indexed.
-  external RangeJsImpl getRow(final int row);
+  external RangeJsImpl getRow(final JSNumber row);
 
-  /// Gets the last cell within the range. For example,
-  /// the last cell of "B2:D5" is "D5".
-  ///
-  /// @remarks
-  /// [Api set: ExcelApi 1.1]
-  external RangeJsImpl getLastCell();
-
-  /// Gets the last column within the range. For example,
-  /// the last column of "B2:D5" is "D2:D5".
-  ///
-  /// @remarks
-  /// [Api set: ExcelApi 1.1]
-  external RangeJsImpl getLastColumn();
-
-  /// Gets the last row within the range. For example,
-  /// the last row of "B2:D5" is "B5:D5".
+  /// Gets the last row within the range. For example, the last row of "B2:D5" is "B5:D5".
   ///
   /// @remarks
   /// [Api set: ExcelApi 1.1]
   external RangeJsImpl getLastRow();
 
-  /// Gets a column contained in the range.
+  /// Gets the last column within the range. For example, the last column of "B2:D5" is "D2:D5".
+  ///
+  /// @remarks
+  /// [Api set: ExcelApi 1.1]
+  external RangeJsImpl getLastColumn();
+
+  /// Gets the last cell within the range. For example, the last cell of "B2:D5" is "D5".
+  ///
+  /// @remarks
+  /// [Api set: ExcelApi 1.1]
+  external RangeJsImpl getLastCell();
+
+  /// Gets the entire column of the range.
   ///
   /// @remarks
   /// [Api set: ExcelApi 1.1]
   ///
   /// @param column Column number of the range to be retrieved. Zero-indexed.
-  external RangeJsImpl getColumn(final int column);
+  external RangeJsImpl getColumn(final JSNumber column);
+
+  /// Returns the used range of the given range object. If there are no used cells
+  /// within the range, this function will throw an `ItemNotFound` error.
+  ///
+  /// @remarks
+  /// [Api set: ExcelApi 1.1]
+  ///
+  /// @param valuesOnly Considers only cells with values as used cells.
+  external RangeJsImpl getUsedRange(final JSBoolean? valuesOnly);
+
+  /// Returns the smallest range that encompasses the given range and any adjacent
+  /// cells with data. This is similar to expanding the selection to the current
+  /// region in the Excel UI.
+  ///
+  /// @remarks
+  /// [Api set: ExcelApi 1.1]
+  external RangeJsImpl getSurroundingRegion();
 
   /// Queues up a command to load the specified properties of the object.
   /// You must call `context.sync()` before reading the properties.
   ///
   /// @param propertyNames A comma-delimited string or an array of strings
   /// that specify the properties to load.
-  external RangeJsImpl load(final List<String> propertyNames);
-
-  /// Represents the raw values of the specified range.
-  /// The data returned could be a string, number, or boolean.
-  /// Cells that contain an error will return the error string.
-  ///
-  /// If the returned value starts with a plus ("+"), minus ("-"),
-  /// or equal sign ("="), Excel interprets this value as a formula.
-  ///
-  /// @remarks
-  /// [Api set: ExcelApi 1.1]
-  external List<dynamic> get values;
-  external set values(final List<dynamic> values);
-
-  /// Returns the total number of rows in the range.
-  ///
-  /// @remarks
-  /// [Api set: ExcelApi 1.1]
-  external int get rowCount;
-
-  /// Returns the row number of the first cell in the range. Zero-indexed.
-  ///
-  /// @remarks
-  /// [Api set: ExcelApi 1.1]
-  external int get rowIndex;
-
-  /// Specifies the total number of columns in the range.
-  ///
-  /// @remarks
-  /// [Api set: ExcelApi 1.1]
-  external int get columnCount;
-
-  /// Specifies the column number of the first cell in the range. Zero-indexed.
-  ///
-  /// @remarks
-  /// [Api set: ExcelApi 1.1]
-  external int get columnIndex;
-
-  /// Represents Excel's number format code for the given range.
-  ///
-  /// @remarks
-  /// [Api set: ExcelApi 1.1]
-  external List<dynamic> get numberFormat;
-  external set numberFormat(final List<dynamic> value);
-
-  /// Returns a format object, encapsulating the range's font,
-  /// fill, borders, alignment, and other properties.
-  ///
-  /// @remarks
-  /// [Api set: ExcelApi 1.1]
-  external RangeFormatJsImpl get format;
+  external RangeJsImpl load(final JSArray<JSString> propertyNames);
 }
 
-/// A format object encapsulating the range's font, fill, borders,
-/// alignment, and other properties.
+/// An object encapsulating a range's format properties.
 ///
 /// @remarks
 /// [Api set: ExcelApi 1.1]
-@JS('RangeFormat')
-abstract class RangeFormatJsImpl
-    extends office_extension_js.ClientObjectJsImpl {
+@JS('Excel.RangeFormat')
+@staticInterop
+class RangeFormatJsImpl extends office_extension_js.ClientObjectJsImpl {}
+
+extension RangeFormatJsImplExtension on RangeFormatJsImpl {
   /// The request context associated with the object. This connects
   /// the add-in's process to the Office host application's process. */
-  @override
   external RequestContextJsImpl get context;
 
-  /// Specifies if Excel wraps the text in the object.
-  /// A `null` value indicates that the entire range
-  /// doesn't have a uniform wrap setting
+  /// Specifies if text is automatically wrapped in the cell.
   ///
-  /// @remarks
-  /// [Api set: ExcelApi 1.1]
-  external bool get wrapText;
-  external set wrapText(final bool value);
+  /// Api set: ExcelApi 1.1
+  external JSBoolean get wrapText;
+  external set wrapText(final JSBoolean value);
+
+  /// Queues up a command to load the specified properties of the object.
+  /// You must call `context.sync()` before reading the properties.
+  ///
+  /// @param propertyNames A comma-delimited string or an array of strings
+  /// that specify the properties to load.
+  external RangeFormatJsImpl load(final JSArray<JSString> propertyNames);
 }

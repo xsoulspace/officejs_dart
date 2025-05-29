@@ -1,8 +1,7 @@
-import 'package:js/js.dart';
+import 'dart:js_interop';
 
 import '../../office_typedefs.dart';
 import '../abstract/js_object_wrapper.dart';
-import '../js_interops/es6_js_impl.dart' as js;
 import '../js_interops/office_helpers_js_impl.dart';
 import '../office_interops/office_js_impl.dart' as office_js;
 import '../utils/interop_utils.dart';
@@ -15,28 +14,16 @@ class Office {
     if (_info != null) return _info!;
     final officeHelper = getOfficeHelpers();
 
-    js.PromiseJsImpl<dynamic> promiseCallback(
-      final dynamic info,
-    ) =>
-        js.PromiseJsImpl<dynamic>(
-          allowInterop((
-            final void Function(dynamic) resolve,
-            final Null Function(Object) reject,
-          ) {
-            resolve(info);
-          }),
-        );
+    JSFunction createCallback() =>
+        ((final JSAny? info) {
+          // Return the info directly
+        }).toJS;
 
-    final jsInfoJsonJS = await handleThenable(
-      callMethod(
-        officeHelper,
-        'officeOnReady',
-        [allowInterop(promiseCallback)],
-      ),
-    );
+    final promise = officeHelper.officeOnReady(createCallback());
+    final jsInfoJsonJS = await handleThenable(promise as JSPromise<JSAny?>);
     if (jsInfoJsonJS == null) return null;
     final jsInfoJson = Map.castFrom<dynamic, dynamic, String, dynamic>(
-      dartify(jsInfoJsonJS),
+      dartify(jsInfoJsonJS)! as Map<dynamic, dynamic>,
     );
     if (jsInfoJson.values.where((final value) => value != null).isEmpty) {
       return null;
@@ -61,11 +48,8 @@ class Context extends JsObjectWrapper<office_js.ContextJsImpl> {
   /// If an instance is already associated with [jsObject],
   /// it is returned instead of creating a new instance.
   /// {@endtemplate}
-  factory Context.getInstance(
-    final office_js.ContextJsImpl jsObject,
-  ) {
-    return _expando[jsObject] ??= Context._fromJsObject(jsObject);
-  }
+  factory Context.getInstance(final office_js.ContextJsImpl jsObject) =>
+      _expando[jsObject] ??= Context._fromJsObject(jsObject);
 
   static final _expando = Expando<Context>();
 
@@ -81,11 +65,8 @@ class Mailbox extends JsObjectWrapper<office_js.MailboxJsImpl> {
   /// If an instance is already associated with [jsObject],
   /// it is returned instead of creating a new instance.
   /// {@endtemplate}
-  factory Mailbox.getInstance(
-    final office_js.MailboxJsImpl jsObject,
-  ) {
-    return _expando[jsObject] ??= Mailbox._fromJsObject(jsObject);
-  }
+  factory Mailbox.getInstance(final office_js.MailboxJsImpl jsObject) =>
+      _expando[jsObject] ??= Mailbox._fromJsObject(jsObject);
 
   static final _expando = Expando<Mailbox>();
 
@@ -105,17 +86,14 @@ class Item extends JsObjectWrapper<office_js.ItemJsImpl> {
   /// If an instance is already associated with [jsObject],
   /// it is returned instead of creating a new instance.
   /// {@endtemplate}
-  factory Item.getInstance(
-    final office_js.ItemJsImpl jsObject,
-  ) {
-    return _expando[jsObject] ??= Item._fromJsObject(jsObject);
-  }
+  factory Item.getInstance(final office_js.ItemJsImpl jsObject) =>
+      _expando[jsObject] ??= Item._fromJsObject(jsObject);
 
   static final _expando = Expando<Item>();
 
   ItemType? get itemType {
     final type = jsObject.itemType;
     if (type == null) return null;
-    return ItemType.values.byName(type);
+    return ItemType.values.byName(type.toDart);
   }
 }
