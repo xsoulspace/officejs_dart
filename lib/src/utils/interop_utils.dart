@@ -1,23 +1,33 @@
-/// original source: https://github.com/FirebaseExtended/firebase-dart
-import 'dart:async';
-// ignore: avoid_web_libraries_in_flutter
-import 'dart:js';
+/// {@template interop_utils}
+/// Utilities for JavaScript interoperability using dart:js_interop
+/// {@endtemplate}
+library;
 
-import 'package:js/js_util.dart' as util;
+import 'dart:async';
+import 'dart:js_interop';
+import 'dart:js_interop_unsafe';
 
 import '../js_interops/es6_js_impl.dart' as js;
 
-dynamic jsifyList(final Iterable list) =>
-    js.toJSArray(list.map(jsify).toList());
+/// Converts a Dart List to a JavaScript Array
+JSArray<JSAny?> jsifyList(final Iterable<Object?> list) =>
+    list.map(jsify).toList().toJS;
 
+/// {@template jsify}
 /// Returns the JS implementation from Dart Object.
-dynamic jsify(final Object? dartObject) {
+/// {@endtemplate}
+JSAny? jsify(final Object? dartObject) {
   if (_isBasicType(dartObject)) {
-    return dartObject;
+    if (dartObject == null) return null;
+    if (dartObject is String) return dartObject.toJS;
+    if (dartObject is num) return dartObject.toJS;
+    if (dartObject is bool) return dartObject.toJS;
+    return dartObject as JSAny?;
   }
 
   if (dartObject is DateTime) {
-    return js.TimestampJsImpl.fromMillis(dartObject.millisecondsSinceEpoch);
+    return js.TimestampJsImpl(dartObject.millisecondsSinceEpoch.toJS, 0.toJS)
+        as JSAny?;
   }
 
   if (dartObject is Iterable) {
@@ -25,105 +35,90 @@ dynamic jsify(final Object? dartObject) {
   }
 
   if (dartObject is Map) {
-    final jsMap = util.newObject();
+    final jsMap = JSObject();
     dartObject.forEach((final key, final value) {
-      util.setProperty(jsMap, key, jsify(value));
+      jsMap.setProperty(key.toString().toJS, jsify(value));
     });
     return jsMap;
   }
 
   if (dartObject is Function) {
-    return allowInterop(dartObject);
+    throw ArgumentError.value(
+      dartObject,
+      'dartObject',
+      'Function conversion not supported - use specific function types with .toJS',
+    );
   }
 
   throw ArgumentError.value(dartObject, 'dartObject', 'Could not convert');
 }
 
 /// Calls [method] on JavaScript object [jsObject].
-dynamic callMethod(
-  final Object jsObject,
+JSAny? callMethod(
+  final JSObject jsObject,
   final String method,
-  final List<dynamic> args,
-) =>
-    util.callMethod(jsObject, method, args);
-
-/// Calls [method] on JavaScript object [jsObject].
-T allowSafePromiseInterop<T>(
-  final Object jsObject,
-  final String method,
-  final Function callback,
-) {
-  // ignore: avoid_dynamic_calls
-  return (jsObject as JsObject)[method]
-      .apply(jsObject, [allowInterop(callback)]);
-}
+  final List<JSAny?> args,
+) => jsObject.callMethod(method.toJS, args.toJS);
 
 /// Returns `true` if the [value] is a very basic built-in type - e.g.
 /// `null`, [num], [bool] or [String]. It returns `false` in the other case.
-bool _isBasicType(final Object? value) {
-  if (value == null || value is num || value is bool || value is String) {
-    return true;
-  }
-  return false;
-}
+bool _isBasicType(final Object? value) =>
+    value == null || value is num || value is bool || value is String;
 
-/// Handles the [PromiseJsImpl] object.
-Future<T> handleThenable<T>(final js.PromiseJsImpl<T> thenable) async {
-  T value;
+/// {@template handle_thenable}
+/// Handles the [JSPromise] object.
+/// {@endtemplate}
+Future<T> handleThenable<T extends JSAny?>(final JSPromise<T> thenable) async {
   try {
-    value = await util.promiseToFuture(thenable);
-    // ignore: avoid_catches_without_on_clauses
+    final value = await thenable.toDart;
+    return value;
   } catch (e) {
-    if (util.hasProperty(e, 'code')) {
+    final jsError = e as JSObject?;
+    if (jsError != null && jsError.has('code')) {
       // TODO(arenukvern): add proper error handling, https://github.com/xsoulspace/officejs_dart/issues/1
       // throw _FirebaseErrorWrapper(e as FirebaseError);
     }
     rethrow;
   }
-  return value;
 }
 
-/// Handles the [Future] object with the provided [mapper] function.
-js.PromiseJsImpl<S> handleFutureWithMapper<T, S>(
-  final Future<T> future,
-  final S Function(T value) mapper,
-) =>
-    js.PromiseJsImpl<S>(
-      allowInterop((
-        final void Function(S) resolve,
-        final Null Function(Object) reject,
-      ) {
-        future.then((final value) {
-          final mappedValue = mapper(value);
-          resolve(mappedValue);
-        }).catchError(reject);
-      }),
-    );
-
-/// Resolves error.
-void Function(Object) resolveError(final Completer c) =>
-    allowInterop(c.completeError);
-
+/// {@template dartify}
 /// Returns Dart representation from JS Object.
-dynamic dartify(final Object? jsObject) {
-  if (_isBasicType(jsObject)) {
-    return jsObject;
+/// {@endtemplate}
+Object? dartify(final JSAny? jsObject) {
+  if (jsObject == null) return null;
+
+  if (jsObject.isA<JSString>()) {
+    return (jsObject as JSString).toDart;
   }
 
-  // Handle list
-  if (jsObject is Iterable) {
-    return jsObject.map(dartify).toList();
+  if (jsObject.isA<JSNumber>()) {
+    return (jsObject as JSNumber).toDartDouble;
+  }
+
+  if (jsObject.isA<JSBoolean>()) {
+    return (jsObject as JSBoolean).toDart;
+  }
+
+  if (jsObject.isA<JSArray>()) {
+    final jsArray = jsObject as JSArray<JSAny?>;
+    return List.generate(
+      jsArray.length,
+      (final index) => dartify(jsArray[index]),
+    );
   }
 
   // Assume a map then...
-  return dartifyMap(jsObject!);
+  return dartifyMap(jsObject as JSObject);
 }
 
-Map<String, dynamic> dartifyMap(final Object jsObject) {
+/// Converts a JavaScript object to a Dart Map
+Map<String, dynamic> dartifyMap(final JSObject jsObject) {
   final keys = js.objectKeys(jsObject);
   final map = <String, dynamic>{};
-  for (final key in keys) {
-    map[key] = dartify(util.getProperty(jsObject, key));
+  for (int i = 0; i < keys.length; i++) {
+    final key = keys[i].toDart;
+    map[key] = dartify(jsObject.getProperty(key.toJS));
   }
   return map;
 }

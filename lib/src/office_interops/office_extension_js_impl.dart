@@ -1,15 +1,15 @@
-@JS('OfficeExtension')
-library office_extension_js;
+import 'dart:js_interop';
 
-import 'package:js/js.dart';
-
-import '../js_interops/es6_js_impl.dart';
-
+/// {@template client_request_context}
 /// An abstract RequestContext object that facilitates requests to the
 /// host Office application.
 /// The `Excel.run` and `Word.run` methods provide a request context.
-@JS('ClientRequestContext')
-abstract class ClientRequestContextJsImpl {
+/// {@endtemplate}
+@JS('OfficeExtension.ClientRequestContext')
+@staticInterop
+class ClientRequestContextJsImpl {}
+
+extension ClientRequestContextJsImplExtension on ClientRequestContextJsImpl {
   /// Queues up a command to load the specified properties of the object.
   /// You must call `context.sync()` before reading the properties.
   ///
@@ -19,7 +19,7 @@ abstract class ClientRequestContextJsImpl {
   /// {@link OfficeExtension.LoadOption} object.
   external void load(
     final ClientObjectJsImpl object,
-    final List<String> option,
+    final JSArray<JSString> option,
   );
 
   /// Synchronizes the state between JavaScript proxy objects and the
@@ -27,43 +27,58 @@ abstract class ClientRequestContextJsImpl {
   /// and retrieving properties of loaded Office objects for use in your code.
   /// This method returns a promise, which is resolved when the
   /// synchronization is complete.
-  ///
-  external PromiseJsImpl<T> sync<T>([final T? passThroughValue]);
+  external JSPromise<T> sync<T extends JSAny?>([final T? passThroughValue]);
 }
 
+/// {@template client_object}
 /// An abstract proxy object that represents an object in an Office document.
 /// You create proxy objects from the context (or from other proxy
 /// objects), add commands to a queue to act on the object,
 /// and then synchronize the
 /// proxy object state with the document by calling `context.sync()`.
-@JS('ClientObject')
-abstract class ClientObjectJsImpl {
+/// {@endtemplate}
+@JS('OfficeExtension.ClientObject')
+@staticInterop
+class ClientObjectJsImpl {}
+
+extension ClientObjectJsImplExtension on ClientObjectJsImpl {
   /// The request context associated with the object */
   external ClientRequestContextJsImpl get context;
 
   /// Returns a boolean value for whether the corresponding object
   /// is a null object. You must call `context.sync()` before reading the
   /// isNullObject property.
-  external bool get isNullObject;
+  external JSBoolean get isNullObject;
 }
 
+/// {@template client_result}
 /// Contains the result for methods that return primitive types.
 /// The object's value property is retrieved from the document
 /// after `context.sync()` is invoked. */
-@JS('ClientResult')
-abstract class ClientResultJsImpl<T> {
+/// {@endtemplate}
+@JS('OfficeExtension.ClientResult')
+@staticInterop
+class ClientResultJsImpl<T extends JSAny?> {}
+
+extension ClientResultJsImplExtension<T extends JSAny?> on ClientResultJsImpl<T> {
   /// The value of the result that is retrieved from the document
   /// after `context.sync()` is invoked. */
   external T get value;
 }
 
-@JS('EventHandlers')
-abstract class EventHandlersJsImpl {
+/// {@template event_handlers}
+/// Event handlers for Office extension events
+/// {@endtemplate}
+@JS('OfficeExtension.EventHandlers')
+@staticInterop
+class EventHandlersJsImpl {}
+
+extension EventHandlersJsImplExtension on EventHandlersJsImpl {
   /// Adds a function to be called when the event is triggered.
   /// @param handler A promise-based function that takes
   /// in any relevant event arguments.
   external EventHandlerResultJsImpl add(
-    final PromiseJsImpl<dynamic> Function(Map<String, dynamic> args) handler,
+    final JSFunction handler,
   );
 
   /// Removes the specified function from the event handler list
@@ -78,23 +93,32 @@ abstract class EventHandlersJsImpl {
   ///
   /// @param handler A reference to a function previously
   /// provided to the `add` method as an event handler.
-  external void remove(
-    final PromiseJsImpl<dynamic> Function(Map<String, dynamic> args) handler,
-  );
+  external void remove(final JSFunction handler);
 }
 
-@JS('EventHandlerResult')
-abstract class EventHandlerResultJsImpl {
+/// {@template event_handler_result}
+/// Result of adding an event handler
+/// {@endtemplate}
+@JS('OfficeExtension.EventHandlerResult')
+@staticInterop
+class EventHandlerResultJsImpl {}
+
+extension EventHandlerResultJsImplExtension on EventHandlerResultJsImpl {
   /// The request context associated with the object
   external ClientRequestContextJsImpl get context;
   external void remove();
 }
 
+/// {@template tracked_objects}
 /// Collection of tracked objects, contained within a request context.
 /// See {@link https://learn.microsoft.com/javascript/api/office/officeextension.clientrequestcontext#office-officeextension-clientrequestcontext-trackedobjects-member | context.trackedObjects}
 /// for more information.
-@JS('TrackedObjects')
-abstract class TrackedObjectsJsImpl {
+/// {@endtemplate}
+@JS('OfficeExtension.TrackedObjects')
+@staticInterop
+class TrackedObjectsJsImpl {}
+
+extension TrackedObjectsJsImplExtension on TrackedObjectsJsImpl {
   /// Track a new object for automatic adjustment based on surrounding
   /// changes in the document. Only some object types require this.
   /// If you are using an object across ".sync" calls and outside

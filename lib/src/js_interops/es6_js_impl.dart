@@ -1,41 +1,52 @@
-@JS()
-library excel.es6_interop;
+import 'dart:js_interop';
 
-import 'package:js/js.dart';
-
+/// {@template promise_js_impl}
+/// JavaScript Promise implementation for Dart interop
+/// {@endtemplate}
 @JS('Promise')
+@staticInterop
 class PromiseJsImpl<T> {
-  external PromiseJsImpl(final Function resolver);
+  /// {@macro promise_js_impl}
+  external factory PromiseJsImpl(final JSFunction resolver);
+}
 
-  external PromiseJsImpl then([
-    final void Function(dynamic) onResolve,
-    final void Function(dynamic) onReject,
+extension PromiseJsImplExtension<T> on PromiseJsImpl<T> {
+  external PromiseJsImpl<U> then<U>([
+    final JSFunction? onResolve,
+    final JSFunction? onReject,
   ]);
 }
 
+/// Gets the keys of a JavaScript object
 @JS('Object.keys')
-external List<String> objectKeys(final Object obj);
+external JSArray<JSString> objectKeys(final JSObject obj);
 
+/// Converts a Dart List to a JavaScript Array
 @JS('Array.from')
-external Object toJSArray(final List source);
+external JSArray<JSAny?> toJSArray(final JSArray<JSAny?> source);
 
+/// {@template timestamp_js_impl}
+/// JavaScript Timestamp implementation for Dart interop
+/// {@endtemplate}
 @JS('Timestamp')
-abstract class TimestampJsImpl {
-  external factory TimestampJsImpl(final int seconds, final int nanoseconds);
-  external int get seconds;
-
-  external int get nanoseconds;
-
-  //external JsDate toDate();
-  external int toMillis();
-
-  external static TimestampJsImpl now();
-
-  //external static TimestampJsImpl fromDate(JsDate date);
-  external static TimestampJsImpl fromMillis(final int milliseconds);
-
-  external bool isEqual(final TimestampJsImpl other);
-
-  @override
-  external String toString();
+@staticInterop
+class TimestampJsImpl {
+  /// {@macro timestamp_js_impl}
+  external factory TimestampJsImpl(
+    final JSNumber seconds,
+    final JSNumber nanoseconds,
+  );
 }
+
+extension TimestampJsImplExtension on TimestampJsImpl {
+  external JSNumber get seconds;
+  external JSNumber get nanoseconds;
+  external JSNumber toMillis();
+  external bool isEqual(final TimestampJsImpl other);
+}
+
+@JS('Timestamp.now')
+external TimestampJsImpl timestampNow();
+
+@JS('Timestamp.fromMillis')
+external TimestampJsImpl timestampFromMillis(final JSNumber milliseconds);
